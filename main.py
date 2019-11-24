@@ -93,11 +93,13 @@ def get_txt(txt_id):
     info=re.sub(' +', ' ', info).rstrip()+"\r\n"
     fo.write(info)
     nn=0
-    #获取每一章内容
+    
+    #获取非v章节
     for i in href_list:
         nn=1+nn
         get_sin(i,headers,fo,nn,chinf)
-    
+        
+    #获取VIP章节
     for i in hhr:
         nn=1+nn
         get_sin(i,headers,fo,nn,chinf)
