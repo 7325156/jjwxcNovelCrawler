@@ -14,16 +14,16 @@ headers = {
     'User-Agent':'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
 }
 #下载单章
-def get_sin(i,headers,fo,nn,chinf):
+def get_sin(i,headers,fo,chinf):
     tit=i.split('=')
     b=str(tit[2])
     cont=requests.get(i,headers=headers).content
     dot=etree.HTML(cont.decode("GB18030","ignore").encode("utf-8","ignore").decode('utf-8'))
         
-    #获取标题及正文
+        #获取标题及正文
     tex=dot.xpath("//html/body/table[@id='oneboolt']/tr[2]/td[1]/div[@class='noveltext']/text()")
     he=dot.xpath("string(//html/body/table[@id='oneboolt']/tr[2]/td[1]/div[@class='noveltext']/div[2]/h2)")
-    #获取作话
+        #获取作话
     tex1=dot.xpath("//html/body/table[@id='oneboolt']/tr[2]/td[1]/div[@class='noveltext']/div[@class='readsmall']/text()")
 
     tl="第 "+str(tit[2])+" 章"
@@ -34,16 +34,18 @@ def get_sin(i,headers,fo,nn,chinf):
         tl=tll
     else:
         tl="第"+str(tit[2])+"章 "+tll
-    #写入文件
+        #写入文件
     fo.write(tl.rstrip())
-    fo.write("  "+chinf[nn].strip()+"\r\n")  #如果不想在标题后下载每一章的内容提要，把这行删除或者在行首加‘#’
+    fo.write("  "+chinf[int(tit[2])].strip()+"\r\n")
     for tn in tex:
-        v=re.sub(' +', ' ', str(tn)).rstrip()+"\r\n"
+        vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
+        v=re.sub(' +', ' ', vv).rstrip()+"\r\n"
         if v == "\r\n":
             v=""
         fo.write(v)
     for m in tex1:
-        v=re.sub(' +', ' ', str(m)).rstrip()+"\r\n"
+        vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
+        v=re.sub(' +', ' ', vv).rstrip()+"\r\n"
         if v == "\r\n":
             v=""
         fo.write(v)
@@ -59,8 +61,8 @@ def get_txt(txt_id):
     
     #获取文案
     intro=ress.xpath("//html/body/table/tr/td[1]/div[2]/div[@id='novelintro']/text()")
-    if len(intro) == 0:
-        intro=ress.xpath("//html/body/table/tr/td[1]/div[2]/div[@id='novelintro']//font/text()")
+    #if len(intro) == 0:
+    #    intro=ress.xpath("//html/body/table/tr/td[1]/div[2]/div[@id='novelintro']//font/text()")
     info=ress.xpath("string(//html/body/table/tr/td[1]/div[3])")
     
     #获取标题
@@ -77,7 +79,7 @@ def get_txt(txt_id):
     #ti=ress.xpath("//html/body/table[@id='oneboolt']//tr/td[1]/span[1]/h1[1]/span[1]/text()")
     ti=str(titlem[0]).split('_')
     ti=ti[0]+".txt"
-    #ti=ids+ti #若将此行行首的“#”删去，可在文件名前加编号
+    #ti=ids+ti#若文件名不想加编号，可以将这行删除
     
     v=""
     #打开小说文件写入小说相关信息
@@ -92,17 +94,15 @@ def get_txt(txt_id):
         fo.write(v)
     info=re.sub(' +', ' ', info).rstrip()+"\r\n"
     fo.write(info)
-    nn=0
-    
-    #获取非v章节
+
+    #获取每一章内容
     for i in href_list:
-        nn=1+nn
-        get_sin(i,headers,fo,nn,chinf)
-        
-    #获取VIP章节
+
+        get_sin(i,headers,fo,chinf)
+    
     for i in hhr:
-        nn=1+nn
-        get_sin(i,headers,fo,nn,chinf)
+
+        get_sin(i,headers,fo,chinf)
     print("\r\n所有章节下载完成")
     fo.close()
 n=1
