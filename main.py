@@ -34,7 +34,7 @@ def get_sin(i,headers,fo,nn,chinf):
         tl="第"+str(tit[2])+"章 "+tll
     #写入文件
     fo.write(tl.rstrip())
-    fo.write("  "+chinf[nn].strip()+"\r\n")
+    fo.write("  "+chinf[nn].strip()+"\r\n")  #如果不想在标题后下载每一章的内容提要，把这行删除或者在行首加‘#’
     for tn in tex:
         v=re.sub(' +', ' ', str(tn)).rstrip()+"\r\n"
         if v == "\r\n":
