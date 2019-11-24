@@ -28,6 +28,8 @@ def get_sin(i,headers,fo,nn,chinf):
 
     tl="第 "+str(tit[2])+" 章"
     tll=he
+    if he=="":
+        tll="$"
     if tl[0] == tll[0]:
         tl=tll
     else:
