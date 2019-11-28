@@ -16,7 +16,7 @@
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>将chormedriver放到python所在路径下</p>
 <h3>程序使用</h3>
 <p>1、若下载非VIP章节，直接下载main.py，双击运行。</p>
-<p>2、运行文件后输入小说编号。（若小说网址为“http://www.jjwxc.net/onebook.php?novelid=2710871”，那么2710871就是小说编号。）</p>
+<p>2、运行文件后输入小说编号。（若小说网址为“http://www.jjwxc.net/onebook.php?novelid=2710871” ，那么2710871就是小说编号。）</p>
 <p>3、若下载VIP章节，登陆晋江，右键点击“检查”，或按F12进入开发者模式</p>
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>点击console（控制台）按钮，输入document.cookie &#160; ，按回车，按照代码注释复制到main.py文件header中的指定位置</p>
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>或者直接打开client.py，按步骤输入用户名密码，将得到的值赋给main.py的header</p>
