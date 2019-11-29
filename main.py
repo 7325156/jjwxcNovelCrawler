@@ -13,6 +13,7 @@ headers = {
     'cookie':'',
     'User-Agent':'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
 }
+
 #下载单章
 def get_sin(i,headers,fo,chinf):
     tit=i.split('=')
@@ -51,18 +52,17 @@ def get_sin(i,headers,fo,chinf):
         fo.write(v)
     print("第"+str(tit[2])+"章下载完成")
 
+#下载全部
 def get_txt(txt_id):
     titlem=''
     intro=''
     ids=str(txt_id)
     req_url=req_url_base+ids
-    res=requests.get(req_url,headers=headers).content
+    res=requests.get(req_url,headers=headerss).content
     ress=etree.HTML(res.decode("GB18030","ignore").encode("utf-8","ignore").decode('utf-8'))
     
     #获取文案
-    intro=ress.xpath("//html/body/table/tr/td[1]/div[2]/div[@id='novelintro']/text()")
-    #if len(intro) == 0:
-    #    intro=ress.xpath("//html/body/table/tr/td[1]/div[2]/div[@id='novelintro']//font/text()")
+    intro=ress.xpath("//html/body/table/tr/td[1]/div[2]/div[@id='novelintro']//text()")
     info=ress.xpath("string(//html/body/table/tr/td[1]/div[3])")
     
     #获取标题
@@ -70,8 +70,10 @@ def get_txt(txt_id):
     print("编号："+ ids + " 小说信息："+ str(titlem[0]) +" 开始下载。\r\n")
 
     
-    #获取所有章节链接//*[@id="oneboolt"]/tbody/tr[4]/td[2]/span/div[1]/a
+    #获取所有章节链接
+    #非vip
     href_list=ress.xpath("//html/body/table[@id='oneboolt']//tr/td[2]/span/div[1]/a/@href")
+    #vip
     hhr=ress.xpath("//html/body/table[@id='oneboolt']//tr/td[2]/span/div[1]/a[1]/@rel")
     chinf=ress.xpath("//*[@id='oneboolt']//tr/td[3]/text()")
     section_ct=len(href_list)+len(hhr)
@@ -86,23 +88,24 @@ def get_txt(txt_id):
     fo=open(ti,'w',encoding='utf-8')
     for nn in titlem:
         fo.write(str(nn)+"\r\n")
-        fo.write("文案：\r\n")
+    fo.write(req_url+"\r\n")
+    fo.write("文案：\r\n")
     for nx in intro:
         v=re.sub(' +', ' ', str(nx)).rstrip()+"\r\n"
         if v == "\r\n":
             v=""
         fo.write(v)
-    info=re.sub(' +', ' ', info).rstrip()+"\r\n"
+    info=re.sub(' +', ' ', info).rstrip()
+    info=re.sub('\r', '', info)
+    info=re.sub('\n', '', info)+"\r\n"
     fo.write(info)
 
     #获取每一章内容
     for i in href_list:
-
-        get_sin(i,headers,fo,chinf)
+        get_sin(i,headerss,fo,chinf)
     
     for i in hhr:
-
-        get_sin(i,headers,fo,chinf)
+        get_sin(i,headerss,fo,chinf)
     print("\r\n所有章节下载完成")
     fo.close()
 n=1
