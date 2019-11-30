@@ -21,5 +21,3 @@
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>点击console（控制台）按钮，输入document.cookie &#160; ，按回车，按照代码注释复制到main.py文件header中的指定位置</p>
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>或者直接打开client.py，按步骤输入用户名密码，将得到的值赋给main.py的header</p>
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>保存main.py，运行文件</p>
-<h3>注意事项</h3>
-<p>鉴于有的作者喜欢把文案美化一下，以致文案内容有时无法正常获取，建议手动复制文案。</p>
