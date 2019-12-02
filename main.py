@@ -27,14 +27,14 @@ def get_sin(i,headers,fo,chinf):
         #获取作话
     tex1=dot.xpath("//html/body/table[@id='oneboolt']/tr[2]/td[1]/div[@class='noveltext']/div[@class='readsmall']/text()")
 
-    tl="第 "+str(tit[2])+" 章"
+    tl="#"+str(tit[2])+"、"
     tll=he
     if he=="":
         tll="$"
-    if tl[0] == tll[0]:
-        tl=tll
-    else:
-        tl="第"+str(tit[2])+"章 "+tll
+    tl=tl+tll
+    tl=re.sub('/', '_', tl).rstrip()
+    tl=re.sub('\\', '_', tl)
+    tl=re.sub('|', '_', tl)
         #写入文件
     fo.write(tl.rstrip())
     fo.write("  "+chinf[int(tit[2])].strip()+"\r\n")
