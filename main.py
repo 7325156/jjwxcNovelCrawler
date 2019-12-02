@@ -80,9 +80,9 @@ def get_txt(txt_id):
     ti=str(titlem[0]).split('_')
     ti=ti[0]+".txt"
     #ti=ids+ti#若文件名不想加编号，可以将这行删除
-    ti=re.sub(r'/', r'_', ti)
-    ti=re.sub(r'\\', r'_', ti)
-    ti=re.sub(r'|', r'_', ti)
+    ti=re.sub('/', '_', ti)
+    ti=re.sub(r'\\', '_', ti)
+    ti=re.sub('|', '_', ti)
     
     v=""
     #打开小说文件写入小说相关信息
