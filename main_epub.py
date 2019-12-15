@@ -87,44 +87,45 @@ def get_sin(i,headers,chinf,aaa,lll):
     tex1=dot.xpath("//html/body/table[@id='oneboolt']/tr[2]/td[1]/div[@class='noveltext']/div[@class='readsmall']/text()")
     sign=dot.xpath("//*[@id='oneboolt']/tr[2]/td[1]/div/div[4]/@class")
     tl=str(tit[2]).zfill(lll)+"#"
-    if he==[]:
+    if len(he)==0:
         tll="$"
+        print("第"+tit[2]+"章未购买或加载失败")
     else:
         tll=he[0]
-    tl=tl+tll
+        tl=tl+tll
         #写入文件
-    tl=tl.rstrip()+" "+chinf[aaa].strip()
-    fo=open("z"+str(tit[2].zfill(3))+".xhtml",'w',encoding='utf-8')
-    fo.write("<?xml version='1.0' encoding='utf-8'?>\r\n<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN'\r\n  http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>\r\n<html xmlns='http://www.w3.org/1999/xhtml'>\r\n<head>\r\n<title>"+tl+"</title>\r\n</head><body>")
-    fo.write("<h2>"+tl+"\r\n</h2>")
-    if str(sign) == "['readsmall']":
-        for m in tex1:
-            vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
-            v=re.sub(' +', ' ', vv).rstrip()
-            if v!="":
-                fo.write("<p>"+v+"</p>")
-        if len(tex1)!=0:
-            fo.write("<p>----------</p>")
-        for tn in tex:
-            vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
-            v=re.sub(' +', ' ', vv).rstrip()
-            if v!="":
-                fo.write("<p>"+v+"</p>")
-    else:
-        for tn in tex:
-            vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
-            v=re.sub(' +', ' ', vv).rstrip()
-            if v!="":
-                fo.write("<p>"+v+"</p>")
-        if len(tex1)!=0:
-            fo.write("<p>----------</p>")
-        for m in tex1:
-            vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
-            v=re.sub(' +', ' ', vv).rstrip()
-            if v!="":
-                fo.write("<p>"+v+"</p>")
-    fo.write("</body></html>")
-    print(tl.rstrip())
+        tl=tl.rstrip()+" "+chinf[aaa].strip()
+        fo=open("z"+str(tit[2].zfill(3))+".xhtml",'w',encoding='utf-8')
+        fo.write("<?xml version='1.0' encoding='utf-8'?>\r\n<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN'\r\n  http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>\r\n<html xmlns='http://www.w3.org/1999/xhtml'>\r\n<head>\r\n<title>"+tl+"</title>\r\n</head><body>")
+        fo.write("<h2>"+tl+"\r\n</h2>")
+        if str(sign) == "['readsmall']":
+            for m in tex1:
+                vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
+                v=re.sub(' +', ' ', vv).rstrip()
+                if v!="":
+                    fo.write("<p>"+v+"</p>")
+            if len(tex1)!=0:
+                fo.write("<p>----------</p>")
+            for tn in tex:
+                vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
+                v=re.sub(' +', ' ', vv).rstrip()
+                if v!="":
+                    fo.write("<p>"+v+"</p>")
+        else:
+            for tn in tex:
+                vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
+                v=re.sub(' +', ' ', vv).rstrip()
+                if v!="":
+                    fo.write("<p>"+v+"</p>")
+            if len(tex1)!=0:
+                fo.write("<p>----------</p>")
+            for m in tex1:
+                vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
+                v=re.sub(' +', ' ', vv).rstrip()
+                if v!="":
+                    fo.write("<p>"+v+"</p>")
+        fo.write("</body></html>")
+        print(tl.rstrip())
     
 def get_txt(txt_id):
     titlem=''
