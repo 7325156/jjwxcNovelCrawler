@@ -124,7 +124,7 @@ def get_sin(i,headers,chinf,aaa,lll):
             if v!="":
                 fo.write("<p>"+v+"</p>")
     fo.write("</body></html>")
-    print(tl.rstrip()+" "+chinf[aaa].strip())
+    print(tl.rstrip())
     
 def get_txt(txt_id):
     titlem=''
