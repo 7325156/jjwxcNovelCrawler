@@ -4,13 +4,14 @@ from lxml import etree
 import sys
 import re
 
-global aaa
+
 #小说主地址，后接小说编号
 req_url_base='http://www.jjwxc.net/onebook.php?novelid='
 
 #头文件，可用来登陆，cookie可在浏览器或者client.py中获取
-headerss={'cookie': 'CNZZDATA30075907=cnzz_eid%3D939945612-1573890182-%26ntime%3D1574667782; testcookie=yes; token=MjAwNzA4OTB8YzkxZmE2Mzg3ODI3ZjU4ZDhhY2ZiZGU1OThlZDBiOWF8fHwxODMxMjQ3fDI1OTIwMDB8MXzliJfosaHlpKnlnqN8fOasoui%2FjuaCqO%2B8jOaZi%2Baxn%2BeUqOaIt3wwfGF1dGhvcm5hbWU%3D; JJSESS=%7B%22referer%22%3A%22/book2/1975581%22%2C%22clicktype%22%3A%22%22%2C%22nicknameAndsign%22%3A%222%257E%2529%2524%25E9%25BB%258E%25E6%2598%258E%22%7D; JJEVER=%7B%22background%22%3A%22%22%2C%22font_size%22%3A%22%22%2C%22isKindle%22%3A%22%22%2C%22ispayuser%22%3A%2220070890-1%22%2C%22foreverreader%22%3A%2220070890%22%2C%22sms_total%22%3A0%7D; UM_distinctid=16eb57cfc5c536-029610602420b1-2393f61-144000-16eb57cfc5d72f; __gads=ID=015f3ae1b0bb2e24:T=1575002897:S=ALNI_MbWjHfBA_i-QcMQOYBYLYSq7ER0Nw', 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'}
-
+headerss={'cookie': '',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'}
+global aaa
 #下载单章
 def get_sin(i,headers,fo,chinf,aaa,lll):
     tit=i.split('=')
