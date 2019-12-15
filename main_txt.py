@@ -26,45 +26,45 @@ def get_sin(i,headers,fo,chinf,aaa,lll):
     tex1=dot.xpath("//html/body/table[@id='oneboolt']/tr[2]/td[1]/div[@class='noveltext']/div[@class='readsmall']/text()")
     sign=dot.xpath("//*[@id='oneboolt']/tr[2]/td[1]/div/div[4]/@class")
     tl=str(tit[2]).zfill(lll)+"#"
-    if he==[]:
-        tll="$"
+    if len(he)==0:
+        print("第"+tit[2]+"章未购买或加载失败")
     else:
         tll=he[0]
-    tl=tl+tll
-        #写入文件
-    fo.write(tl.rstrip())
-    fo.write(" "+chinf[aaa].strip()+"\r\n")
-    if str(sign) == "['readsmall']":
-        for m in tex1:
-            vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
-            v=re.sub(' +', ' ', vv).rstrip()+"\r\n"
-            if v == "\r\n":
-                v=""
-            fo.write(v)
-        fo.write("----------\r\n")
-        for tn in tex:
-            vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
-            v=re.sub(' +', ' ', vv).rstrip()+"\r\n"
-            if v == "\r\n":
-                v=""
-            fo.write(v)
-    else:
-        for tn in tex:
-            vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
-            v=re.sub(' +', ' ', vv).rstrip()+"\r\n"
-            if v == "\r\n":
-                v=""
-            fo.write(v)
-        if len(tex1)!=0:
+        tl=tl+tll
+            #写入文件
+        fo.write(tl.rstrip())
+        fo.write(" "+chinf[aaa].strip()+"\r\n")
+        if str(sign) == "['readsmall']":
+            for m in tex1:
+                vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
+                v=re.sub(' +', ' ', vv).rstrip()+"\r\n"
+                if v == "\r\n":
+                    v=""
+                fo.write(v)
             fo.write("----------\r\n")
-        for m in tex1:
-            vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
-            v=re.sub(' +', ' ', vv).rstrip()+"\r\n"
-            if v == "\r\n":
-                v=""
-            fo.write(v)
-    
-    print(tl.rstrip()+" "+chinf[aaa].strip())
+            for tn in tex:
+                vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
+                v=re.sub(' +', ' ', vv).rstrip()+"\r\n"
+                if v == "\r\n":
+                    v=""
+                fo.write(v)
+        else:
+            for tn in tex:
+                vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
+                v=re.sub(' +', ' ', vv).rstrip()+"\r\n"
+                if v == "\r\n":
+                    v=""
+                fo.write(v)
+            if len(tex1)!=0:
+                fo.write("----------\r\n")
+            for m in tex1:
+                vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
+                v=re.sub(' +', ' ', vv).rstrip()+"\r\n"
+                if v == "\r\n":
+                    v=""
+                fo.write(v)
+        
+        print(tl.rstrip()+" "+chinf[aaa].strip())
     
 def get_txt(txt_id):
     titlem=''
