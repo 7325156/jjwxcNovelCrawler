@@ -57,7 +57,7 @@ def create_stylesheet(epub):
 
 
 #下载单章
-def get_sin(i,headers,chinf,aaa,lll):
+def get_sin(i,headers,chinf,aaa,lll,rosn,rossn):
     tit=i.split('=')
     b=str(tit[2])
     cont=requests.get(i,headers=headers).content
@@ -87,6 +87,10 @@ def get_sin(i,headers,chinf,aaa,lll):
                 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                     <html xmlns="http://www.w3.org/1999/xhtml">
                     <head><title>'''+tl+'''</title></head><body>''')
+        #写入卷标
+        if i in rossn:
+            fo.write("<h1>"+rosn[rossn.index(i)]+"</h1>")
+
         #写入标题
         fo.write("<h2>"+tl+"</h2>")
 
@@ -164,7 +168,13 @@ def get_txt(txt_id):
     for i in chinf:
         if i.strip()=='':
             chinf.remove(i)
-    
+                    
+    #获取卷标名称
+    rosn=ress.xpath("//*[@id='oneboolt']//tr/td/b[@class='volumnfont']/text()")
+    #获取卷标位置
+    rossn=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@href")
+    rossn.append(ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@rel"))
+
     
     section_ct=len(href_list)+len(hhr)
     print("可下载章节数："+str(section_ct)+"\r\n")
