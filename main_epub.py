@@ -71,7 +71,7 @@ def create_tox(epub,path,index,rosn):
         basename = os.path.basename(html)
         if basename.endswith('html'):
             if basename!='C.xhtml':
-                if index[sig] in rosn:
+                while index[sig] in rosn:
                     if index[sig]==rosn[0]:
                         tox_info+='''<navPoint id="'''+str(sig)+'''" playOrder="'''+str(sig)+'''">
                         <navLabel><text>'''+index[sig]+'''</text></navLabel>
