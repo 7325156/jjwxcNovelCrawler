@@ -14,6 +14,7 @@ req_url_base='http://www.jjwxc.net/onebook.php?novelid='
 headerss={'cookie': '',
           'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'}
 global aaa
+
 #创建epub文件格式信息
 def create_mimetype(epub):
     epub.writestr('mimetype','application/epub+zip',compress_type=zipfile.ZIP_STORED)
