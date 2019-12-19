@@ -24,16 +24,17 @@
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>或者直接打开client.py，按步骤输入用户名密码，将得到的值赋给main_txt.py|main_epub.py的header</p>
 <p>　　(注：cookie若失效，请及时更换)</p>
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>保存main_txt.py|main_epub.py，运行文件</p>
+<p><b>若epub文件有问题，可以用sigil修复一下，本人建议使用0.9.14版本。</b></p>
 <h1>main_epub功能描述&更新记录</h1>
 <p>&#160;2019-12-19增添功能</p>
 <p></p>
 <ul><li>优化内容简介和标题不匹配</li>
 <li>新增繁转简转换功能（若不需要此功能，将含有HanziConv.toSimplified的所有行删除）</li>
- <li>若想实现简转繁功能，将所有HanziConv.toSimplified替换为HanziConv.toTraditional</li>
+ <li>若想实现简转繁功能，将所有HanziConv.toSimplified替换为HanziConv.toTraditional即可</li>
 </ul>
 初始功能：<p></p>
 <p></p>
-<ul><li>添加封面（若不需要，将包含"C.xhtml"的所有行删除）</li>
-<li>添加两级目录（若不需要，删除"create_tox"函数）</li>
+<ul><li>添加封面（若不需要，将包含"C.xhtml"和"p.jpg"的所有行删除）</li>
+<li>添加两级目录（若不需要添加目录，删除"create_tox"函数）</li>
 <li>通过cookie下载已购买VIP章节</li>
 </ul>
