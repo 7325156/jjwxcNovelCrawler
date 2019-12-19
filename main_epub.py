@@ -48,6 +48,8 @@ def create_content(epub,path,title,author):
         basename = os.path.basename(html)
         if basename.endswith('html'):
             manifest += '<item id="%s" href="%s" media-type="application/xhtml+xml"/>' % (basename, basename) 
+        if basename.endswith('jpg'):
+            manifest += '<item id="%s" href="%s" media-type="image/jpeg"/>' % (basename, basename)
         if basename.endswith('html')|basename.endswith('jpg'):
             spine += '<itemref idref="%s"/>' % (basename)
     epub.writestr('OEBPS/content.opf',content_info % {'manifest': manifest,'spine': spine,},compress_type=zipfile.ZIP_STORED)
