@@ -28,7 +28,9 @@
 <h1>main_epub功能描述&更新记录</h1>
 <p>&#160;2019-12-19增添功能</p>
 <p></p>
-<ul><li>优化内容简介和标题不匹配</li>
+<ul>
+ <li>优化封面后乱码问题</li>
+ <li>优化内容简介和标题不匹配</li>
 <li>新增繁转简转换功能（若不需要此功能，将含有HanziConv.toSimplified的所有行删除）</li>
  <li>若想实现简转繁功能，将所有HanziConv.toSimplified替换为HanziConv.toTraditional即可</li>
 </ul>
