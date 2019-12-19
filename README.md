@@ -24,7 +24,7 @@
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>或者直接打开client.py，按步骤输入用户名密码，将得到的值赋给main_txt.py|main_epub.py的header</p>
 <p>　　(注：cookie若失效，请及时更换)</p>
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>保存main_txt.py|main_epub.py，运行文件</p>
-<h1>main_epub更新记录</h1>
+<h1>main_epub功能描述&更新记录</h1>
 <p>&#160;2019-12-19增添功能</p>
 <p></p>
 <ul><li>优化内容简介和标题不匹配</li>
