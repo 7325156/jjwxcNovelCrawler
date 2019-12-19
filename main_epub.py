@@ -6,6 +6,7 @@ import re
 import os
 import zipfile
 import shutil
+from hanziconv import HanziConv
 
 #小说主地址，后接小说编号
 req_url_base='http://www.jjwxc.net/onebook.php?novelid='
@@ -119,6 +120,7 @@ def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
         tl=tl+tll
         #chinf:内容提要
         tl=tl.rstrip()+" "+chinf[aaa].strip()
+        tl=HanziConv.toSimplified(tl)
         #创建章节文件
         fo=open("z"+str(tit[2].zfill(3))+".xhtml",'w',encoding='utf-8')
         
@@ -128,9 +130,10 @@ def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
                     <head><title>'''+tl+'''</title></head><body>''')
         #写入卷标
         if i in rossn:
-            fo.write("<h1>"+rosn[rossn.index(i)]+"</h1>")
-            print("\r\n"+rosn[rossn.index(i)]+"\r\n")
-            index.append(rosn[rossn.index(i)])
+            v=HanziConv.toSimplified(rosn[rossn.index(i)])
+            fo.write("<h1>"+v+"</h1>")
+            print("\r\n"+v+"\r\n")
+            index.append(v)
 
         #写入标题
         fo.write("<h2>"+tl+"</h2>")
@@ -141,6 +144,7 @@ def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
             for m in tex1:#删除无用文字及多余空格空行
                 vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
                 v=re.sub(' +', ' ', vv).rstrip()
+                v=HanziConv.toSimplified(v)
                 if v!="":#按行写入正文
                     fo.write("<p>"+v+"</p>")
             if len(tex1)!=0:
@@ -148,12 +152,14 @@ def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
             for tn in tex:
                 vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
                 v=re.sub(' +', ' ', vv).rstrip()
+                v=HanziConv.toSimplified(v)
                 if v!="":
                     fo.write("<p>"+v+"</p>")
         else:#作话在文后的情况
             for tn in tex:
                 vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
                 v=re.sub(' +', ' ', vv).rstrip()
+                v=HanziConv.toSimplified(v)
                 if v!="":
                     fo.write("<p>"+v+"</p>")
             if len(tex1)!=0:
@@ -161,6 +167,7 @@ def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
             for m in tex1:
                 vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
                 v=re.sub(' +', ' ', vv).rstrip()
+                v=HanziConv.toSimplified(v)
                 if v!="":
                     fo.write("<p>"+v+"</p>")
         fo.write("</body></html>")
@@ -212,6 +219,9 @@ def get_txt(txt_id):
             del chinf[chinf.index(i)]
     for i in chinf:
         if i.strip()=='[此章节已锁]':
+            del chinf[chinf.index(i)]
+    for i in chinf:
+        if i in loc:
             del chinf[chinf.index(i)]
     for i in chinf:
         if i in loc:
@@ -283,12 +293,15 @@ def get_txt(txt_id):
         ix=re.sub('\r\n','',ix)
         ix=re.sub(' +','',ix)
         fo.write("<p>"+ix+"</p>")
-    
+
+    fo.write("<p><b>文案：</b></p>")
     for nx in intro:
         v=re.sub(' +', ' ', str(nx)).rstrip()
+        v=HanziConv.toSimplified(v)
         if v!="":
-            fo.write("<p>"+v+"</p>")
+            fo.write("<p>　　"+v+"</p>")
     info=re.sub(' +', ' ',info).strip()
+    info=HanziConv.toSimplified(info)
     info=re.sub('搜索关键字','</p><p>搜索关键字',info)
     fo.write("<p>"+info+"</p>")
     fo.write("</body></html>")
@@ -328,6 +341,6 @@ n=1
 while n:
     num =input('请输入小说编号：')
     get_txt(num)
-    n=input("继续下载（输入1）/退出程序（输入0）:")
+    n=input("直接按回车键退出/输入任意值下载新小说：")
     if str(n) == "0":
         exit()
