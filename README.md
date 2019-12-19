@@ -8,6 +8,7 @@
 <p></p>
 <ul><li>pip install&#160;requests</li>
 <li>pip install lxml</li>
+ <li>pip install hanziconv</li>
 <li>pip install&#160;selenium</li>
 </ul>
 &#160;3、（可跳过）安装chormedriver<p></p>
@@ -27,9 +28,10 @@
 <p>&#160;2019-12-19增添功能</p>
 <p></p>
 <ul><li>优化内容简介和标题不匹配</li>
-<li>新增繁简转换功能（若不需要此功能，将含有HanziConv.toSimplified的所有行删除）</li>
+<li>新增繁转简转换功能（若不需要此功能，将含有HanziConv.toSimplified的所有行删除）</li>
+ <li>若想实现简转繁功能，将所有HanziConv.toSimplified替换为HanziConv.toTraditional</li>
 </ul>
-原本功能：<p></p>
+初始功能：<p></p>
 <p></p>
 <ul><li>添加封面（若不需要，将包含"C.xhtml"的所有行删除）</li>
 <li>添加两级目录（若不需要，删除"create_tox"函数）</li>
