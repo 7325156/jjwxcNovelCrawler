@@ -127,6 +127,9 @@ def get_txt(txt_id):
     for i in chinf:
         if i in loc:
             del chinf[chinf.index(i)]
+    for i in chinf:
+        if i in loc:
+            del chinf[chinf.index(i)]
 
     #获取卷标名称
     rosn=ress.xpath("//*[@id='oneboolt']//tr/td/b[@class='volumnfont']/text()")
