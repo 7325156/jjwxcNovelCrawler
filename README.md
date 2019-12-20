@@ -30,6 +30,7 @@
 <ul>
  <li>在epub打包前暂停程序，便于修改。</li>
  <li>优化繁简转换方式</li>
+ <li>关于OpenCC的使用方法，详见https://github.com/yichen0831/opencc-python</li>
 </ul>
 <p>&#160;2019-12-19增添功能</p>
 <ul>
