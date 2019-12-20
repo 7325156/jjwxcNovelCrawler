@@ -19,10 +19,9 @@
 <p>1、若下载非VIP章节，直接下载main_txt.py或main_epub.py，双击运行。<b>主要更新epub格式下载的程序，因为我发现epub文件大小居然比txt小，读起来也方便。</b></p>
 <p>　　(注：main_txt.py可将小说保存为txt格式，main_epub.py可将小说保存为epub格式)</p>
 <p>2、运行文件后输入小说编号。（若小说网址为“http://www.jjwxc.net/onebook.php?novelid=2710871” ，那么2710871就是小说编号。）</p>
-<p>3、若下载VIP章节，登陆晋江（建议使用edge浏览器或IE浏览器），右键点击“检查”，或按F12进入开发者模式</p>
-<p><span class="Apple-tab-span" style="white-space:pre">	</span>点击console（控制台）按钮，输入document.cookie &#160; ，按回车，按照代码注释复制到main_txt.py|main_epub.py文件header中的指定位置</p>
-<p><span class="Apple-tab-span" style="white-space:pre">	</span>或者直接打开client.py，按步骤输入用户名密码，将得到的值赋给main_txt.py|main_epub.py的header</p>
-<p>　　(注：cookie若失效，请及时更换)</p>
+<p>3、若下载VIP章节，登陆晋江（建议使用edge浏览器或IE浏览器），右键点击“检查”，或按F12进入开发者模式，点击console（控制台）按钮，输入document.cookie &#160; ，按回车，按照代码注释复制到main_txt.py|main_epub.py文件header中的指定位置</p>
+<p><span class="Apple-tab-span" style="white-space:pre">	</span>或者直接下载并打开client.py，按步骤输入用户名密码，将得到的值（包括大括号）赋给main_txt.py|main_epub.py的headerss</p>
+<p>　　(注：cookie若失效，请及时更换，如果换了还不行，就使用ie浏览器获取cookie，如果还不行，删除"timeOffset_o=任意字符串;")</p>
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>保存main_txt.py|main_epub.py，运行文件</p>
 <p><b>若epub文件有问题，可以用sigil修复一下，本人建议使用0.9.14版本。</b></p>
 <h1>main_epub功能描述&更新记录</h1>
