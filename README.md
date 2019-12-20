@@ -4,7 +4,7 @@
 <p><span style="font-weight: bold;">&#160;1、安装python环境</span></p>
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>建议安装python3.7的环境。安装教程：<a href="https://blog.csdn.net/weixin_40844416/article/details/80889165">https://blog.csdn.net/weixin_40844416/article/details/80889165</a></p>
 <p><span style="font-weight: bold;">&#160;2、安装第三方库</span></p>
-<p><span class="Apple-tab-span" style="white-space:pre">	</span>联网，使用管理员模式打开命令提示符（cmd），依次输入以下命令、按回车键运行</p>
+<p><span class="Apple-tab-span" style="white-space:pre">	</span>联网，使用<b>管理员模式</b>打开命令提示符（cmd），依次输入以下命令、按回车键运行</p>
 <p></p>
 <ul><li>pip install&#160;requests</li>
 <li>pip install lxml</li>
