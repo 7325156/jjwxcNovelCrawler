@@ -6,7 +6,7 @@ import re
 import os
 import zipfile
 import shutil
-from hanziconv import HanziConv
+from opencc import OpenCC
 
 #小说主地址，后接小说编号
 req_url_base='http://www.jjwxc.net/onebook.php?novelid='
@@ -123,9 +123,9 @@ def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
         tl=tl+tll
         #chinf:内容提要
         tl=tl.rstrip()+" "+chinf[aaa].strip()
-        tl=HanziConv.toSimplified(tl)
+        #tl=OpenCC('t2s').convert(tl)
         #创建章节文件
-        fo=open("z"+str(tit[2].zfill(3))+".xhtml",'w',encoding='utf-8')
+        fo=open("z"+str(tit[2].zfill(lll))+".xhtml",'w',encoding='utf-8')
         
         fo.write('''<?xml version="1.0" encoding="utf-8"?>
                 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -133,7 +133,7 @@ def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
                     <head><title>'''+tl+'''</title></head><body>''')
         #写入卷标
         if i in rossn:
-            v=HanziConv.toSimplified(rosn[rossn.index(i)])
+            v=OpenCC('t2s').convert(rosn[rossn.index(i)])
             fo.write("<h1>"+v+"</h1>")
             print("\r\n"+v+"\r\n")
             index.append(v)
@@ -147,7 +147,7 @@ def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
             for m in tex1:#删除无用文字及多余空格空行
                 vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
                 v=re.sub(' +', ' ', vv).rstrip()
-                v=HanziConv.toSimplified(v)
+                v=OpenCC('t2s').convert(v)
                 if v!="":#按行写入正文
                     fo.write("<p>"+v+"</p>")
             if len(tex1)!=0:
@@ -155,14 +155,14 @@ def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
             for tn in tex:
                 vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
                 v=re.sub(' +', ' ', vv).rstrip()
-                v=HanziConv.toSimplified(v)
+                v=OpenCC('t2s').convert(v)
                 if v!="":
                     fo.write("<p>"+v+"</p>")
         else:#作话在文后的情况
             for tn in tex:
                 vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
                 v=re.sub(' +', ' ', vv).rstrip()
-                v=HanziConv.toSimplified(v)
+                v=OpenCC('t2s').convert(v)
                 if v!="":
                     fo.write("<p>"+v+"</p>")
             if len(tex1)!=0:
@@ -170,7 +170,7 @@ def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
             for m in tex1:
                 vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
                 v=re.sub(' +', ' ', vv).rstrip()
-                v=HanziConv.toSimplified(v)
+                v=OpenCC('t2s').convert(v)
                 if v!="":
                     fo.write("<p>"+v+"</p>")
         fo.write("</body></html>")
@@ -300,11 +300,11 @@ def get_txt(txt_id):
     fo.write("<p><b>文案：</b></p>")
     for nx in intro:
         v=re.sub(' +', ' ', str(nx)).rstrip()
-        v=HanziConv.toSimplified(v)
+        v=OpenCC('t2s').convert(v)
         if v!="":
-            fo.write("<p>　　"+v+"</p>")
+            fo.write("<p>"+v+"</p>")
     info=re.sub(' +', ' ',info).strip()
-    info=HanziConv.toSimplified(info)
+    info=OpenCC('t2s').convert(info)
     info=re.sub('搜索关键字','</p><p>搜索关键字',info)
     fo.write("<p>"+info+"</p>")
     fo.write("</body></html>")
@@ -318,6 +318,8 @@ def get_txt(txt_id):
         aaa=aaa+1
         get_sin(i,headerss,chinf,aaa,lll,rosn,rossn,index)
     fo.close()
+
+    input("\r\n请按回车键打包epub：")
     #保存为epub
     os.chdir(path)
     epub_name = ti+".epub"
@@ -344,6 +346,6 @@ n=1
 while n:
     num =input('请输入小说编号：')
     get_txt(num)
-    n=input("直接按回车键退出/输入任意值下载新小说：")
+    n=input("\r\n直接按回车键退出/输入任意值下载新小说：")
     if str(n) == "0":
         exit()
