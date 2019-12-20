@@ -8,8 +8,8 @@
 <p></p>
 <ul><li>pip install&#160;requests</li>
 <li>pip install lxml</li>
- <li>pip install hanziconv</li>
 <li>pip install&#160;selenium</li>
+ <li>pip install opencc-python-reimplemented</li>
 </ul>
 &#160;3、（可跳过）安装chormedriver<p></p>
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>若要使用client.py获取cookie，必须执行步骤3</p>
@@ -26,13 +26,17 @@
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>保存main_txt.py|main_epub.py，运行文件</p>
 <p><b>若epub文件有问题，可以用sigil修复一下，本人建议使用0.9.14版本。</b></p>
 <h1>main_epub功能描述&更新记录</h1>
+<p>&#160;2019-12-20增添功能</p>
+<ul>
+ <li>在epub打包前暂停程序，便于修改。</li>
+ <li>优化繁简转换方式</li>
+</ul>
 <p>&#160;2019-12-19增添功能</p>
-<p></p>
 <ul>
  <li>优化封面后乱码问题</li>
  <li>优化内容简介和标题不匹配</li>
-<li>新增繁转简转换功能（若不需要此功能，将含有HanziConv.toSimplified的所有行删除）</li>
- <li>若想实现简转繁功能，将所有HanziConv.toSimplified替换为HanziConv.toTraditional即可</li>
+<li>新增繁转简转换功能（若不需要此功能，将含有OpenCC('t2s').convert的所有行删除）</li>
+ <li>若想实现简转繁功能，将所有OpenCC('t2s').convert替换为OpenCC('s2t').convert即可</li>
 </ul>
 初始功能：<p></p>
 <p></p>
