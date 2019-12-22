@@ -123,7 +123,7 @@ def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
         tl=tl+tll
         #chinf:内容提要
         tl=tl.rstrip()+" "+chinf[aaa].strip()
-        #tl=OpenCC('t2s').convert(tl)
+        tl=OpenCC('t2s').convert(tl)
         #创建章节文件
         fo=open("z"+str(tit[2].zfill(lll))+".xhtml",'w',encoding='utf-8')
         
