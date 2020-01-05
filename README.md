@@ -25,6 +25,13 @@
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>保存main_txt.py|main_epub.py，运行文件</p>
 <p><b>若epub文件有问题，可以用sigil修复一下，本人建议使用0.9.14版本。</b></p>
 <h1>main_epub功能描述&更新记录</h1>
+<p>&#160;2020-01-05增添功能</p>
+<ul>
+ <li>优化繁简转换方式</li>
+ <li>优化内容简介和标题不匹配</li>
+ <li>输入编号后，若不转换，直接按回车，若繁转简，输入s后按回车，若简转繁，输入t后按回车。</li>
+
+</ul>
 <p>&#160;2019-12-20增添功能</p>
 <ul>
  <li>在epub打包前暂停程序，便于修改。</li>
