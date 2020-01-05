@@ -12,8 +12,9 @@ from opencc import OpenCC
 req_url_base='http://www.jjwxc.net/onebook.php?novelid='
 
 #头文件，可用来登陆，cookie可在浏览器或者client.py中获取
-headerss={'cookie': '',
-          'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'}
+headerss={'cookie':'',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
+
 global aaa
 #创建epub文件格式信息
 def create_mimetype(epub):
@@ -99,7 +100,7 @@ def create_stylesheet(epub):
 
 global index
 #下载单章
-def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
+def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index,state):
     tit=i.split('=')
     b=str(tit[2])
     cont=requests.get(i,headers=headers).content
@@ -123,7 +124,10 @@ def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
         tl=tl+tll
         #chinf:内容提要
         tl=tl.rstrip()+" "+chinf[aaa].strip()
-        tl=OpenCC('t2s').convert(tl)
+        if state=='s':
+            tl=OpenCC('t2s').convert(tl)
+        elif state=='t':
+            tl=OpenCC('s2t').convert(tl)
         #创建章节文件
         fo=open("z"+str(tit[2].zfill(lll))+".xhtml",'w',encoding='utf-8')
         
@@ -133,7 +137,11 @@ def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
                     <head><title>'''+tl+'''</title></head><body>''')
         #写入卷标
         if i in rossn:
-            v=OpenCC('t2s').convert(rosn[rossn.index(i)])
+            v=rosn[rossn.index(i)]
+            if state=='s':
+                v=OpenCC('t2s').convert(rosn[rossn.index(i)])
+            elif state=='t':
+                v=OpenCC('s2t').convert(rosn[rossn.index(i)])
             fo.write("<h1>"+v+"</h1>")
             print("\r\n"+v+"\r\n")
             index.append(v)
@@ -147,7 +155,10 @@ def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
             for m in tex1:#删除无用文字及多余空格空行
                 vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
                 v=re.sub(' +', ' ', vv).rstrip()
-                v=OpenCC('t2s').convert(v)
+                if state=='s':
+                    v=OpenCC('t2s').convert(v)
+                elif state=='t':
+                    v=OpenCC('s2t').convert(v)
                 if v!="":#按行写入正文
                     fo.write("<p>"+v+"</p>")
             if len(tex1)!=0:
@@ -155,14 +166,20 @@ def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
             for tn in tex:
                 vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
                 v=re.sub(' +', ' ', vv).rstrip()
-                v=OpenCC('t2s').convert(v)
+                if state=='s':
+                    v=OpenCC('t2s').convert(v)
+                elif state=='t':
+                    v=OpenCC('s2t').convert(v)
                 if v!="":
                     fo.write("<p>"+v+"</p>")
         else:#作话在文后的情况
             for tn in tex:
                 vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
                 v=re.sub(' +', ' ', vv).rstrip()
-                v=OpenCC('t2s').convert(v)
+                if state=='s':
+                    v=OpenCC('t2s').convert(v)
+                elif state=='t':
+                    v=OpenCC('s2t').convert(v)
                 if v!="":
                     fo.write("<p>"+v+"</p>")
             if len(tex1)!=0:
@@ -170,13 +187,16 @@ def get_sin(i,headers,chinf,aaa,lll,rosn,rossn,index):
             for m in tex1:
                 vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
                 v=re.sub(' +', ' ', vv).rstrip()
-                v=OpenCC('t2s').convert(v)
+                if state=='s':
+                    v=OpenCC('t2s').convert(v)
+                elif state=='t':
+                    v=OpenCC('s2t').convert(v)
                 if v!="":
                     fo.write("<p>"+v+"</p>")
         fo.write("</body></html>")
         print("    "+tl.rstrip())
     
-def get_txt(txt_id):
+def get_txt(txt_id,state):
     titlem=''
     intro=''
     ids=str(txt_id)
@@ -204,8 +224,11 @@ def get_txt(txt_id):
 
     #获取标题
     titlem=ress.xpath("//html/head/title/text()")
+    if state=='s':
+        titlem[0]=OpenCC('t2s').convert(titlem[0])
+    elif state=='t':
+        titlem[0]=OpenCC('s2t').convert(titlem[0])
     print("编号："+ ids + " 小说信息："+ str(titlem[0]) +" 开始下载。\r\n")
-
     
     #获取所有章节链接
     #非vip
@@ -252,12 +275,15 @@ def get_txt(txt_id):
     ti=re.sub(r'\\', '_', ti)
     ti=re.sub('\|', '_', ti)
 
+    
+
     #若文件名不想加编号，可以将这行删除
     #ti=ids+ti
 
     xxx=ti.split('》')
     xaut=xxx[1].strip()
     xtitle=re.sub('《','',xxx[0]).strip()
+
     
     v=""
     #打开小说文件写入小说相关信息
@@ -300,11 +326,17 @@ def get_txt(txt_id):
     fo.write("<p><b>文案：</b></p>")
     for nx in intro:
         v=re.sub(' +', ' ', str(nx)).rstrip()
-        v=OpenCC('t2s').convert(v)
+        if state=='s':
+            v=OpenCC('t2s').convert(v)
+        elif state=='t':
+            v=OpenCC('s2t').convert(v)
         if v!="":
             fo.write("<p>"+v+"</p>")
     info=re.sub(' +', ' ',info).strip()
-    info=OpenCC('t2s').convert(info)
+    if state=='s':
+        info=OpenCC('t2s').convert(info)
+    elif state=='t':
+        info=OpenCC('s2t').convert(info)
     info=re.sub('搜索关键字','</p><p>搜索关键字',info)
     fo.write("<p>"+info+"</p>")
     fo.write("</body></html>")
@@ -312,11 +344,11 @@ def get_txt(txt_id):
     #获取每一章内容
     for i in href_list:
         aaa=aaa+1
-        get_sin(i,headerss,chinf,aaa,lll,rosn,rossn,index)
+        get_sin(i,headerss,chinf,aaa,lll,rosn,rossn,index,state)
     
     for i in hhr:
         aaa=aaa+1
-        get_sin(i,headerss,chinf,aaa,lll,rosn,rossn,index)
+        get_sin(i,headerss,chinf,aaa,lll,rosn,rossn,index,state)
     fo.close()
 
     input("\r\n请按回车键打包epub：")
@@ -345,7 +377,8 @@ n=1
 #此处为需要下载小说的编号，编号获取方法在上文中已经讲过，
 while n:
     num =input('请输入小说编号：')
-    get_txt(num)
+    state=input('\r\n文章内容：\r\n1、繁转简（输入s）\r\n2、简转繁（输入t）\r\n3、不变（直接按回车）\r\n')
+    get_txt(num,state)
     n=input("\r\n直接按回车键退出/输入任意值下载新小说：")
     if str(n) == "0":
         exit()
