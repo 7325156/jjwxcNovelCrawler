@@ -307,7 +307,7 @@ n=1
 #此处为需要下载小说的编号，编号获取方法在上文中已经讲过，
 
 while n:
-    num =input('请输入小说主页网址：')
+    num =input('请输入小说编号：')
     state=input('\r\n文章内容：\r\n1、繁转简（输入s）\r\n2、简转繁（输入t）\r\n3、不变（直接按回车）\r\n')
     c=noveldl
     c.get_txt(c,num,state,5)
