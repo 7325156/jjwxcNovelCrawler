@@ -23,27 +23,31 @@
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>或者直接下载并打开client.py，按步骤输入用户名密码，将得到的值（包括大括号）赋给main_txt.py|main_epub.py的headerss</p>
 <p>　　(注：cookie若失效，请及时更换，如果换了还不行，就使用ie浏览器获取cookie，如果还不行，删除"timeOffset_o=任意字符串;")</p>
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>保存main_txt.py|main_epub.py，运行文件</p>
+<p><b>繁简转换功能</b>：输入编号后，若不转换，直接按回车，若繁转简，输入s后按回车，若简转繁，输入t后按回车。</p>
 <p><b>若epub文件有问题，可以用sigil修复一下，本人建议使用0.9.14版本。</b></p>
-<h1>main_epub功能描述&更新记录</h1>
-<p>&#160;2020-01-05增添功能</p>
+<h1>main_epub日志记录</h1>
+<p>&#160;2020-2-14</p>
+<ul>
+ <li>修复文案审核期间无法下载的bug</li>
+ <li>将epub打包功能单独拆分到EPUB.py文件中</li>
+</ul>
+<p>&#160;2020-01-05</p>
 <ul>
  <li>优化繁简转换方式</li>
- <li>优化内容简介和标题不匹配</li>
- <li>输入编号后，若不转换，直接按回车，若繁转简，输入s后按回车，若简转繁，输入t后按回车。</li>
+ <li>优化内容简介和标题不匹配的bug</li>
 
 </ul>
-<p>&#160;2019-12-20增添功能</p>
+<p>&#160;2019-12-20</p>
 <ul>
  <li>在epub打包前暂停程序，便于修改。</li>
  <li>优化繁简转换方式</li>
  <li>关于OpenCC的使用方法，详见https://github.com/yichen0831/opencc-python</li>
 </ul>
-<p>&#160;2019-12-19增添功能</p>
+<p>&#160;2019-12-19</p>
 <ul>
- <li>优化封面后乱码问题</li>
- <li>优化内容简介和标题不匹配</li>
+ <li>优化封面后存在乱码的bug</li>
+ <li>优化内容简介和标题不匹配的bug</li>
 <li>新增繁转简转换功能（若不需要此功能，将含有OpenCC('t2s').convert的所有行删除）</li>
- <li>若想实现简转繁功能，将所有OpenCC('t2s').convert替换为OpenCC('s2t').convert即可</li>
 </ul>
 初始功能：<p></p>
 <p></p>
