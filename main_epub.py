@@ -25,7 +25,7 @@ class noveldl():
     rollSignPlace=''
     state=''
 
-    #下载单章
+    #下载单章 
     def get_sin(self,i,headers,sum,fillNum,rollSign,rollSignPlace,index,state):
 
         titleOrigin=i.split('=')
