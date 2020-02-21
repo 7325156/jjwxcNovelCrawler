@@ -178,6 +178,8 @@ class noveldl():
         for i in self.Summary:
             if i.strip()=='[此章节已锁]':
                 del self.Summary[self.Summary.index(i)]
+        if self.Summary[0].strip()=='内容提要':
+            del self.Summary[0]
         for i in self.Summary:
             if i in loc:
                 del self.Summary[self.Summary.index(i)]
@@ -277,7 +279,7 @@ class noveldl():
         count=0
         #获取每一章内容
         for i,sum in zip(href_list,self.Summary):
-            self.get_sin(self,i,self.headerss,sum,fillNum,rollSign,rollSignPlace,index,state)
+            self.get_sin(i,self.headerss,sum,fillNum,rollSign,rollSignPlace,index,state)
             fo.close()
 
         
@@ -309,8 +311,8 @@ n=1
 while n:
     num =input('请输入小说编号：')
     state=input('\r\n文章内容：\r\n1、繁转简（输入s）\r\n2、简转繁（输入t）\r\n3、不变（直接按回车）\r\n')
-    c=noveldl
-    c.get_txt(c,num,state,5)
+    c=noveldl()
+    c.get_txt(num,state,5)
     n=input("\r\n直接按回车键退出/输入任意值下载新小说：")
     if str(n) == "0":
         exit()
