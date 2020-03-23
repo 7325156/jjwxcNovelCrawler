@@ -209,7 +209,7 @@ class noveldl():
         
         for i in self.td:
             u=i.xpath('./td[2]/span/div[1]/a/@href')
-            x=i.xpath('./td[2]/span/div[1]/a/@rel')
+            x=i.xpath('./td[2]/span/div[1]/a[1]/@rel')
             if len(u)>0:
                 self.href_list+=u
                 v=i.xpath('./td[2]/span/div[1]/a/text()')[0].strip()
