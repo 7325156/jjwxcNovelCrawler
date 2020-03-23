@@ -359,6 +359,7 @@ class noveldl():
         elif self.state=='t':
             info=OpenCC('s2t').convert(info)
         info=re.sub('搜索关键字','</p><p>搜索关键字',info)
+        info=re.sub('一句话简介：','</p><p>一句话简介：',info)
         fo.write("<p>"+info+"</p>")
         fo.write("</body></html>")
         fo.close()
