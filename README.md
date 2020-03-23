@@ -1,3 +1,4 @@
+<p style="color:red;">如果程序运行时闪退且网址格式没有问题，请在<a href="https://github.com/7325156/jjdown/wiki/%E5%BB%BA%E8%AE%AE">wiki栏</a>下写下网址，我会根据这些网址修改bug。</p>
 <h1>使用说明</h1>
 <a href="https://github.com/7325156/jjdown/releases">exe程序下载</a>
 <h3>环境配置</h3>
