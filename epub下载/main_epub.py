@@ -15,7 +15,7 @@ class noveldl():
     req_url_base='http://www.jjwxc.net/onebook.php?novelid='
 
     #头文件，可用来登陆，cookie可在浏览器或者client.py中获取
-    headerss={'cookie':
+    headerss={'cookie':'',
               'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
 
     count=0
