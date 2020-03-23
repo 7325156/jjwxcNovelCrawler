@@ -1,4 +1,5 @@
 <h1>使用说明</h1>
+<a href="https://github.com/7325156/jjdown/releases">exe程序下载</a>
 <h3>环境配置</h3>
 <p>注：我写的这个程序可以在Windows10 x64系统下运行成功，其他环境可自行调整。</p>
 <p><span style="font-weight: bold;">&#160;1、安装python环境</span></p>
@@ -24,8 +25,16 @@
 <p>　　(注：cookie若失效，请及时更换，如果换了还不行，就使用ie浏览器获取cookie，如果还不行，删除"timeOffset_o=任意字符串;")</p>
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>保存main_txt.py|main_epub.py，运行文件</p>
 <p><b>繁简转换功能</b>：输入编号后，若不转换，直接按回车，若繁转简，输入s后按回车，若简转繁，输入t后按回车。</p>
-<p><b>若epub文件有问题，可以用sigil修复一下，本人建议使用0.9.14版本。</b></p>
+<p><b>若epub文件有问题，可以用sigil修复一下，本人建议使用0.9.14版本。或者使用最新版本Sigil搭配pageEdit</b></p>
 <h1>main_epub日志记录</h1>
+<p>2020-3-23</p>
+<ul>
+<li>使用多线程下载章节（python的多线程好像不怎么给力）</li>
+ <li>优化封面保存功能</li>
+ <li>文件保存格式从epub2改为epub3</li>
+ <li>优化目录保存方式</li>
+ <li>替换不安全符号</li>
+</ul>
 <p>&#160;2020-2-14</p>
 <ul>
  <li>修复文案审核期间无法下载的bug</li>
