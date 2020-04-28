@@ -369,7 +369,8 @@ class noveldl():
         with concurrent.futures.ThreadPoolExecutor(max_workers=threadnum) as executor:
            tlist = {executor.submit(self.get_sin,i):i for i in self.href_list}
            for future in concurrent.futures.as_completed(tlist):
-               print('\r 下载进度：%d/%d' % (self.percent,section_ct),end='',flush=True)
+               if self.percent < section_ct:
+                   print('\r 下载进度：%d/%d' % (self.percent,section_ct),end='',flush=True)
         '''
         for i in self.href_list:
             thread = Thread(target=self.get_sin, args=(i,))
