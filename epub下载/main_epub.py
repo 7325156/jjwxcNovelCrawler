@@ -18,7 +18,6 @@ class noveldl():
     headerss={'cookie':'',
               'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
 
-    count=0
     percent=0
     index=[]#目录
     titleindex=[]#标题
@@ -31,12 +30,11 @@ class noveldl():
     td=[]
     
     def clear(self):
-        self.count=0
         self.percent=0
         self.index=[]
         self.titleindex=[]
         self.Summary=[]
-        self.fillNum=''
+        self.fillNum=0
         self.rollSign=[]
         self.rollSignPlace=[]
         self.state=''
@@ -59,9 +57,10 @@ class noveldl():
         tex1=dot.xpath("//html/body/table[@id='oneboolt']/tr[2]/td[1]/div[@class='noveltext']/div[@class='readsmall']/text()")
         #sign:作话位置
         sign=dot.xpath("//*[@id='oneboolt']/tr[2]/td[1]/div/div[4]/@class")
-        
+
+        title=''
         #序号填充
-        title=str(titleOrigin[2]).zfill(self.fillNum)+" "
+        title=str(titleOrigin[2])+" "
         
         #章节名称
         title=title+self.titleindex[i].strip()+" "
@@ -86,7 +85,7 @@ class noveldl():
             print("第"+titleOrigin[2]+"章未购买或加载失败")
         else:
             #创建章节文件
-            fo=open("z"+str(titleOrigin[2].zfill(self.fillNum))+".xhtml",'w',encoding='utf-8')
+            fo=open("z"+str(titleOrigin[2].zfill(4))+".xhtml",'w',encoding='utf-8')
                 
             fo.write('''<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html>
@@ -99,14 +98,15 @@ class noveldl():
                 fo.write("<h3 id='v'>"+title+"</h3>")
             #写入标题
             else:
-                fo.write("<h3>"+title+"</h3>")
+                v=re.sub('&','&amp;',l)
+                fo.write('<h3><a href="'+v+'">'+title+"</a></h3>")
             #作话在文前的情况
             if str(sign) == "['readsmall']":
                 fo.write('''<blockquote class="userstuff">''')
                 for m in tex1:#删除无用文字及多余空格空行
                     vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
-                    v=re.sub(' +', ' ', vv).rstrip()
-                    v=re.sub('&','&amp;',v).rstrip()
+                    v=re.sub(' +', ' ', vv).strip()
+                    v=re.sub('&','&amp;',v)
                     v=re.sub('>','&gt;',v)
                     v=re.sub('<','&lt;',v)
                     if self.state=='s':
@@ -120,10 +120,11 @@ class noveldl():
                     fo.write("<hr/>")
                 for tn in tex:
                     vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
-                    v=re.sub(' +', ' ', vv).rstrip()
-                    v=re.sub('&','&amp;',v).rstrip()
+                    v=re.sub(' +', ' ', vv).strip()
+                    v=re.sub('&','&amp;',v)
                     v=re.sub('>','&gt;',v)
                     v=re.sub('<','&lt;',v)
+                    v=re.sub('　','',v)
                     if self.state=='s':
                         v=OpenCC('t2s').convert(v)
                     elif self.state=='t':
@@ -133,8 +134,8 @@ class noveldl():
             else:#作话在文后的情况
                 for tn in tex:
                     vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
-                    v=re.sub(' +', ' ', vv).rstrip()
-                    v=re.sub('&','&amp;',v).rstrip()
+                    v=re.sub(' +', ' ', vv).strip()
+                    v=re.sub('&','&amp;',v)
                     v=re.sub('>','&gt;',v)
                     v=re.sub('<','&lt;',v)
                     if self.state=='s':
@@ -145,11 +146,11 @@ class noveldl():
                         fo.write("<p>"+v+"</p>")
                 if len(tex1)!=0:
                     fo.write("<hr/>")
-                fo.write('''<blockquote class="userstuff">''')
+                    fo.write('''<blockquote class="userstuff">''')
                 for m in tex1:
                     vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
-                    v=re.sub(' +', ' ', vv).rstrip()
-                    v=re.sub('&','&amp;',v).rstrip()
+                    v=re.sub(' +', ' ', vv).strip()
+                    v=re.sub('&','&amp;',v)
                     v=re.sub('>','&gt;',v)
                     v=re.sub('<','&lt;',v)
                     if self.state=='s':
@@ -158,7 +159,8 @@ class noveldl():
                         v=OpenCC('s2t').convert(v)
                     if v!="":
                         fo.write("<p>"+v+"</p>")
-                fo.write("</blockquote>")
+                if len(tex1)!=0:
+                    fo.write("</blockquote>")
             fo.write("</body></html>")
             fo.close()
             self.percent+=1
@@ -169,6 +171,15 @@ class noveldl():
         ids=str(txt_id)
         percent=0
         self.state=state
+        self.percent=0
+        self.index=[]
+        self.titleindex=[]
+        self.Summary=[]
+        self.fillNum=0
+        self.rollSign=[]
+        self.rollSignPlace=[]
+        self.href_list=[]
+        self.td=[]
 
         #获取文章网址
         req_url=ids
@@ -206,6 +217,7 @@ class noveldl():
         
         #获取所有章节网址、标题、内容提要
         self.td=ress.xpath('//*[@id="oneboolt"]//tr')
+        loc=[]
         
         for i in self.td:
             u=i.xpath('./td[2]/span/div[1]/a/@href')
@@ -234,6 +246,8 @@ class noveldl():
                 v=re.sub('>','&gt;',v)
                 v=re.sub('<','&lt;',v)
                 self.Summary.append(v)
+            elif i.xpath('./td[2]/span/div[1]/span')!=[]:
+                    loc.append(i.xpath('./td[1]/text()')[0].strip())
             
 
         #获取卷标名称
@@ -245,6 +259,11 @@ class noveldl():
         section_ct=len(self.href_list)
         
         print("可下载章节数："+str(section_ct)+"\r\n")
+        if loc!=[]:
+            i=""
+            for x in loc:
+                i=i+x+" "
+            print("被锁章节："+i+"\r\n")
         
         #fillNum：填充序号的长度，例如：若全文有1437章，则每章序号有四位，依次为0001、0002……
         self.fillNum=len(str(len(self.td)-4))
@@ -293,22 +312,20 @@ class noveldl():
             f.close()
 
         #写入文章信息页 
-        fo=open("TOC.xhtml",'w',encoding='utf-8')
-        fo.write('''<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
-<head><title></title></head><body>''')
-
-        fo.write("<h2><center><a href='"+req_url+"'>"+xtitle+"</a></center></h2><p></p>")
-        fo.write("<h3 class='sigil_not_in_toc'><center><a href='"+xauthref+"'>"+xaut+"</a></center></h3><p></p>")
-        fo.write('''<blockquote class="userstuff">''')
+        TOC="<h2><center><a href='"+req_url+"'>"+xtitle+"</a></center></h2><p></p>"
+        TOC+="<h3 class='sigil_not_in_toc'><center>作者：<a href='"+xauthref+"'>"+xaut+"</a></center></h3>"
+        TOC+='''<blockquote class="userstuff">'''
         #self.index.append(titlem[0])
         #生成目录文字
         for l in self.href_list:
             titleOrigin=l.split('=')
             i=self.href_list.index(l)
+            #
             title=str(titleOrigin[2]).zfill(self.fillNum)+" "
-            title=title+self.titleindex[i].strip()
-            title=title+" "+self.Summary[i].strip()
+            #
+            title=title+self.titleindex[i].strip()+" "
+            #
+            title=title+self.Summary[i].strip()
             if self.state=='s':
                 title=OpenCC('t2s').convert(title)
             elif self.state=='t':
@@ -319,13 +336,7 @@ class noveldl():
                     v=OpenCC('t2s').convert(self.rollSign[self.rollSignPlace.index(l)])
                 elif self.state=='t':
                     v=OpenCC('s2t').convert(self.rollSign[self.rollSignPlace.index(l)])
-                v=re.sub('&','&amp;',v).rstrip()#&amp;
-                v=re.sub('>','&gt;',v)
-                v=re.sub('<','&lt;',v)
                 self.index.append(v)
-            title=re.sub('&','&amp;',title).rstrip()#&amp;
-            title=re.sub('>','&gt;',title)
-            title=re.sub('<','&lt;',title)
             self.index.append(title)
 
         for ix in infox:
@@ -335,10 +346,10 @@ class noveldl():
             ix=re.sub('&','&amp;',ix)
             ix=re.sub('>','&gt;',ix)
             ix=re.sub('<','&lt;',ix)
-            fo.write("<p>"+ix+"</p>")
+            TOC+="<p>"+ix+"</p>"
 
-        fo.write("</blockquote>")
-        fo.write("<p><b>文案：</b></p>")
+        TOC+="</blockquote>"
+        TOC+="<p><b>文案：</b></p>"
         for nx in intro:
             v=re.sub(' +', ' ', str(nx)).rstrip()
             v=re.sub('&','&amp;',v).rstrip()
@@ -349,7 +360,7 @@ class noveldl():
             elif self.state=='t':
                 v=OpenCC('s2t').convert(v)
             if v!="":
-                fo.write("<p>"+v+"</p>")
+                TOC+="<p>"+v+"</p>"
         info=re.sub(' +', ' ',info).strip()
         info=re.sub('&','&amp;',info)
         info=re.sub('>','&gt;',info)
@@ -360,41 +371,32 @@ class noveldl():
             info=OpenCC('s2t').convert(info)
         info=re.sub('搜索关键字','</p><p>搜索关键字',info)
         info=re.sub('一句话简介：','</p><p>一句话简介：',info)
-        fo.write("<p>"+info+"</p>")
-        fo.write("</body></html>")
-        fo.close()
-        count=0
+        TOC+="<p>"+info+"</p>"
         tlist=[]
         #获取每一章内容
         with concurrent.futures.ThreadPoolExecutor(max_workers=threadnum) as executor:
-           tlist = {executor.submit(self.get_sin,i):i for i in self.href_list}
-           for future in concurrent.futures.as_completed(tlist):
-               if self.percent < section_ct:
-                   print('\r 下载进度：%d/%d' % (self.percent,section_ct),end='',flush=True)
-        '''
-        for i in self.href_list:
-            thread = Thread(target=self.get_sin, args=(i,))
-            tlist.append(thread)
-            thread.start()
-        for t in tlist:
-            t.join()
-            print('\r 下载进度：%d/%d\r\n' % (self.percent,section_ct),end='',flush=True)
-        '''
-        print('\r 下载完成，总进度：%d/%d\r\n' % (self.percent,section_ct),end='',flush=True)
+            tlist = {executor.submit(self.get_sin,i):i for i in self.href_list}
+            for future in concurrent.futures.as_completed(tlist):
+                if self.percent < section_ct:
+                    print('\r 下载进度：%d/%d' % (self.percent,section_ct),end='',flush=True)
+            print('\r 下载完成，总进度：%d/%d\r\n' % (self.percent,section_ct),end='',flush=True)
 
 
-        #input("\r\n请按回车键打包epub：")
         #保存为epub
         os.chdir(path)
         epub_name = ti+".epub"
         epub = zipfile.ZipFile(epub_name, 'w')
-        EPUB3.epubfile.create_mimetype(epub)     
-        EPUB3.epubfile.create_container(epub)  
+        epubfile=EPUB3.epubfile()
+        epubfile.TOC=TOC
+        epubfile.author=xaut
+        epubfile.title=xtitle
+        epubfile.create_mimetype(epub)     
+        epubfile.create_container(epub)  
         os.chdir(ti)
         ppp=os.getcwd()
-        EPUB3.epubfile.create_content(epub,ppp,xtitle,xaut)
-        EPUB3.epubfile.create_info(epub,ppp,self.index,self.rollSign,xtitle+"-"+xaut)
-        EPUB3.epubfile.create_stylesheet(epub)
+        epubfile.create_content(epub,ppp)
+        epubfile.create_info(epub,ppp,self.index,self.rollSign)
+        epubfile.create_stylesheet(epub)
         for html in os.listdir('.'):
             basename = os.path.basename(html)
             if basename.endswith('jpg'):
@@ -405,11 +407,10 @@ class noveldl():
         os.chdir(path)
         shutil.rmtree(ppp)
         print("\r\nepub打包完成")
-n=1
-#此处为需要下载小说的编号，编号获取方法在上文中已经讲过，
+        
 while 1:
     num =input('\r\n请输入小说主页网址：')
     c=noveldl()
     state=input('\r\n文章内容：\r\n1、繁转简（输入s）\r\n2、简转繁（输入t）\r\n3、不变（直接按回车）\r\n')
-    c.get_txt(num,state,50)
+    c.get_txt(num,state,10)#最后一个参数为线程数，可以对其进行更改
     c.clear()
