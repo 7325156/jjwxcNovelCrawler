@@ -101,6 +101,16 @@ nav#page-list {
 
 ol {
     list-style-type: none;
-}'''
+}
+h1{
+font-size:1.4em;
+}
+h2{
+font-size:1.2em;
+}
+.title{
+text-align:center;
+}
+'''
         epub.writestr('OEBPS/sgc-nav.css',css_info,compress_type=zipfile.ZIP_STORED)
 
