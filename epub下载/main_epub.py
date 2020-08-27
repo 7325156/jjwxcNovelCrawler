@@ -14,7 +14,7 @@ class noveldl():
     #小说主地址，后接小说编号
     req_url_base='http://www.jjwxc.net/onebook.php?novelid='
 
-    #头文件，可用来登陆，cookie可在浏览器或者client.py中获取
+    #头文件，可用来下载账号中已购买文章，cookie可在浏览器或者client.py中获取
     headerss={'cookie':'',
               'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
 
@@ -60,13 +60,13 @@ class noveldl():
 
         title=''
         #序号填充
-        title=str(titleOrigin[2])+" "
+        title=str(titleOrigin[2]).zfill(self.fillNum)+" "
         
         #章节名称
-        title=title+self.titleindex[i].strip()+" "
+        title=title+self.titleindex[i].strip()
         
         #内容提要
-        title=title+self.Summary[i].strip()
+        title=title+" "+self.Summary[i].strip()
         
         if self.state=='s':
             title=OpenCC('t2s').convert(title)
@@ -90,16 +90,19 @@ class noveldl():
             fo.write('''<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
-<head><title></title></head><body>''')
+<head><title>'''+title+'''</title>
+<meta charset="utf-8"/>
+<link href="sgc-nav.css" rel="stylesheet" type="text/css"/>
+</head><body>''')
             #写入卷标
             if self.href_list[i] in self.rollSignPlace:
-                fo.write("<h2>"+v.rstrip()+"</h2>")
+                fo.write("<h1>"+v.rstrip()+"</h1>")
                 print("\r\n"+v+"\r\n")
-                fo.write("<h3 id='v'>"+title+"</h3>")
+                fo.write("<h2 id='v'>"+title+"</h2>")
             #写入标题
             else:
                 v=re.sub('&','&amp;',l)
-                fo.write('<h3><a href="'+v+'">'+title+"</a></h3>")
+                fo.write('<h2><a href="'+v+'">'+title+"</a></h2>")
             #作话在文前的情况
             if str(sign) == "['readsmall']":
                 fo.write('''<blockquote class="userstuff">''')
@@ -256,6 +259,10 @@ class noveldl():
         self.rollSignPlace=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@href")
         self.rollSignPlace+=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@rel")
 
+        #修改卷标格式
+        for rs in range(len(self.rollSign)):
+            self.rollSign[rs]="§ "+self.rollSign[rs]+" §"
+            
         section_ct=len(self.href_list)
         
         print("可下载章节数："+str(section_ct)+"\r\n")
@@ -284,7 +291,7 @@ class noveldl():
         
 
         #若文件名不想加编号，可以将这行删除
-        ti=ti+'['+ids.split('=')[1]+']'
+        ti=ti+'.'+ids.split('=')[1]
         ti=re.sub('\r','',ti)
 
 
@@ -312,8 +319,8 @@ class noveldl():
             f.close()
 
         #写入文章信息页 
-        TOC="<h2><center><a href='"+req_url+"'>"+xtitle+"</a></center></h2><p></p>"
-        TOC+="<h3 class='sigil_not_in_toc'><center>作者：<a href='"+xauthref+"'>"+xaut+"</a></center></h3>"
+        TOC="<h1 class='title'><a href='"+req_url+"'>"+xtitle+"</a></h1>"
+        TOC+="<h2 class='sigil_not_in_toc title'>作者：<a href='"+xauthref+"'>"+xaut+"</a></h2>"
         TOC+='''<blockquote class="userstuff">'''
         #self.index.append(titlem[0])
         #生成目录文字
@@ -371,6 +378,7 @@ class noveldl():
             info=OpenCC('s2t').convert(info)
         info=re.sub('搜索关键字','</p><p>搜索关键字',info)
         info=re.sub('一句话简介：','</p><p>一句话简介：',info)
+        info=re.sub('立意：','</p><p>立意：',info)
         TOC+="<p>"+info+"</p>"
         tlist=[]
         #获取每一章内容
