@@ -10,8 +10,6 @@ class epubfile():
     author=''
     title=''
     description=''
-    TOC=''
-    path=''
     def create_mimetype(self,epub):
         epub.writestr('mimetype','application/epub+zip',compress_type=zipfile.ZIP_STORED)
      
@@ -35,12 +33,13 @@ class epubfile():
         content_info+='''<meta name="cover" content="p.jpg" />
 </metadata><manifest>
 <item id="sgc-nav.css" href="sgc-nav.css" media-type="text/css"/>
-<item id="TOC.xhtml" href="TOC.xhtml" media-type="application/xhtml+xml" properties="nav"/>
+<item id="nav.xhtml" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>
 <item id="p.jpg" href="p.jpg" media-type="image/jpeg" properties="cover-image"/>
 %(manifest)s
 </manifest><spine>
 <itemref idref="C.xhtml" />
 <itemref idref="TOC.xhtml" />
+<itemref idref="nav.xhtml" />
 %(spine)s
 </spine></package>'''
         manifest = ''
@@ -49,7 +48,7 @@ class epubfile():
             basename = os.path.basename(html)
             if basename.endswith('html'):
                 manifest += '<item id="%s" href="%s" media-type="application/xhtml+xml"/>' % (basename, basename)
-                if basename != 'C.xhtml':
+                if basename != 'C.xhtml' and basename != 'TOC.xhtml':
                     spine += '<itemref idref="%s"/>' % (basename)
         epub.writestr('OEBPS/content.opf',content_info % {'manifest': manifest,'spine': spine,},compress_type=zipfile.ZIP_STORED)
 
@@ -62,7 +61,7 @@ class epubfile():
 <meta charset="utf-8"/>
 <link href="sgc-nav.css" rel="stylesheet" type="text/css"/>
 </head>
-<body>'''+self.TOC+'''
+<body>
 <nav epub:type="toc" id="toc"><h1>目录</h1>
     <ol>
     '''
@@ -87,7 +86,7 @@ class epubfile():
 '''
                     sig+=1
         nav_info+='''</ol></li></ol></nav></body></html>'''
-        epub.writestr('OEBPS/TOC.xhtml',nav_info,compress_type=zipfile.ZIP_STORED)
+        epub.writestr('OEBPS/nav.xhtml',nav_info,compress_type=zipfile.ZIP_STORED)
  
         
     def create_stylesheet(self,epub):
