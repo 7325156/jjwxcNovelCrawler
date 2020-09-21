@@ -1,6 +1,6 @@
 <p style="color:red;">如果程序运行时闪退且网址格式没有问题，请写下网址，我会根据这些网址修改bug。(如果我有空的话)</p>
 <h1>使用说明</h1>
-<p><a href="https://github.com/7325156/jjdown/releases">exe程序下载</a>，如果直接下载太慢，可以通过<a href="https://d.serctl.com">这个网站</a>下载</p>
+<p>如果不想配置环境，可以直接下载EXE：<a href="https://github.com/7325156/jjdown/releases">exe程序下载</a>，如果直接下载太慢，可以通过<a href="https://d.serctl.com">这个网站</a>下载</p>
 <h3>环境配置</h3>
 <p>注：我写的这个程序可以在Windows10 x64系统下运行成功，其他环境可自行调整。</p>
 <p><span style="font-weight: bold;">&#160;1、安装python环境</span></p>
@@ -32,7 +32,7 @@
 <ul>
 <li>调整下载文件和EPUB生成文件，使其匹配</li>
  <li>修改EPUB2生成格式，可自由选择生成的epub文件格式</li>
- <li>（pyinstaller似乎出了点问题，无法打包exe，我再研究研究）</li>
+ <li>新增文案特效版下载，可以显示文案特效</li>
 </ul>
 <p>2020-3-23</p>
 <ul>
