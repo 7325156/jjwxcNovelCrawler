@@ -1,6 +1,6 @@
 <p style="color:red;">如果程序运行时闪退且网址格式没有问题，请写下网址，我会根据这些网址修改bug。(如果我有空的话)</p>
 <h1>使用说明</h1>
-<a href="https://github.com/7325156/jjdown/releases">exe程序下载</a>
+<p><a href="https://github.com/7325156/jjdown/releases">exe程序下载</a>，如果直接下载太慢，可以通过<a href="https://d.serctl.com">这个网站</a>下载</p>
 <h3>环境配置</h3>
 <p>注：我写的这个程序可以在Windows10 x64系统下运行成功，其他环境可自行调整。</p>
 <p><span style="font-weight: bold;">&#160;1、安装python环境</span></p>
