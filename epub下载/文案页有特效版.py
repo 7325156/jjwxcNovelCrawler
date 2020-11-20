@@ -8,7 +8,6 @@ import zipfile
 import shutil
 from opencc import OpenCC
 import concurrent.futures
-#若更改epub格式，可将所有EPUB2替换为EPUB3
 import EPUB2
 
 class noveldl():
@@ -87,14 +86,10 @@ class noveldl():
 
             
             
-        if len(he)==0:
-            self.failInfo.append(titleOrigin[2].zfill(self.fillNum))
-            #print("第"+titleOrigin[2]+"章未购买或加载失败")
-        else:
             #创建章节文件
-            fo=open("z"+str(titleOrigin[2].zfill(4))+".xhtml",'w',encoding='utf-8')
-                
-            fo.write('''<?xml version="1.0" encoding="utf-8"?>
+        fo=open("z"+str(titleOrigin[2].zfill(4))+".xhtml",'w',encoding='utf-8')
+            
+        fo.write('''<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
 <head><title>'''+title+'''</title>
@@ -102,14 +97,17 @@ class noveldl():
 <link href="sgc-nav.css" rel="stylesheet" type="text/css"/>
 </head><body>''')
             #写入卷标
-            if self.href_list[i] in self.rollSignPlace:
-                fo.write("<h1>"+v.rstrip()+"</h1>")
-                print("\r\n"+v+"\r\n")
-                fo.write("<h2 id='v'><a href='"+v+"'>"+title+"</a></h2>")
-            #写入标题
-            else:
-                v=re.sub('&','&amp;',l)
-                fo.write('<h2><a href="'+v+'">'+title+"</a></h2>")
+        if self.href_list[i] in self.rollSignPlace:
+            fo.write("<h1>"+v.rstrip()+"</h1>")
+            print("\r\n"+v+"\r\n")
+            fo.write("<h2 id='v'><a href='"+l+"'>"+title+"</a></h2>")
+        #写入标题
+        else:
+            fo.write('<h2><a href="'+l+'">'+title+"</a></h2>")
+        if len(he)==0:
+            self.failInfo.append(titleOrigin[2].zfill(self.fillNum))
+            #print("第"+titleOrigin[2]+"章未购买或加载失败")
+        else:
             #作话在文前的情况
             if str(sign) == "['readsmall']":
                 fo.write('''<blockquote>''')
@@ -149,6 +147,7 @@ class noveldl():
                     v=re.sub('&','&amp;',v)
                     v=re.sub('>','&gt;',v)
                     v=re.sub('<','&lt;',v)
+                    v=re.sub('　','',v)
                     if self.state=='s':
                         v=OpenCC('t2s').convert(v)
                     elif self.state=='t':
@@ -173,9 +172,9 @@ class noveldl():
                         fo.write("<p>"+v+"</p>")
                 if len(tex1)!=0:
                     fo.write("</blockquote>")
-            fo.write("</body></html>")
-            fo.close()
-            self.percent+=1
+        fo.write("</body></html>")
+        fo.close()
+        self.percent+=1
 
     def get_txt(self,txt_id,state,threadnum):
         titlem=''
@@ -214,8 +213,13 @@ class noveldl():
         cover=ress.xpath("string(/html/body/table[1]/tr/td[1]/div[2]/img/@src)")
         
         if cover!='':
-            pres=requests.get(cover)
-            img=pres.content
+            try:
+                pres=requests.get(cover)
+            except Exception:
+                img="0"
+                print("【封面保存失败！请检查网络或尝试科学上网。】\r\n")
+            else:
+                img=pres.content
         else:
             img="0"
 
@@ -263,13 +267,16 @@ class noveldl():
             
 
         #获取卷标名称
-        self.rollSign=ress.xpath("//*[@id='oneboolt']//tr/td/b[@class='volumnfont']/text()")
+        self.rollSign=ress.xpath("//*[@id='oneboolt']//tr/td/b[@class='volumnfont']")
         #获取卷标位置
         self.rollSignPlace=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@href")
         self.rollSignPlace+=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@rel")
 
         #修改卷标格式
         for rs in range(len(self.rollSign)):
+            self.rollSign[rs]=etree.tostring(self.rollSign[rs],encoding="utf-8").decode().strip()
+            self.rollSign[rs]=re.sub('<b.*?>','',self.rollSign[rs])
+            self.rollSign[rs]=re.sub('</b>','',self.rollSign[rs])
             self.rollSign[rs]="§ "+self.rollSign[rs]+" §"
             
         section_ct=len(self.href_list)
@@ -324,11 +331,12 @@ class noveldl():
             f=open("C.xhtml",'w',encoding='utf-8')
             f.write('''<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
-<head><title></title></head><body><img alt="p" src="p.jpg"/></body></html>''')
+<head><title></title><link href="sgc-nav.css" type="text/css" rel="stylesheet"/>
+</head><body><p class='title'><img src="p.jpg"/></p></body></html>''')
             f.close()
 
         #写入文章信息页 
-        TOC="<h1 class='title'><a href='"+req_url+"'>"+xtitle+"</a></h1>"
+        TOC="<h1 class='title' title='"+xtitle+"-"+xaut+"'><a href='"+req_url+"'>"+xtitle+"</a></h1>"
         TOC+="<h2 class='sigil_not_in_toc title'>作者：<a href='"+xauthref+"'>"+xaut+"</a></h2>"
         TOC+='''<blockquote>'''
         #self.index.append(titlem[0])
@@ -406,24 +414,7 @@ class noveldl():
         epub_name = ti+".epub"
         epub = zipfile.ZipFile(epub_name, 'w')
         epubfile=EPUB2.epubfile()
-        epubfile.author=xaut
-        epubfile.title=xtitle
-        epubfile.create_mimetype(epub)     
-        epubfile.create_container(epub)  
-        os.chdir(ti)
-        ppp=os.getcwd()
-        epubfile.create_content(epub,ppp)
-        epubfile.create_info(epub,ppp,self.index,self.rollSign)
-        epubfile.create_stylesheet(epub)
-        for html in os.listdir('.'):
-            basename = os.path.basename(html)
-            if basename.endswith('jpg'):
-                epub.write(html, "OEBPS/"+basename, compress_type=zipfile.ZIP_DEFLATED)
-            if basename.endswith('html'):
-                epub.write(html, "OEBPS/"+basename, compress_type=zipfile.ZIP_DEFLATED)
-        epub.close()
-        os.chdir(path)
-        shutil.rmtree(ppp)
+        epubfile.createEpub(epub,xaut,xtitle,ti,self.index,self.rollSign,path)
         print("\r\nepub打包完成")
 
 if __name__ == '__main__':
