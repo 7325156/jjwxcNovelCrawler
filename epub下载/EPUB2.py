@@ -65,12 +65,14 @@ class epubfile():
                 if basename!='C.xhtml' and basename!='TOC.xhtml':
                     iii=0
                     while index[sig] in rollSign:
+                        index[sig]=re.sub('</?\w+[^>]*>','',index[sig])
                         tox_info+='''</navPoint><navPoint id="'''+str(sig)+'''" playOrder="'''+str(sig)+'''">
 <navLabel><text>'''+index[sig]+'''</text></navLabel><content src="'''+basename+'''"/>'''
                         sig+=1
                         iii=1
                     if iii==1:
                         basename+='#v'
+                    index[sig]=re.sub('</?\w+[^>]*>','',index[sig])
                     tox_info+='''<navPoint id="'''+str(sig)+'''" playOrder="'''+str(sig)+'''">
 <navLabel><text>'''+index[sig]+'''</text></navLabel><content src="'''+basename+'''"/></navPoint>'''
                     sig+=1
@@ -90,4 +92,23 @@ text-align:center;
 }
 '''
         epub.writestr('OEBPS/sgc-nav.css',css_info,compress_type=zipfile.ZIP_STORED)
+    def createEpub(self,epub,xaut,xtitle,ti,index,rollSign,path):
+        self.author=xaut
+        self.title=xtitle
+        self.create_mimetype(epub)     
+        self.create_container(epub)  
+        os.chdir(ti)
+        ppp=os.getcwd()
+        self.create_content(epub,ppp)
+        self.create_info(epub,ppp,index,rollSign)
+        self.create_stylesheet(epub)
+        for html in os.listdir('.'):
+            basename = os.path.basename(html)
+            if basename.endswith('jpg'):
+                epub.write(html, "OEBPS/"+basename, compress_type=zipfile.ZIP_DEFLATED)
+            if basename.endswith('html'):
+                epub.write(html, "OEBPS/"+basename, compress_type=zipfile.ZIP_DEFLATED)
+        epub.close()
+        os.chdir(path)
+        shutil.rmtree(ppp)
     
