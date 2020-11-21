@@ -26,7 +26,7 @@
 <p>　　(注：cookie若失效，请及时更换，如果换了还不行，就使用ie浏览器获取cookie，如果还不行，删除"timeOffset_o=任意字符串;")</p>
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>保存main_txt.py|main_epub.py，运行文件</p>
 <p><b>繁简转换功能</b>：输入编号后，若不转换，直接按回车，若繁转简，输入s后按回车，若简转繁，输入t后按回车。</p>
-<p><b>若epub文件有问题，可以用sigil修复一下，本人建议使用0.9.14版本。或者使用最新版本Sigil搭配pageEdit</b></p>
+<p><b>若epub文件有问题，可以用epub编辑工具修复一下，本人建议使用sigil或calibre，这两个软件在GitHub上都有。</b></p>
 <h1>main_epub日志记录</h1>
 <p>2020-11-20</p>
 <ul>
