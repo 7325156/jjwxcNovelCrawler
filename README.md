@@ -1,4 +1,4 @@
-<p style="color:red;">如果程序运行时闪退且网址格式没有问题，请写下网址，我会根据这些网址修改bug。(如果我有空的话)</p>
+<p style="color:red;">如果程序运行时闪退且网址格式没有问题，请在issues里写下网址，我会根据这些网址修改bug。(如果我有空的话)</p>
 <h1>使用说明</h1>
 <p>如果不想配置环境，可以直接下载EXE：<a href="https://github.com/7325156/jjdown/releases">exe程序下载</a>，如果直接下载太慢，可以通过<a href="https://d.serctl.com">这个网站</a>下载</p>
 <h3>环境配置</h3>
