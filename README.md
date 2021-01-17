@@ -1,4 +1,4 @@
-<p style="font-size=2em">晋江新的反爬虫机制令人头秃，在下才疏学浅、诸事缠身，虽略有头绪，然实无能为力也。至于代码，以后再说吧。</p>
+<p style="font-size=2em">晋江新的反爬虫机制令人头秃，理论上来说只要把jjwxcfont文件夹里的字体文件导入epub里，再把字体设置成这些文件即可。</p>
 <h1>使用说明</h1>
 <p>如果不想配置环境，可以直接下载EXE：<a href="https://github.com/7325156/jjdown/releases">exe程序下载</a>，如果直接下载太慢，可以通过<a href="https://d.serctl.com">这个网站</a>下载</p>
 <h3>环境配置</h3>
