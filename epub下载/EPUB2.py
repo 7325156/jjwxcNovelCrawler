@@ -81,15 +81,40 @@ class epubfile():
  
         
     def create_stylesheet(self,epub):
-        css_info = '''h1{
-font-size:1.4em;
-}
-h2{
-font-size:1.2em;
-}
+        css_info = '''h1{font-size:1.4em;text-align:center;}h2{font-size:1.24em;text-align:center;}
 .title{
 text-align:center;
 }
+@font-face{font-family: 'jjwxcfont_0004v';src:url('../font/jjwxcfont_0004v.woff2') format('woff2'),url('../font/jjwxcfont_0004v.ttf') format('truetype');}
+@font-face{font-family: 'jjwxcfont_00070';src:url('../font/jjwxcfont_00070.woff2') format('woff2'),url('../font/jjwxcfont_00070.ttf') format('truetype');}
+@font-face{font-family: 'jjwxcfont_00091';src:url('../font/jjwxcfont_00091.woff2') format('woff2'),url('../font/jjwxcfont_00091.ttf') format('truetype');}
+@font-face{font-family: 'jjwxcfont_000bl';src:url('../font/jjwxcfont_000bl.woff2') format('woff2'),url('../font/jjwxcfont_000bl.ttf') format('truetype');}
+@font-face{font-family: 'jjwxcfont_000dz';src:url('../font/jjwxcfont_000dz.woff2') format('woff2'),url('../font/jjwxcfont_000dz.ttf') format('truetype');}
+@font-face{font-family: 'jjwxcfont_000ib';src:url('../font/jjwxcfont_000ib.woff2') format('woff2'),url('../font/jjwxcfont_000ib.ttf') format('truetype');}
+@font-face{font-family: 'jjwxcfont_000m4';src:url('../font/jjwxcfont_000m4.woff2') format('woff2'),url('../font/jjwxcfont_000m4.ttf') format('truetype');}
+@font-face{font-family: 'jjwxcfont_000mn';src:url('../font/jjwxcfont_000mn.woff2') format('woff2'),url('../font/jjwxcfont_000mn.ttf') format('truetype');}
+@font-face{font-family: 'jjwxcfont_000qt';src:url('../font/jjwxcfont_000qt.woff2') format('woff2'),url('../font/jjwxcfont_000qt.ttf') format('truetype');}
+@font-face{font-family: 'jjwxcfont_000t5';src:url('../font/jjwxcfont_000t5.woff2') format('woff2'),url('../font/jjwxcfont_000t5.ttf') format('truetype');}
+@font-face{font-family: 'jjwxcfont_000wi';src:url('../font/jjwxcfont_000wi.woff2') format('woff2'),url('../font/jjwxcfont_000wi.ttf') format('truetype');}
+@font-face{font-family: 'jjwxcfont_000xw';src:url('../font/jjwxcfont_000xw.woff2') format('woff2'),url('../font/jjwxcfont_000xw.ttf') format('truetype');}
+@font-face{font-family: 'jjwxcfont_0012a';src:url('../font/jjwxcfont_0012a.woff2') format('woff2'),url('../font/jjwxcfont_0012a.ttf') format('truetype');}
+@font-face{font-family: 'jjwxcfont_00147';src:url('../font/jjwxcfont_00147.woff2') format('woff2'),url('../font/jjwxcfont_00147.ttf') format('truetype');}
+@font-face{font-family: 'jjwxcfont_0015q';src:url('../font/jjwxcfont_0015q.woff2') format('woff2'),url('../font/jjwxcfont_0015q.ttf') format('truetype');}
+.jjwxcfont_0004v{font-family:"jjwxcfont_0004v",serif;}
+.jjwxcfont_00070{font-family:"jjwxcfont_00070",serif;}
+.jjwxcfont_00091{font-family:"jjwxcfont_00091",serif;}
+.jjwxcfont_000bl{font-family:"jjwxcfont_000bl",serif;}
+.jjwxcfont_000dz{font-family:"jjwxcfont_000dz",serif;}
+.jjwxcfont_000ib{font-family:"jjwxcfont_000ib",serif;}
+.jjwxcfont_000m4{font-family:"jjwxcfont_000m4",serif;}
+.jjwxcfont_000mn{font-family:"jjwxcfont_000mn",serif;}
+.jjwxcfont_000qt{font-family:"jjwxcfont_000qt",serif;}
+.jjwxcfont_000t5{font-family:"jjwxcfont_000t5",serif;}
+.jjwxcfont_000wi{font-family:"jjwxcfont_000wi",serif;}
+.jjwxcfont_000xw{font-family:"jjwxcfont_000xw",serif;}
+.jjwxcfont_0012a{font-family:"jjwxcfont_0012a",serif;}
+.jjwxcfont_00147{font-family:"jjwxcfont_00147",serif;}
+.jjwxcfont_0015q{font-family:"jjwxcfont_0015q",serif;}
 '''
         epub.writestr('OEBPS/sgc-nav.css',css_info,compress_type=zipfile.ZIP_STORED)
     def createEpub(self,epub,xaut,xtitle,ti,index,rollSign,path):
@@ -111,4 +136,3 @@ text-align:center;
         epub.close()
         os.chdir(path)
         shutil.rmtree(ppp)
-    
