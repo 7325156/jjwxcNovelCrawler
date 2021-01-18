@@ -1,4 +1,4 @@
-<p style="font-size=2em">晋江新的反爬虫机制令人头秃，理论上来说只要把jjwxcfont文件夹里的字体文件导入epub里，再把字体设置成这些文件即可。</p>
+<p style="font-size=2em">众筹晋江反爬虫字体文件和对照表，详见issues</p>
 <h1>使用说明</h1>
 <p>如果不想配置环境，可以直接下载EXE：<a href="https://github.com/7325156/jjdown/releases">exe程序下载</a>，如果直接下载太慢，可以通过<a href="https://d.serctl.com">这个网站</a>下载</p>
 <h3>环境配置</h3>
@@ -28,6 +28,10 @@
 <p><b>繁简转换功能</b>：输入编号后，若不转换，直接按回车，若繁转简，输入s后按回车，若简转繁，输入t后按回车。</p>
 <p><b>若epub文件有问题，可以用epub编辑工具修复一下，本人建议使用sigil或calibre，这两个软件在GitHub上都有。</b></p>
 <h1>main_epub日志记录</h1>
+<p>2021-1-18</p>
+<ul>
+<li>对反爬虫进行处理</li>
+</ul>
 <p>2020-11-20</p>
 <ul>
 <li>修改程序无法处理目录、卷标特效的bug</li>
