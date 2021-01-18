@@ -1,4 +1,5 @@
-<p style="font-size=2em">众筹晋江反爬虫字体文件和对照表，详见issues</p>
+<p>众筹晋江反爬虫字体文件和对照表，详见issues</p>
+<p>若文章无法下载，可以在issues里把网址发给我。若某一章显示乱码，先看看fonts文件夹里有没有多出来一个不在字体列表中的文件，将文件名发给我。</p>
 <h1>使用说明</h1>
 <p>如果不想配置环境，可以直接下载EXE：<a href="https://github.com/7325156/jjdown/releases">exe程序下载</a>，如果直接下载太慢，可以通过<a href="https://d.serctl.com">这个网站</a>下载</p>
 <h3>环境配置</h3>
