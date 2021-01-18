@@ -7,8 +7,10 @@ import os
 import zipfile
 import shutil
 from opencc import OpenCC
+from fontTools.ttLib import TTFont
 import concurrent.futures
-import EPUB3
+import EPUB2
+#如更换epub格式，将所有EPUB2替换为EPUB3即可
 
 class noveldl():
     #小说主地址，后接小说编号
@@ -16,7 +18,7 @@ class noveldl():
 
     #头文件，可用来登陆，cookie可在浏览器或者client.py中获取
     headerss={'cookie': '',
-              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36'}
 
     percent=0
     index=[]#目录
@@ -28,6 +30,7 @@ class noveldl():
     state=''#繁简转换状态
     href_list=[]#章节链接
     td=[]
+    path=''
     failInfo=[]
     titleInfo=[1,1,1]
     
@@ -43,21 +46,38 @@ class noveldl():
         self.href_list=[]
         self.td=[]
         self.failInfo=[]
+        self.path=''
             
 
     #下载单章
     def get_sin(self,l):
         titleOrigin=l.split('=')
         i=self.href_list.index(l)
-        cont=requests.get(l,headers=self.headerss).content
-        dot=etree.HTML(cont.decode("GB18030","ignore").encode("utf-8","ignore").decode('utf-8'))
-        
+        cont=requests.get(l,headers=self.headerss)
+        dot=etree.HTML(cont.content.decode('gb2312',"ignore").encode("utf-8").decode('utf-8'))
+        #dot=etree.HTML(cont.content)
+        fontfamily=''
+
+        #字体反爬虫
+        codetext=etree.tostring(dot,encoding="utf-8").decode()
+        fontsrc=re.findall(r'//static.jjwxc.net/tmp/fonts/.*?woff2.h=my.jjwxc.net',codetext)
+        if fontsrc!=[]:
+            fontsrc="http:"+fontsrc[0]
+            fontname=re.sub('http://static.jjwxc.net/tmp/fonts/','',fontsrc)
+            fontname=re.sub('.h=my.jjwxc.net','',fontname)
+            fontfamily=re.sub('.woff2','',fontname)
+            if not os.path.exists(self.path+"/Fonts/"+fontname):
+                fontwb=requests.get(fontsrc).content
+                fontf=open(self.path+"/Fonts/"+fontname,'wb')
+                fontf.write(fontwb)
+                fontf.close()
+                
+                
         #tex:正文
-        tex=dot.xpath("//html/body/table[@id='oneboolt']/tr[2]/td[1]/div[@class='noveltext']/text()")
-        #he:标题
-        he=dot.xpath("//html/body/table[@id='oneboolt']/tr[2]/td[1]/div[@class='noveltext']/div[2]/h2/text()")
+        tex=dot.xpath('//*[@id="oneboolt"]/tr[2]/td[1]/div/text()')
+
         #tex1:作话
-        tex1=dot.xpath("//html/body/table[@id='oneboolt']/tr[2]/td[1]/div[@class='noveltext']/div[@class='readsmall']/text()")
+        tex1=dot.xpath("//div[@class='readsmall']/text()")
         #sign:作话位置
         sign=dot.xpath("//*[@id='oneboolt']/tr[2]/td[1]/div/div[4]/@class")
 
@@ -86,7 +106,6 @@ class noveldl():
                 v=OpenCC('s2t').convert(self.rollSign[self.rollSignPlace.index(l)])
 
             
-            
             #创建章节文件
         fo=open("z"+str(titleOrigin[2].zfill(4))+".xhtml",'w',encoding='utf-8')
             
@@ -96,16 +115,16 @@ class noveldl():
 <head><title>'''+title+'''</title>
 <meta charset="utf-8"/>
 <link href="sgc-nav.css" rel="stylesheet" type="text/css"/>
-</head><body>''')
+</head><body class="'''+fontfamily+'''">''')
             #写入卷标
         if self.href_list[i] in self.rollSignPlace:
             fo.write("<h1>"+v.rstrip()+"</h1>")
             print("\r\n"+v+"\r\n")
-            fo.write("<h2 id='v'><a href='"+l+"'>"+title+"</a></h2>")
+            fo.write("<h2 id='v'>"+title+"</h2>")
         #写入标题
         else:
-            fo.write('<h2><a href="'+l+'">'+title+"</a></h2>")
-        if len(he)==0:
+            fo.write('<h2>'+title+"</h2>")
+        if len(tex)==0:
             self.failInfo.append(titleOrigin[2].zfill(self.fillNum))
             #print("第"+titleOrigin[2]+"章未购买或加载失败")
         else:
@@ -267,6 +286,7 @@ class noveldl():
             elif i.xpath('./td[2]/span/div[1]/span')!=[]:
                     loc.append(i.xpath('./td[1]/text()')[0].strip())
             
+            
 
         #获取卷标名称
         self.rollSign=ress.xpath("//*[@id='oneboolt']//tr/td/b[@class='volumnfont']")
@@ -317,11 +337,13 @@ class noveldl():
         v=""
         #打开小说文件写入小说相关信息
         path=os.getcwd()
+        self.path=path
         if os.path.exists(ti):
             os.chdir(ti)
         else:
             os.mkdir(ti)
             os.chdir(ti)
+
         self.index=[]
         #保存封面图片
         if img!="0":
@@ -408,12 +430,17 @@ class noveldl():
         fo.close()
         tlist=[]
         #获取每一章内容
+        '''
         with concurrent.futures.ThreadPoolExecutor(max_workers=threadnum) as executor:
             tlist = {executor.submit(self.get_sin,i):i for i in self.href_list}
             for future in concurrent.futures.as_completed(tlist):
                 if self.percent < section_ct:
                     print('\r 下载进度：%d/%d' % (self.percent,section_ct),end='',flush=True)
             print('\r 下载完成，总进度：%d/%d\r\n' % (self.percent,section_ct),end='',flush=True)
+            '''
+        for i in self.href_list:
+            self.get_sin(i)
+
         if self.failInfo != []:
             self.failInfo.sort()
             vs=""
@@ -426,7 +453,7 @@ class noveldl():
         os.chdir(path)
         epub_name = ti+".epub"
         epub = zipfile.ZipFile(epub_name, 'w')
-        epubfile=EPUB3.epubfile()
+        epubfile=EPUB2.epubfile()
         epubfile.createEpub(epub,xaut,xtitle,ti,self.index,self.rollSign,path)
         print("\r\nepub打包完成")
 
