@@ -33,6 +33,8 @@ class noveldl():
     path=''
     failInfo=[]
     titleInfo=[1,1,1]
+    fontcss=''
+    fontlist=[]
     
     def clear(self):
         self.percent=0
@@ -47,6 +49,8 @@ class noveldl():
         self.td=[]
         self.failInfo=[]
         self.path=''
+        self.fontcss=''
+        self.fontlist=[]
             
 
     #下载单章
@@ -71,6 +75,14 @@ class noveldl():
                 fontf=open(self.path+"/Fonts/"+fontname,'wb')
                 fontf.write(fontwb)
                 fontf.close()
+            if not fontfamily in self.fontlist:
+                self.fontlist.append(fontfamily)
+                self.fontcss+='''@font-face{font-family: "%s";
+src:url("%s") format('woff2'),
+url("../font/%s") format('woff2'),
+url("../font/%s.ttf") format("truetype");}
+.%s{font-family:"%s",serif;}
+'''% (fontfamily,fontsrc,fontname,fontfamily,fontfamily,fontfamily)
                 
                 
         #tex:正文
@@ -316,10 +328,7 @@ class noveldl():
         #对标题进行操作，删除违规字符等
         ti=str(titlem[0]).split('_')
         ti=ti[0]
-        ti=re.sub('/', '_', ti)
-        ti=re.sub(r'\\', '_', ti)
-        ti=re.sub('\|', '_', ti)
-        ti=re.sub('\*','',ti)
+        ti=re.sub('[\/:*?"<>|]','_',ti)
         ti=re.sub('&','&amp;',ti)
         
 
@@ -430,7 +439,7 @@ class noveldl():
         fo.close()
         tlist=[]
         #获取每一章内容
-        '''
+
         with concurrent.futures.ThreadPoolExecutor(max_workers=threadnum) as executor:
             tlist = {executor.submit(self.get_sin,i):i for i in self.href_list}
             for future in concurrent.futures.as_completed(tlist):
@@ -440,7 +449,7 @@ class noveldl():
             '''
         for i in self.href_list:
             self.get_sin(i)
-
+'''
         if self.failInfo != []:
             self.failInfo.sort()
             vs=""
@@ -454,6 +463,7 @@ class noveldl():
         epub_name = ti+".epub"
         epub = zipfile.ZipFile(epub_name, 'w')
         epubfile=EPUB2.epubfile()
+        epubfile.fontcss=self.fontcss
         epubfile.createEpub(epub,xaut,xtitle,ti,self.index,self.rollSign,path)
         print("\r\nepub打包完成")
 
