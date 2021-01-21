@@ -4,5 +4,6 @@
 jjwxcfont_000bl
 jjwxcfont_0004v
 jjwxcfont_000dz
-<br/>
-*感谢<a href='https://github.com/starcrys'>starcrys</a>补充jjwxcfont_000bl，完成jjwxcfont_0004v，jjwxcfont_000dz
+<p><b>贡献列表</b></p><ul>
+<li>感谢<a href='https://github.com/starcrys'>starcrys</a>补充jjwxcfont_000bl，完成jjwxcfont_0004v，jjwxcfont_000dz</li>
+  </ul>
