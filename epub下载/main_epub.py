@@ -347,6 +347,8 @@ url("../font/%s.ttf") format("truetype");}
         #打开小说文件写入小说相关信息
         path=os.getcwd()
         self.path=path
+        if not os.path.exists('Fonts'):
+            os.mkdir('Fonts')
         if os.path.exists(ti):
             os.chdir(ti)
         else:
