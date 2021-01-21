@@ -61,6 +61,8 @@ class noveldl():
         dot=etree.HTML(cont.content.decode('gb2312',"ignore").encode("utf-8").decode('utf-8'))
         #dot=etree.HTML(cont.content)
         fontfamily=''
+        cvlist=[]
+        cvdic=[]
 
         #字体反爬虫
         codetext=etree.tostring(dot,encoding="utf-8").decode()
@@ -70,6 +72,15 @@ class noveldl():
             fontname=re.sub('http://static.jjwxc.net/tmp/fonts/','',fontsrc)
             fontname=re.sub('.h=my.jjwxc.net','',fontname)
             fontfamily=re.sub('.woff2','',fontname)
+            try:
+                with open(self.path+"/Fonts/"+fontfamily+".txt", "r",encoding='utf-8') as f:
+                    cvlist=f.readlines()
+                    for i in range(len(cvlist)):
+                        cvdic.append(cvlist[i].split('-'))
+                    cvdic=dict(cvdic)
+            except:
+                cvlist=[]
+                cvdic=[]
             if not os.path.exists(self.path+"/Fonts/"+fontname):
                 fontwb=requests.get(fontsrc).content
                 fontf=open(self.path+"/Fonts/"+fontname,'wb')
@@ -140,6 +151,13 @@ url("../font/%s.ttf") format("truetype");}
             self.failInfo.append(titleOrigin[2].zfill(self.fillNum))
             #print("第"+titleOrigin[2]+"章未购买或加载失败")
         else:
+            #反爬虫处理，必须把对照表TXT文件下载至Fonts文件夹
+            if cvdic!=[]:
+                for i in range(len(tex)):
+                    for s,v in cvdic.items():
+                        s=re.sub(r'&#x',r'\\u',s)
+                        s=re.sub(r';','',s).encode('utf-8').decode('unicode_escape')
+                        tex[i]=re.sub(s,v.strip(),tex[i])
             #作话在文前的情况
             if str(sign) == "['readsmall']":
                 fo.write('''<blockquote>''')
@@ -451,7 +469,7 @@ url("../font/%s.ttf") format("truetype");}
             '''
         for i in self.href_list:
             self.get_sin(i)
-'''
+            '''
         if self.failInfo != []:
             self.failInfo.sort()
             vs=""
