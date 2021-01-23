@@ -20,9 +20,9 @@
  <li>pip install opencc-python-reimplemented</li>
 </ul>
 &#160;3、（可跳过）安装chormedriver<p></p>
-<p><span class="Apple-tab-span" style="white-space:pre">	</span>若要使用client.py获取cookie，必须执行步骤3</p>
-<p><span class="Apple-tab-span" style="white-space:pre">	</span>点击support文件夹，下载两个exe文件到本地。如果版本不是78.0.3904.108，双击chormesetup安装浏览器。</p>
-<p><span class="Apple-tab-span" style="white-space:pre">	</span>以管理员身份打开cmd，输入where python，找到python路径，将chormedriver放到python.exe所在路径下</p>
+<p>若要使用client.py获取cookie，必须执行步骤3</p>
+<p>该程序使用Chrome87，请在以下网址安装对应的chormedriver：https://chromedriver.chromium.org/downloads</p>
+<p>以管理员身份打开cmd，输入where python，找到python路径，将chormedriver放到python.exe所在路径下</p>
 <h3>程序使用</h3>
 <p>1、若下载非VIP章节，直接下载main_txt.py或“epub下载”文件夹中全部文件，双击运行。<b>主要更新epub格式下载的程序，因为我发现epub文件大小居然比txt小，读起来也方便。</b></p>
 <p>　　(注：main_txt.py可将小说保存为txt格式，main_epub.py可将小说保存为epub格式，EPUB.py存放epub打包方法)</p>
