@@ -58,7 +58,7 @@ class noveldl():
         titleOrigin=l.split('=')
         i=self.href_list.index(l)
         cont=requests.get(l,headers=self.headerss)
-        dot=etree.HTML(cont.content.decode('gb2312',"ignore").encode("utf-8").decode('utf-8'))
+        dot=etree.HTML(cont.content.decode('gb18030',"ignore").encode("utf-8").decode('utf-8'))
         #dot=etree.HTML(cont.content)
         fontfamily=''
         cvlist=[]
@@ -79,14 +79,15 @@ class noveldl():
                         cvdic.append(cvlist[i].split('-'))
                     cvdic=dict(cvdic)
             except:
-                cvlist=[]
-                cvdic=[]
+                t=1
             if not os.path.exists(self.path+"/Fonts/"+fontname):
                 fontwb=requests.get(fontsrc).content
                 fontf=open(self.path+"/Fonts/"+fontname,'wb')
                 fontf.write(fontwb)
                 fontf.close()
-            if not fontfamily in self.fontlist:
+            if cvlist!=[]:
+                fontfamily=''
+            elif fontfamily not in self.fontlist:
                 self.fontlist.append(fontfamily)
                 self.fontcss+='''@font-face{font-family: "%s";
 src:url("%s") format('woff2'),
@@ -94,7 +95,6 @@ url("../font/%s") format('woff2'),
 url("../font/%s.ttf") format("truetype");}
 .%s{font-family:"%s",serif;}
 '''% (fontfamily,fontsrc,fontname,fontfamily,fontfamily,fontfamily)
-                
                 
         #tex:正文
         tex=dot.xpath('//*[@id="oneboolt"]/tr[2]/td[1]/div/text()')
@@ -158,6 +158,7 @@ url("../font/%s.ttf") format("truetype");}
                         s=re.sub(r'&#x',r'\\u',s)
                         s=re.sub(r';','',s).encode('utf-8').decode('unicode_escape')
                         tex[i]=re.sub(s,v.strip(),tex[i])
+            cvdic=cvlist=0
             #作话在文前的情况
             if str(sign) == "['readsmall']":
                 fo.write('''<blockquote>''')
@@ -274,13 +275,16 @@ url("../font/%s.ttf") format("truetype");}
         else:
             img="0"
 
-        #获取标题
-        titlem=ress.xpath("//html/head/title/text()")
+        #获取标题和作者
+        xtitle=ress.xpath('string(//*[@itemprop="articleSection"])').strip()
+        xaut=ress.xpath('string(//*[@itemprop="author"])').strip()
+        ti=xtitle+'-'+xaut
+
         if self.state=='s':
-            titlem[0]=OpenCC('t2s').convert(titlem[0])
+            ti=OpenCC('t2s').convert(ti)
         elif self.state=='t':
-            titlem[0]=OpenCC('s2t').convert(titlem[0])
-        print("网址："+ ids + "\r\n小说信息："+ str(titlem[0]) +"\r\n")
+            ti=OpenCC('s2t').convert(ti)
+        print("网址："+ ids + "\r\n小说信息："+ str(ti) +"\r\n")
         
         #获取所有章节网址、标题、内容提要
         self.td=ress.xpath('//*[@id="oneboolt"]//tr')
@@ -344,15 +348,11 @@ url("../font/%s.ttf") format("truetype");}
         self.fillNum=len(str(len(self.td)-4))
         
         #对标题进行操作，删除违规字符等
-        ti=str(titlem[0]).split('_')
-        ti=ti[0]
         ti=re.sub('[\/:*?"<>|]','_',ti)
         ti=re.sub('&','&amp;',ti)
         
 
-        xaut=ti.split('》')[1]
         xauthref=ress.xpath("//*[@id='oneboolt']//h2/a/@href")[0]
-        xtitle=re.sub('《','',ti.split('》')[0])
         
 
         #若文件名不想加编号，可以将这行删除
