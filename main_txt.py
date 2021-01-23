@@ -228,13 +228,16 @@ class noveldl():
         for i in range(1,7):
             infox.append(ress.xpath("string(/html/body/table[1]/tr/td[3]/div[2]/ul/li["+str(i)+"])"))
 
-        #获取标题
-        titlem=ress.xpath("//html/head/title/text()")
+        #获取标题和作者
+        xtitle=ress.xpath('string(//*[@itemprop="articleSection"])').strip()
+        xaut=ress.xpath('string(//*[@itemprop="author"])').strip()
+        ti=xtitle+'-'+xaut
+
         if self.state=='s':
-            titlem[0]=OpenCC('t2s').convert(titlem[0])
+            ti=OpenCC('t2s').convert(ti)
         elif self.state=='t':
-            titlem[0]=OpenCC('s2t').convert(titlem[0])
-        print("网址："+ ids + "\r\n小说信息："+ str(titlem[0]) +"\r\n")
+            ti=OpenCC('s2t').convert(ti)
+        print("网址："+ ids + "\r\n小说信息："+ str(ti) +"\r\n")
         
         #获取所有章节网址、标题、内容提要
         self.td=ress.xpath('//*[@id="oneboolt"]//tr')
@@ -294,16 +297,12 @@ class noveldl():
         self.fillNum=len(str(len(self.td)-4))
         
         #对标题进行操作，删除违规字符等
-        ti=str(titlem[0]).split('_')
-        ti=ti[0]
         ti=re.sub('[\/:*?"<>|]','_',ti)
-        ti=re.sub('&',' & ',ti)
-        ti=re.sub(' +',' ',ti)
+        ti=re.sub('&','&amp;',ti)
         
 
-        xaut=ti.split('》')[1]
         xauthref=ress.xpath("//*[@id='oneboolt']//h2/a/@href")[0]
-        xtitle=re.sub('《','',ti.split('》')[0])
+
         
 
         #若文件名不想加编号，可以将这行删除
@@ -318,11 +317,11 @@ class noveldl():
         self.path=path
         if not os.path.exists('Fonts'):
             os.mkdir('Fonts')
-        if os.path.exists(ti):
-            os.chdir(ti)
+        if os.path.exists(ti+'_txt'):
+            os.chdir(ti+'_txt')
         else:
-            os.mkdir(ti)
-            os.chdir(ti)
+            os.mkdir(ti+'_txt')
+            os.chdir(ti+'_txt')
         ppp=os.getcwd()
         self.index=[]
         #写入文章信息页 
@@ -422,144 +421,7 @@ if __name__ == '__main__':
         c=noveldl()
         
         #c.headerss={'cookie':cookie,
-        #          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
-
-        state=input('\r\n文章内容：\r\n1、繁转简（输入s）\r\n2、简转繁（输入t）\r\n3、不变（直接按回车）\r\n')
-        
-        titleInfo=input('\r\n请输入标题保存状态(序号 章节名称 内容提要)\r\n显示则输入1，不显示则输入0，数字之间用空格隔开\r\n例如：若只显示序号和内容提要，则输入[1 0 1](方括号不输入)\r\n若全部显示，可以直接按回车，若不显示标题，可以直接输入0\r\n若输入的数字个数小于3，则空缺的数字与最后输入的数字相同\r\n')
-        if titleInfo=='':
-            titleInfo='1 1 1'
-        titleInfo=titleInfo.split(' ')
-        while len(titleInfo)<3:
-            titleInfo.append(titleInfo[len(titleInfo)-1])
-        c.titleInfo=titleInfo
-        
-        c.get_txt(num,state,50)
-        
-        #对标题进行操作，删除违规字符等
-        ti=str(titlem[0]).split('_')
-        ti=ti[0]
-        ti=re.sub('/', '_', ti)
-        ti=re.sub(r'\\', '_', ti)
-        ti=re.sub('\|', '_', ti)
-        ti=re.sub('\*','',ti)
-        ti=re.sub('&','&amp;',ti)
-        
-
-        xaut=ti.split('》')[1]
-        xauthref=ress.xpath("//*[@id='oneboolt']//h2/a/@href")[0]
-        xtitle=re.sub('《','',ti.split('》')[0])
-        
-
-        #若文件名不想加编号，可以将这行删除
-        ti=ti+'.'+ids.split('=')[1]
-        ti=re.sub('\r','',ti)
-
-
-        
-        v=""
-        #打开小说文件写入小说相关信息
-        path=os.getcwd()
-        if os.path.exists(ti):
-            os.chdir(ti)
-        else:
-            os.mkdir(ti)
-            os.chdir(ti)
-        ppp=os.getcwd()
-        self.index=[]
-        #写入文章信息页 
-        TOC=xtitle+'\n'
-        TOC+='作者：'+xaut+"\r\n"
-        #生成目录文字
-        for l in self.href_list:
-            titleOrigin=l.split('=')
-            i=self.href_list.index(l)
-            #
-            title=str(titleOrigin[2]).zfill(self.fillNum)+" "
-            #
-            title=title+self.titleindex[i].strip()+" "
-            #
-            title=title+self.Summary[i].strip()
-            if self.state=='s':
-                title=OpenCC('t2s').convert(title)
-            elif self.state=='t':
-                title=OpenCC('s2t').convert(title)
-            if self.href_list[i] in self.rollSignPlace:
-                v=self.rollSign[self.rollSignPlace.index(l)]
-                if self.state=='s':
-                    v=OpenCC('t2s').convert(self.rollSign[self.rollSignPlace.index(l)])
-                elif self.state=='t':
-                    v=OpenCC('s2t').convert(self.rollSign[self.rollSignPlace.index(l)])
-                self.index.append(v)
-            self.index.append(title)
-
-        for ix in infox:
-            ix=ix.strip()
-            ix=re.sub('\r\n','',ix)
-            ix=re.sub(' +','',ix)
-            TOC+=ix+"\r\n"
-
-        TOC+="文案：\r\n"
-        for nx in intro:
-            v=re.sub(' +', ' ', str(nx)).strip()
-            if self.state=='s':
-                v=OpenCC('t2s').convert(v)
-            elif self.state=='t':
-                v=OpenCC('s2t').convert(v)
-            if v!="":
-                TOC+=v+"\n"
-        info=re.sub(' +', ' ',info).strip()
-        if self.state=='s':
-            info=OpenCC('t2s').convert(info)
-        elif self.state=='t':
-            info=OpenCC('s2t').convert(info)
-        info=re.sub('搜索关键字','\r\n搜索关键字',info)
-        info=re.sub(' 一句话简介：','一句话简介：',info)
-        info=re.sub('\r\n \r\n 立意：','\r\n立意：',info)
-        TOC+=info+"\n"
-        fo=open("TOC.txt",'w',encoding='utf-8')
-        fo.write(TOC)
-        fo.close()
-        tlist=[]
-        #获取每一章内容
-        with concurrent.futures.ThreadPoolExecutor(max_workers=threadnum) as executor:
-            tlist = {executor.submit(self.get_sin,i):i for i in self.href_list}
-            for future in concurrent.futures.as_completed(tlist):
-                if self.percent < section_ct:
-                    print('\r 下载进度：%d/%d' % (self.percent,section_ct),end='',flush=True)
-            print('\r 下载完成，总进度：%d/%d\r\n' % (self.percent,section_ct),end='',flush=True)
-        if self.failInfo != []:
-            self.failInfo.sort()
-            vs=""
-            for ss in self.failInfo:
-                vs=vs+ss+"|"
-            print("\r\n未购买或加载失败章节：")
-            print(vs[:-1]+"\r\n")
-
-        #整合
-        os.chdir(path)
-        f=open(ti+".txt",'w',encoding='utf-8')
-        filenames=os.listdir(ppp)
-        i=0
-        for filename in filenames:
-            filepath = ppp+'\\'+filename
-            for line in open(filepath,encoding='utf-8', errors='ignore'):
-                f.writelines(line)
-        f.close()
-        shutil.rmtree(ppp)
-
-        print("\r\ntxt文件整合完成")
-
-if __name__ == '__main__':
-    #print('请输入cookie：')
-    #cookie=input()
-    #此处为需要下载小说的编号，编号获取方法在上文中已经讲过，
-    while 1:
-        num =input('\r\n请输入小说主页网址：')
-        c=noveldl()
-        
-        #c.headerss={'cookie':cookie,
-        #          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
+        #          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36'}
 
         state=input('\r\n文章内容：\r\n1、繁转简（输入s）\r\n2、简转繁（输入t）\r\n3、不变（直接按回车）\r\n')
         
