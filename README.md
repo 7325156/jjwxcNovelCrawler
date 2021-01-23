@@ -29,11 +29,14 @@
 <p>2、运行文件后输入小说主页网址。（例如：“http://www.jjwxc.net/onebook.php?novelid=2710871” ）</p>
 <p>3、若下载VIP章节，登陆晋江（建议使用edge浏览器或IE浏览器），右键点击“检查”，或按F12进入开发者模式，点击console（控制台）按钮，输入document.cookie &#160; ，按回车，按照代码注释复制到main_txt.py|main_epub.py文件header中的指定位置</p>
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>或者直接下载并打开client.py，按步骤输入用户名密码，将得到的值（包括大括号）赋给main_txt.py|main_epub.py的headerss</p>
-<p>　　(注：cookie若失效，请及时更换，如果换了还不行，就使用ie浏览器获取cookie，如果还不行，删除"timeOffset_o=任意字符串;")</p>
+<p>　　(注：cookie若失效，请及时更换，如果换了还不行，就使用Chrome87或其他浏览器获取cookie，如果还不行，删除"timeOffset_o=任意字符串;")</p>
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>保存main_txt.py|main_epub.py，运行文件</p>
 <p><b>繁简转换功能</b>：输入编号后，若不转换，直接按回车，若繁转简，输入s后按回车，若简转繁，输入t后按回车。</p>
 <p><b>若epub文件有问题，可以用epub编辑工具修复一下，本人建议使用sigil或calibre，这两个软件在GitHub上都有。</b></p>
 <h1>main_epub日志记录</h1>
+<p>2021-1-23</p>
+<ul>
+ <li>新增乱码替换功能，对照表已全部完成，感谢<a href="https://github.com/starcrys">starcrys</a>，持续众筹新字体，详见issues</li>
 <p>2021-1-21</p>
 <ul>
  <li>新增乱码替换功能（需要对照表，对照表仅完成部分，详见issues）</li>
