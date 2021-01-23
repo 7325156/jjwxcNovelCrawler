@@ -4,8 +4,10 @@ from lxml import etree
 import sys
 import re
 import os
+import zipfile
 import shutil
 from opencc import OpenCC
+from fontTools.ttLib import TTFont
 import concurrent.futures
 
 class noveldl():
