@@ -70,11 +70,11 @@ class noveldl():
             try:
                 with open(self.path+"/Fonts/"+fontfamily+".txt", "r",encoding='utf-8') as f:
                     cvlist=f.readlines()
-                    for i in range(len(cvlist)):
-                        cvdic.append(cvlist[i].split('-'))
+                    for y in range(len(cvlist)):
+                        cvdic.append(cvlist[y].split('-'))
                     cvdic=dict(cvdic)
             except:
-                t=1
+                y=1
             if not os.path.exists(self.path+"/Fonts/"+fontname):
                 fontwb=requests.get(fontsrc).content
                 fontf=open(self.path+"/Fonts/"+fontname,'wb')
@@ -136,11 +136,11 @@ class noveldl():
         else:
             #反爬虫处理，必须把对照表TXT文件下载至Fonts文件夹
             if cvdic!=[]:
-                for i in range(len(tex)):
+                for y in range(len(tex)):
                     for s,v in cvdic.items():
                         s=re.sub(r'&#x',r'\\u',s)
                         s=re.sub(r';','',s).encode('utf-8').decode('unicode_escape')
-                        tex[i]=re.sub(s,v.strip(),tex[i])
+                        tex[y]=re.sub(s,v.strip(),tex[y])
             cvdic=cvlist=0
             #作话在文前的情况
             if str(sign) == "['readsmall']":
