@@ -24,6 +24,7 @@ def createLIST(name):
     for y in tlist:
         fo.write(y+'\n')
     fo.close()
+    
 def conf(name):
     if name.endswith('woff2'):
         name=re.sub('.woff2','',name)
