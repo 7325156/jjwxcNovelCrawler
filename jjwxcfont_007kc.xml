@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ttFont sfntVersion="\x00\x01\x00\x00" ttLibVersion="4.18">
+
+  <GlyphOrder>
+    <!-- The 'id' attribute is only for humans; it is ignored when parsed. -->
+    <GlyphID id="0" name="glyph00000"/>
+    <GlyphID id="1" name="uniE050"/>
+    <GlyphID id="2" name="uniEC74"/>
+    <GlyphID id="3" name="uniE480"/>
+    <GlyphID id="4" name="uniEA25"/>
+    <GlyphID id="5" name="uniEA3D"/>
+    <GlyphID id="6" name="uniE968"/>
+    <GlyphID id="7" name="uniE84B"/>
+    <GlyphID id="8" name="uniEF59"/>
+    <GlyphID id="9" name="uniE844"/>
+    <GlyphID id="10" name="uniE479"/>
+    <GlyphID id="11" name="uniE564"/>
+    <GlyphID id="12" name="uniEF33"/>
+    <GlyphID id="13" name="uniEC43"/>
+    <GlyphID id="14" name="uniEAF7"/>
+    <GlyphID id="15" name="uniEE45"/>
+    <GlyphID id="16" name="uniE696"/>
+    <GlyphID id="17" name="uniED29"/>
+    <GlyphID id="18" name="uniEE21"/>
+    <GlyphID id="19" name="uniE686"/>
+    <GlyphID id="20" name="uniE9E3"/>
+    <GlyphID id="21" name="uniEE61"/>
+    <GlyphID id="22" name="uniE889"/>
+    <GlyphID id="23" name="uniE70B"/>
+    <GlyphID id="24" name="uniE27F"/>
+    <GlyphID id="25" name="uniE999"/>
+    <GlyphID id="26" name="uniE0EF"/>
+    <GlyphID id="27" name="uniED31"/>
+    <GlyphID id="28" name="uniE7CB"/>
+    <GlyphID id="29" name="uniE3DE"/>
+    <GlyphID id="30" name="uniE61A"/>
+    <GlyphID id="31" name="uniE68B"/>
+    <GlyphID id="32" name="uniE084"/>
+    <GlyphID id="33" name="uniE1A4"/>
+    <GlyphID id="34" name="uniEE0F"/>
+    <GlyphID id="35" name="uniE18E"/>
+    <GlyphID id="36" name="uniED15"/>
+    <GlyphID id="37" name="uniE161"/>
+    <GlyphID id="38" name="uniE2A9"/>
+    <GlyphID id="39" name="uniE24D"/>
+    <GlyphID id="40" name="uniE376"/>
+    <GlyphID id="41" name="uniE165"/>
+    <GlyphID id="42" name="uniE976"/>
+    <GlyphID id="43" name="uniECB7"/>
+    <GlyphID id="44" name="uniE6C9"/>
+    <GlyphID id="45" name="uniEB8F"/>
+    <GlyphID id="46" name="uniE00D"/>
+    <GlyphID id="47" name="uniEF2F"/>
+    <GlyphID id="48" name="uniE342"/>
+    <GlyphID id="49" name="uniEAC2"/>
+    <GlyphID id="50" name="uniE299"/>
+    <GlyphID id="51" name="uniEAD5"/>
+    <GlyphID id="52" name="uniE205"/>
+    <GlyphID id="53" name="uniE25B"/>
+    <GlyphID id="54" name="uniE020"/>
+    <GlyphID id="55" name="uniEC38"/>
+    <GlyphID id="56" name="uniE09D"/>
+    <GlyphID id="57" name="uniE98E"/>
+    <GlyphID id="58" name="uniE954"/>
+    <GlyphID id="59" name="uniE783"/>
+    <GlyphID id="60" name="uniE193"/>
+    <GlyphID id="61" name="uniEC46"/>
+    <GlyphID id="62" name="uniEA6B"/>
+    <GlyphID id="63" name="uniEACB"/>
+    <GlyphID id="64" name="uniE5B1"/>
+    <GlyphID id="65" name="uniED77"/>
+    <GlyphID id="66" name="uniE9DA"/>
+    <GlyphID id="67" name="uniEA77"/>
+    <GlyphID id="68" name="uniE883"/>
+    <GlyphID id="69" name="uniE2D7"/>
+    <GlyphID id="70" name="uniEB35"/>
+    <GlyphID id="71" name="uniEC6D"/>
+    <GlyphID id="72" name="uniEF29"/>
+    <GlyphID id="73" name="uniEE3E"/>
+    <GlyphID id="74" name="uniE541"/>
+    <GlyphID id="75" name="uniEA88"/>
+    <GlyphID id="76" name="uniEB68"/>
+    <GlyphID id="77" name="uniEFA1"/>
+    <GlyphID id="78" name="uniE4F9"/>
+    <GlyphID id="79" name="uniEF5E"/>
+    <GlyphID id="80" name="uniE547"/>
+    <GlyphID id="81" name="uniE851"/>
+    <GlyphID id="82" name="uniE26C"/>
+    <GlyphID id="83" name="uniE9E4"/>
+    <GlyphID id="84" name="uniE011"/>
+    <GlyphID id="85" name="uniEA2F"/>
+    <GlyphID id="86" name="uniE3C3"/>
+    <GlyphID id="87" name="uniE492"/>
+    <GlyphID id="88" name="uniE5FF"/>
+    <GlyphID id="89" name="uniE836"/>
+    <GlyphID id="90" name="uniE9B8"/>
+    <GlyphID id="91" name="uniE128"/>
+    <GlyphID id="92" name="uniEDCA"/>
+    <GlyphID id="93" name="uniEF9C"/>
+    <GlyphID id="94" name="uniE174"/>
+    <GlyphID id="95" name="uniECE8"/>
+    <GlyphID id="96" name="uniEE6F"/>
+    <GlyphID id="97" name="uniE2DD"/>
+    <GlyphID id="98" name="uniE22C"/>
+    <GlyphID id="99" name="uniEFE2"/>
+    <GlyphID id="100" name="uniEF8F"/>
+    <GlyphID id="101" name="uniEEE6"/>
+    <GlyphID id="102" name="uniEDB0"/>
+    <GlyphID id="103" name="uniE2BD"/>
+    <GlyphID id="104" name="uniE847"/>
+    <GlyphID id="105" name="uniE1B1"/>
+    <GlyphID id="106" name="uniE70C"/>
+    <GlyphID id="107" name="uniE698"/>
+    <GlyphID id="108" name="uniEFEC"/>
+    <GlyphID id="109" name="uniE9B9"/>
+    <GlyphID id="110" name="uniE76B"/>
+    <GlyphID id="111" name="uniE146"/>
+    <GlyphID id="112" name="uniE87A"/>
+    <GlyphID id="113" name="uniEACC"/>
+    <GlyphID id="114" name="uniE176"/>
+    <GlyphID id="115" name="uniE087"/>
+    <GlyphID id="116" name="uniE9FF"/>
+    <GlyphID id="117" name="uniE27E"/>
+    <GlyphID id="118" name="uniEEF0"/>
+    <GlyphID id="119" name="uniE3F5"/>
+    <GlyphID id="120" name="uniEC33"/>
+    <GlyphID id="121" name="uniEF0B"/>
+    <GlyphID id="122" name="uniE6B8"/>
+    <GlyphID id="123" name="uniE437"/>
+    <GlyphID id="124" name="uniEFC7"/>
+    <GlyphID id="125" name="uniEAB7"/>
+    <GlyphID id="126" name="uniE9F1"/>
+    <GlyphID id="127" name="uniE080"/>
+    <GlyphID id="128" name="uniE4F0"/>
+    <GlyphID id="129" name="uniEAC7"/>
+    <GlyphID id="130" name="uniE424"/>
+    <GlyphID id="131" name="uniEF66"/>
+    <GlyphID id="132" name="uniE40B"/>
+    <GlyphID id="133" name="uniE353"/>
+    <GlyphID id="134" name="uniE4D8"/>
+    <GlyphID id="135" name="uniE2D3"/>
+    <GlyphID id="136" name="uniEE0B"/>
+    <GlyphID id="137" name="uniE772"/>
+    <GlyphID id="138" name="uniEE0C"/>
+    <GlyphID id="139" name="uniEF17"/>
+    <GlyphID id="140" name="uniEE1C"/>
+    <GlyphID id="141" name="uniED2C"/>
+    <GlyphID id="142" name="uniE631"/>
+    <GlyphID id="143" name="uniE420"/>
+    <GlyphID id="144" name="uniEF7D"/>
+    <GlyphID id="145" name="uniEA3F"/>
+    <GlyphID id="146" name="uniEBA1"/>
+    <GlyphID id="147" name="uniEF67"/>
+    <GlyphID id="148" name="uniED33"/>
+    <GlyphID id="149" name="uniE534"/>
+    <GlyphID id="150" name="uniE504"/>
+    <GlyphID id="151" name="uniE01D"/>
+    <GlyphID id="152" name="uniE80A"/>
+    <GlyphID id="153" name="uniEFD2"/>
+    <GlyphID id="154" name="uniECEA"/>
+    <GlyphID id="155" name="uniEB02"/>
+    <GlyphID id="156" name="uniE0E6"/>
+    <GlyphID id="157" name="uniE969"/>
+    <GlyphID id="158" name="uniE966"/>
+    <GlyphID id="159" name="uniE1AB"/>
+    <GlyphID id="160" name="uniEC7A"/>
+    <GlyphID id="161" name="uniE41F"/>
+    <GlyphID id="162" name="uniE512"/>
+    <GlyphID id="163" name="uniE9CC"/>
+    <GlyphID id="164" name="uniE60B"/>
+    <GlyphID id="165" name="uniE749"/>
+    <GlyphID id="166" name="uniE876"/>
+    <GlyphID id="167" name="uniE00B"/>
+    <GlyphID id="168" name="uniE307"/>
+    <GlyphID id="169" name="uniEB6A"/>
+    <GlyphID id="170" name="uniEF09"/>
+    <GlyphID id="171" name="uniEA1A"/>
+    <GlyphID id="172" name="uniEA95"/>
+    <GlyphID id="173" name="uniE90C"/>
+    <GlyphID id="174" name="uni78"/>
+    <GlyphID id="175" name="uniE744"/>
+    <GlyphID id="176" name="uniEC4E"/>
+    <GlyphID id="177" name="uniE313"/>
+    <GlyphID id="178" name="uniE10C"/>
+    <GlyphID id="179" name="uniE140"/>
+    <GlyphID id="180" name="uniE503"/>
+    <GlyphID id="181" name="uniEFDA"/>
+    <GlyphID id="182" name="uniEA9F"/>
+    <GlyphID id="183" name="uniE0E4"/>
+    <GlyphID id="184" name="uniEE4B"/>
+    <GlyphID id="185" name="uniE6B3"/>
+    <GlyphID id="186" name="uniE933"/>
+    <GlyphID id="187" name="uniEE72"/>
+    <GlyphID id="188" name="uniE4BD"/>
+    <GlyphID id="189" name="uniE8A9"/>
+    <GlyphID id="190" name="uniE317"/>
+    <GlyphID id="191" name="uniEB4D"/>
+    <GlyphID id="192" name="uniE52F"/>
+    <GlyphID id="193" name="uniE6FE"/>
+    <GlyphID id="194" name="uniE2EB"/>
+    <GlyphID id="195" name="uniE82A"/>
+    <GlyphID id="196" name="uniECA4"/>
+    <GlyphID id="197" name="uniE655"/>
+    <GlyphID id="198" name="uniE0F9"/>
+    <GlyphID id="199" name="uniE779"/>
+    <GlyphID id="200" name="uniE7E7"/>
+    <GlyphID id="201" name="uniEBD7"/>
+  </GlyphOrder>
+
+  <head>
+    <!-- Most of this table will be recalculated by the compiler -->
+    <tableVersion value="1.0"/>
+    <fontRevision value="1.0"/>
+    <checkSumAdjustment value="0xb0c616dc"/>
+    <magicNumber value="0x5f0f3cf5"/>
+    <flags value="00001000 00001011"/>
+    <unitsPerEm value="2048"/>
+    <created value="Thu Feb  4 06:41:22 2021"/>
+    <modified value="Thu Feb  4 06:41:22 2021"/>
+    <xMin value="0"/>
+    <yMin value="-289"/>
+    <xMax value="2688"/>
+    <yMax value="1729"/>
+    <macStyle value="00000000 00000000"/>
+    <lowestRecPPEM value="8"/>
+    <fontDirectionHint value="2"/>
+    <indexToLocFormat value="0"/>
+    <glyphDataFormat value="0"/>
+  </head>
+
+  <hhea>
+    <tableVersion value="0x00010000"/>
+    <ascent value="2167"/>
+    <descent value="-536"/>
+    <lineGap value="0"/>
+    <advanceWidthMax value="2688"/>
+    <minLeftSideBearing value="0"/>
+    <minRightSideBearing value="0"/>
+    <xMaxExtent value="2688"/>
+    <caretSlopeRise value="1"/>
+    <caretSlopeRun value="0"/>
+    <caretOffset value="0"/>
+    <reserved0 value="0"/>
+    <reserved1 value="0"/>
+    <reserved2 value="0"/>
+    <reserved3 value="0"/>
+    <metricDataFormat value="0"/>
+    <numberOfHMetrics value="202"/>
+  </hhea>
+
+  <maxp>
+    <!-- Most of this table will be recalculated by the compiler -->
+    <tableVersion value="0x10000"/>
+    <numGlyphs value="202"/>
+    <maxPoints value="159"/>
+    <maxContours value="9"/>
+    <maxCompositePoints value="0"/>
+    <maxCompositeContours value="0"/>
+    <maxZones value="2"/>
+    <maxTwilightPoints value="0"/>
+    <maxStorage value="10"/>
+    <maxFunctionDefs value="10"/>
+    <maxInstructionDefs value="0"/>
+    <maxStackElements value="255"/>
+    <maxSizeOfInstructions value="0"/>
+    <maxComponentElements value="0"/>
+    <maxComponentDepth value="0"/>
+  </maxp>
+
+  <OS_2>
+    <!-- The fields 'usFirstCharIndex' and 'usLastCharIndex'
+         will be recalculated by the compiler -->
+    <version value="1"/>
+    <xAvgCharWidth value="2046"/>
+    <usWeightClass value="400"/>
+    <usWidthClass value="5"/>
+    <fsType value="00000000 00000000"/>
+    <ySubscriptXSize value="1706"/>
+    <ySubscriptYSize value="1892"/>
+    <ySubscriptXOffset value="0"/>
+    <ySubscriptYOffset value="378"/>
+    <ySuperscriptXSize value="1706"/>
+    <ySuperscriptYSize value="1892"/>
+    <ySuperscriptXOffset value="0"/>
+    <ySuperscriptYOffset value="1297"/>
+    <yStrikeoutSize value="132"/>
+    <yStrikeoutPosition value="697"/>
+    <sFamilyClass value="0"/>
+    <panose>
+      <bFamilyType value="2"/>
+      <bSerifStyle value="0"/>
+      <bWeight value="5"/>
+      <bProportion value="3"/>
+      <bContrast value="0"/>
+      <bStrokeVariation value="0"/>
+      <bArmStyle value="0"/>
+      <bLetterForm value="0"/>
+      <bMidline value="0"/>
+      <bXHeight value="0"/>
+    </panose>
+    <ulUnicodeRange1 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange2 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange3 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange4 value="00000000 00000000 00000000 00000000"/>
+    <achVendID value="PfEd"/>
+    <fsSelection value="00000000 01000000"/>
+    <usFirstCharIndex value="120"/>
+    <usLastCharIndex value="61420"/>
+    <sTypoAscender value="2167"/>
+    <sTypoDescender value="-536"/>
+    <sTypoLineGap value="243"/>
+    <usWinAscent value="2167"/>
+    <usWinDescent value="536"/>
+    <ulCodePageRange1 value="00000000 00000000 00000000 00000001"/>
+    <ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>
+  </OS_2>
+
+  <hmtx>
+    <mtx name="glyph00000" width="2688" lsb="0"/>
+    <mtx name="uni78" width="1038" lsb="0"/>
+    <mtx name="uniE00B" width="2048" lsb="0"/>
+    <mtx name="uniE00D" width="2048" lsb="0"/>
+    <mtx name="uniE011" width="2048" lsb="0"/>
+    <mtx name="uniE01D" width="2048" lsb="0"/>
+    <mtx name="uniE020" width="2048" lsb="0"/>
+    <mtx name="uniE050" width="2048" lsb="0"/>
+    <mtx name="uniE080" width="2048" lsb="0"/>
+    <mtx name="uniE084" width="2048" lsb="0"/>
+    <mtx name="uniE087" width="2048" lsb="0"/>
+    <mtx name="uniE09D" width="2048" lsb="0"/>
+    <mtx name="uniE0E4" width="2048" lsb="0"/>
+    <mtx name="uniE0E6" width="2048" lsb="0"/>
+    <mtx name="uniE0EF" width="2048" lsb="0"/>
+    <mtx name="uniE0F9" width="2048" lsb="0"/>
+    <mtx name="uniE10C" width="2048" lsb="0"/>
+    <mtx name="uniE128" width="2048" lsb="0"/>
+    <mtx name="uniE140" width="2048" lsb="0"/>
+    <mtx name="uniE146" width="2048" lsb="0"/>
+    <mtx name="uniE161" width="2048" lsb="0"/>
+    <mtx name="uniE165" width="2048" lsb="0"/>
+    <mtx name="uniE174" width="2048" lsb="0"/>
+    <mtx name="uniE176" width="2048" lsb="0"/>
+    <mtx name="uniE18E" width="2048" lsb="0"/>
+    <mtx name="uniE193" width="2048" lsb="0"/>
+    <mtx name="uniE1A4" width="2048" lsb="0"/>
+    <mtx name="uniE1AB" width="2048" lsb="0"/>
+    <mtx name="uniE1B1" width="2048" lsb="0"/>
+    <mtx name="uniE205" width="2048" lsb="0"/>
+    <mtx name="uniE22C" width="2048" lsb="0"/>
+    <mtx name="uniE24D" width="2048" lsb="0"/>
+    <mtx name="uniE25B" width="2048" lsb="0"/>
+    <mtx name="uniE26C" width="2048" lsb="0"/>
+    <mtx name="uniE27E" width="2048" lsb="0"/>
+    <mtx name="uniE27F" width="2048" lsb="0"/>
+    <mtx name="uniE299" width="2048" lsb="0"/>
+    <mtx name="uniE2A9" width="2048" lsb="0"/>
+    <mtx name="uniE2BD" width="2048" lsb="0"/>
+    <mtx name="uniE2D3" width="2048" lsb="0"/>
+    <mtx name="uniE2D7" width="2048" lsb="0"/>
+    <mtx name="uniE2DD" width="2048" lsb="0"/>
+    <mtx name="uniE2EB" width="2048" lsb="0"/>
+    <mtx name="uniE307" width="2048" lsb="0"/>
+    <mtx name="uniE313" width="2048" lsb="0"/>
+    <mtx name="uniE317" width="2048" lsb="0"/>
+    <mtx name="uniE342" width="2048" lsb="0"/>
+    <mtx name="uniE353" width="2048" lsb="0"/>
+    <mtx name="uniE376" width="2048" lsb="0"/>
+    <mtx name="uniE3C3" width="2048" lsb="0"/>
+    <mtx name="uniE3DE" width="2048" lsb="0"/>
+    <mtx name="uniE3F5" width="2048" lsb="0"/>
+    <mtx name="uniE40B" width="2048" lsb="0"/>
+    <mtx name="uniE41F" width="2048" lsb="0"/>
+    <mtx name="uniE420" width="2048" lsb="0"/>
+    <mtx name="uniE424" width="2048" lsb="0"/>
+    <mtx name="uniE437" width="2048" lsb="0"/>
+    <mtx name="uniE479" width="2048" lsb="0"/>
+    <mtx name="uniE480" width="2048" lsb="0"/>
+    <mtx name="uniE492" width="2048" lsb="0"/>
+    <mtx name="uniE4BD" width="2048" lsb="0"/>
+    <mtx name="uniE4D8" width="2048" lsb="0"/>
+    <mtx name="uniE4F0" width="2048" lsb="0"/>
+    <mtx name="uniE4F9" width="2048" lsb="0"/>
+    <mtx name="uniE503" width="2048" lsb="0"/>
+    <mtx name="uniE504" width="2048" lsb="0"/>
+    <mtx name="uniE512" width="2048" lsb="0"/>
+    <mtx name="uniE52F" width="2048" lsb="0"/>
+    <mtx name="uniE534" width="2048" lsb="0"/>
+    <mtx name="uniE541" width="2048" lsb="0"/>
+    <mtx name="uniE547" width="2048" lsb="0"/>
+    <mtx name="uniE564" width="2048" lsb="0"/>
+    <mtx name="uniE5B1" width="2048" lsb="0"/>
+    <mtx name="uniE5FF" width="2048" lsb="0"/>
+    <mtx name="uniE60B" width="2048" lsb="0"/>
+    <mtx name="uniE61A" width="2048" lsb="0"/>
+    <mtx name="uniE631" width="2048" lsb="0"/>
+    <mtx name="uniE655" width="2048" lsb="0"/>
+    <mtx name="uniE686" width="2048" lsb="0"/>
+    <mtx name="uniE68B" width="2048" lsb="0"/>
+    <mtx name="uniE696" width="2048" lsb="0"/>
+    <mtx name="uniE698" width="2048" lsb="0"/>
+    <mtx name="uniE6B3" width="2048" lsb="0"/>
+    <mtx name="uniE6B8" width="2048" lsb="0"/>
+    <mtx name="uniE6C9" width="2048" lsb="0"/>
+    <mtx name="uniE6FE" width="2048" lsb="0"/>
+    <mtx name="uniE70B" width="2048" lsb="0"/>
+    <mtx name="uniE70C" width="2048" lsb="0"/>
+    <mtx name="uniE744" width="2048" lsb="0"/>
+    <mtx name="uniE749" width="2048" lsb="0"/>
+    <mtx name="uniE76B" width="2048" lsb="0"/>
+    <mtx name="uniE772" width="2048" lsb="0"/>
+    <mtx name="uniE779" width="2048" lsb="0"/>
+    <mtx name="uniE783" width="2048" lsb="0"/>
+    
