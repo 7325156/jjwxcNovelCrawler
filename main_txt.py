@@ -53,14 +53,19 @@ class noveldl():
     def get_sin(self,l):
         titleOrigin=l.split('=')
         i=self.href_list.index(l)
-        cont=requests.get(l,headers=self.headerss).content
-        dot=etree.HTML(cont.decode("GB18030","ignore").encode("utf-8","ignore").decode('utf-8'))
+        badgateway=True
+        while(badgateway):
+            cont=requests.get(l,headers=self.headerss)
+            dot=etree.HTML(cont.content.decode('gb18030',"ignore").encode("utf-8").decode('utf-8'))
+            codetext=etree.tostring(dot,encoding="utf-8").decode()
+            bdw=re.findall('<h1>502 Bad Gateway</h1>',codetext)
+            if bdw==[]:
+                badgateway=False
         fontfamily=''
         cvlist=[]
         cvdic=[]
         
         #字体反爬虫
-        codetext=etree.tostring(dot,encoding="utf-8").decode()
         fontsrc=re.findall(r'//static.jjwxc.net/tmp/fonts/.*?woff2.h=my.jjwxc.net',codetext)
         if fontsrc!=[]:
             fontsrc="http:"+fontsrc[0]
@@ -74,14 +79,14 @@ class noveldl():
                         cvdic.append(cvlist[y].split('-'))
                     cvdic=dict(cvdic)
             except:
-                y=1
+                t=1
             if not os.path.exists(self.path+"/Fonts/"+fontname):
                 fontwb=requests.get(fontsrc).content
                 fontf=open(self.path+"/Fonts/"+fontname,'wb')
                 fontf.write(fontwb)
                 fontf.close()
             if cvlist!=[]:
-                fontfamily=''
+                fontfamily+='_c'
             elif fontfamily not in self.fontlist:
                 self.fontlist.append(fontfamily)
 
@@ -138,9 +143,10 @@ class noveldl():
             if cvdic!=[]:
                 for y in range(len(tex)):
                     for s,v in cvdic.items():
-                        s=re.sub(r'&#x',r'\\u',s)
-                        s=re.sub(r';','',s).encode('utf-8').decode('unicode_escape')
-                        tex[y]=re.sub(s,v.strip(),tex[y])
+                        if not s=='&#x78"/;':
+                            s=re.sub(r'&#x',r'\\u',s)
+                            s=re.sub(';','',s).encode('utf-8').decode('unicode_escape')
+                            tex[y]=re.sub(s,v.strip(),tex[y])
             cvdic=cvlist=0
             #作话在文前的情况
             if str(sign) == "['readsmall']":
@@ -327,6 +333,7 @@ class noveldl():
         #写入文章信息页 
         TOC=xtitle+'\n'
         TOC+='作者：'+xaut+"\r\n"
+        TOC+='源网址：'+req_url+'\r\n'
         #生成目录文字
         for l in self.href_list:
             titleOrigin=l.split('=')
