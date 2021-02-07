@@ -57,15 +57,21 @@ class noveldl():
     def get_sin(self,l):
         titleOrigin=l.split('=')
         i=self.href_list.index(l)
-        cont=requests.get(l,headers=self.headerss)
-        dot=etree.HTML(cont.content.decode('gb18030',"ignore").encode("utf-8").decode('utf-8'))
-        #dot=etree.HTML(cont.content)
+        badgateway=True
+        while(badgateway):
+            cont=requests.get(l,headers=self.headerss)
+            dot=etree.HTML(cont.content.decode('gb18030',"ignore").encode("utf-8").decode('utf-8'))
+            codetext=etree.tostring(dot,encoding="utf-8").decode()
+            bdw=re.findall('<h1>502 Bad Gateway</h1>',codetext)
+            if bdw==[]:
+                badgateway=False
+            
+        #dot=etree.HTML(cont.content)502 Bad Gateway
         fontfamily=''
         cvlist=[]
         cvdic=[]
 
         #字体反爬虫
-        codetext=etree.tostring(dot,encoding="utf-8").decode()
         fontsrc=re.findall(r'//static.jjwxc.net/tmp/fonts/.*?woff2.h=my.jjwxc.net',codetext)
         if fontsrc!=[]:
             fontsrc="http:"+fontsrc[0]
@@ -79,14 +85,21 @@ class noveldl():
                         cvdic.append(cvlist[y].split('-'))
                     cvdic=dict(cvdic)
             except:
-                y=1
+                t=1
             if not os.path.exists(self.path+"/Fonts/"+fontname):
                 fontwb=requests.get(fontsrc).content
                 fontf=open(self.path+"/Fonts/"+fontname,'wb')
                 fontf.write(fontwb)
                 fontf.close()
+                #若需要下载ttf文件，可运行下方代码
+                '''
+                fontwb=requests.get(re.sub('woff2','ttf',fontsrc)).content
+                fontf=open(self.path+"/Fonts/"+fontfamily+'.ttf','wb')
+                fontf.write(fontwb)
+                fontf.close()
+                '''
             if cvlist!=[]:
-                fontfamily=''
+                fontfamily+='_c'
             elif fontfamily not in self.fontlist:
                 self.fontlist.append(fontfamily)
                 self.fontcss+='''@font-face{font-family: "%s";
@@ -150,14 +163,16 @@ url("../font/%s.ttf") format("truetype");}
         if len(tex)==0:
             self.failInfo.append(titleOrigin[2].zfill(self.fillNum))
             #print("第"+titleOrigin[2]+"章未购买或加载失败")
+            print(codetext)
         else:
             #反爬虫处理，必须把对照表TXT文件下载至Fonts文件夹
             if cvdic!=[]:
                 for y in range(len(tex)):
                     for s,v in cvdic.items():
-                        s=re.sub(r'&#x',r'\\u',s)
-                        s=re.sub(r';','',s).encode('utf-8').decode('unicode_escape')
-                        tex[y]=re.sub(s,v.strip(),tex[y])
+                        if not s=='&#x78"/;':
+                            s=re.sub(r'&#x',r'\\u',s)
+                            s=re.sub(';','',s).encode('utf-8').decode('unicode_escape')
+                            tex[y]=re.sub(s,v.strip(),tex[y])
             cvdic=cvlist=0
             #作话在文前的情况
             if str(sign) == "['readsmall']":
@@ -459,17 +474,17 @@ url("../font/%s.ttf") format("truetype");}
         fo.close()
         tlist=[]
         #获取每一章内容
-
+        
         with concurrent.futures.ThreadPoolExecutor(max_workers=threadnum) as executor:
             tlist = {executor.submit(self.get_sin,i):i for i in self.href_list}
             for future in concurrent.futures.as_completed(tlist):
                 if self.percent < section_ct:
                     print('\r 下载进度：%d/%d' % (self.percent,section_ct),end='',flush=True)
             print('\r 下载完成，总进度：%d/%d\r\n' % (self.percent,section_ct),end='',flush=True)
-            '''
+        '''
         for i in self.href_list:
             self.get_sin(i)
-            '''
+        '''
         if self.failInfo != []:
             self.failInfo.sort()
             vs=""
@@ -508,4 +523,4 @@ if __name__ == '__main__':
             titleInfo.append(titleInfo[len(titleInfo)-1])
         c.titleInfo=titleInfo
         
-        c.get_txt(num,state,50)
+        c.get_txt(num,state,50)#最后一个变量为线程池最大容量
