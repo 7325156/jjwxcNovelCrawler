@@ -409,9 +409,10 @@ class noveldl():
         os.chdir(path)
         f=open(ti+".txt",'w',encoding='utf-8')
         filenames=os.listdir(ppp)
+        filenames.sort()#感谢@everything411的建议
         i=0
         for filename in filenames:
-            filepath = ppp+'\\'+filename
+            filepath = ppp+'/'+filename#感谢@everything411的建议
             for line in open(filepath,encoding='utf-8', errors='ignore'):
                 f.writelines(line)
         f.close()
