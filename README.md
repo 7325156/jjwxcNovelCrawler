@@ -36,7 +36,7 @@
 <h1>main_epub日志记录</h1>
 <p>2021-1-23</p>
 <ul>
- <li>新增乱码替换功能，对照表已全部完成，感谢<a href="https://github.com/starcrys">starcrys</a>，持续众筹新字体，详见issues</li>
+ <li>新增乱码替换功能，对照表已全部完成，感谢<a href="https://github.com/starcrys">starcrys</a>，持续众筹新字体，详见issues</li></ul>
 <p>2021-1-21</p>
 <ul>
  <li>新增乱码替换功能（需要对照表，对照表仅完成部分，详见issues）</li>
