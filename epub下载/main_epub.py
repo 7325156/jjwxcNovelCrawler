@@ -65,8 +65,10 @@ class noveldl():
             bdw=re.findall('<h1>502 Bad Gateway</h1>',codetext)
             if bdw==[]:
                 badgateway=False
+            else:
+                time.sleep(1)
             
-        #dot=etree.HTML(cont.content)502 Bad Gateway
+        #dot=etree.HTML(cont.content)
         fontfamily=''
         cvlist=[]
         cvdic=[]
@@ -129,6 +131,8 @@ url("../font/%s.ttf") format("truetype");}
         #内容提要
         if self.titleInfo[2]=='1':
             title=title+" "+self.Summary[i].strip()
+            
+        title=title.strip()
         
         if self.state=='s':
             title=OpenCC('t2s').convert(title)
@@ -145,10 +149,12 @@ url("../font/%s.ttf") format("truetype");}
             #创建章节文件
         fo=open("z"+str(titleOrigin[2].zfill(4))+".xhtml",'w',encoding='utf-8')
             
-        fo.write('''<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
-<head><title>'''+title+'''</title>
+        fo.write('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>'''+title+'''</title>
 <meta charset="utf-8"/>
 <link href="sgc-nav.css" rel="stylesheet" type="text/css"/>
 </head><body class="'''+fontfamily+'''">''')
@@ -163,7 +169,6 @@ url("../font/%s.ttf") format("truetype");}
         if len(tex)==0:
             self.failInfo.append(titleOrigin[2].zfill(self.fillNum))
             #print("第"+titleOrigin[2]+"章未购买或加载失败")
-            print(codetext)
         else:
             #反爬虫处理，必须把对照表TXT文件下载至Fonts文件夹
             if cvdic!=[]:
@@ -179,7 +184,8 @@ url("../font/%s.ttf") format("truetype");}
                 fo.write('''<blockquote>''')
                 for m in tex1:#删除无用文字及多余空格空行
                     vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
-                    v=re.sub(' +', ' ', vv).strip()
+                    v=re.sub('　','',vv)
+                    v=re.sub(' +', ' ', v).strip()
                     v=re.sub('&','&amp;',v)
                     v=re.sub('>','&gt;',v)
                     v=re.sub('<','&lt;',v)
@@ -195,11 +201,11 @@ url("../font/%s.ttf") format("truetype");}
                     fo.write("<hr/>")
                 for tn in tex:
                     vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
-                    v=re.sub(' +', ' ', vv).strip()
+                    v=re.sub('　','',vv)
+                    v=re.sub(' +', ' ', v).strip()
                     v=re.sub('&','&amp;',v)
                     v=re.sub('>','&gt;',v)
                     v=re.sub('<','&lt;',v)
-                    v=re.sub('　','',v)
                     if self.state=='s':
                         v=OpenCC('t2s').convert(v)
                     elif self.state=='t':
@@ -209,11 +215,11 @@ url("../font/%s.ttf") format("truetype");}
             else:#作话在文后的情况
                 for tn in tex:
                     vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
-                    v=re.sub(' +', ' ', vv).strip()
+                    v=re.sub('　','',vv)
+                    v=re.sub(' +', ' ', v).strip()
                     v=re.sub('&','&amp;',v)
                     v=re.sub('>','&gt;',v)
                     v=re.sub('<','&lt;',v)
-                    v=re.sub('　','',v)
                     if self.state=='s':
                         v=OpenCC('t2s').convert(v)
                     elif self.state=='t':
@@ -225,7 +231,8 @@ url("../font/%s.ttf") format("truetype");}
                     fo.write('''<blockquote>''')
                 for m in tex1:
                     vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
-                    v=re.sub(' +', ' ', vv).strip()
+                    v=re.sub('　','',vv)
+                    v=re.sub(' +', ' ', v).strip()
                     v=re.sub('&','&amp;',v)
                     v=re.sub('>','&gt;',v)
                     v=re.sub('<','&lt;',v)
@@ -290,6 +297,9 @@ url("../font/%s.ttf") format("truetype");}
         else:
             img="0"
 
+        fpi=re.findall(r'static.jjwxc.net/novelimage.php.novelid',cover)
+        if fpi!=[]:
+            img='0'
         #获取标题和作者
         xtitle=ress.xpath('string(//*[@itemprop="articleSection"])').strip()
         xaut=ress.xpath('string(//*[@itemprop="author"])').strip()
@@ -340,8 +350,12 @@ url("../font/%s.ttf") format("truetype");}
         #获取卷标名称
         self.rollSign=ress.xpath("//*[@id='oneboolt']//tr/td/b[@class='volumnfont']")
         #获取卷标位置
-        self.rollSignPlace=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@href")
-        self.rollSignPlace+=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@rel")
+        self.rollSignPlace=[]
+        #self.rollSignPlace+=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@href")
+        #self.rollSignPlace+=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@rel")
+        self.rollSignPlace+=ress.xpath("//*[@class='volumnfont']/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@href")
+        self.rollSignPlace+=ress.xpath("//*[@class='volumnfont']/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@rel")
+
 
         #修改卷标格式
         for rs in range(len(self.rollSign)):
@@ -388,6 +402,9 @@ url("../font/%s.ttf") format("truetype");}
             os.mkdir(ti)
             os.chdir(ti)
 
+        #不下载封面请取消注释下行代码
+        #img='0'
+
         self.index=[]
         #保存封面图片
         if img!="0":
@@ -397,10 +414,21 @@ url("../font/%s.ttf") format("truetype");}
         
             #写入封面
             f=open("C.xhtml",'w',encoding='utf-8')
-            f.write('''<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
-<head><title></title><link href="sgc-nav.css" type="text/css" rel="stylesheet"/>
-</head><body><p class='title'><img src="p.jpg"/></p></body></html>''')
+            f.write('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Cover</title>
+</head>
+<body>
+  <div style="text-align: center; padding: 0pt; margin: 0pt;">
+    <svg xmlns="http://www.w3.org/2000/svg" height="100%" preserveAspectRatio="xMidYMid meet" version="1.1" width="100%" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <image width="100%" xlink:href="p.jpg"/>
+    </svg>
+  </div>
+</body>
+</html>''')
             f.close()
 
         #写入文章信息页 
@@ -441,7 +469,7 @@ url("../font/%s.ttf") format("truetype");}
             TOC+="<p>"+ix+"</p>"
 
         TOC+="</blockquote>"
-        TOC+="<p><b>文案：</b></p>"
+        TOC+="<hr/><p><b>文案：</b></p>"
         for nx in intro:
             v=re.sub(' +', ' ', str(nx)).rstrip()
             v=re.sub('&','&amp;',v).rstrip()
@@ -461,15 +489,21 @@ url("../font/%s.ttf") format("truetype");}
             info=OpenCC('t2s').convert(info)
         elif self.state=='t':
             info=OpenCC('s2t').convert(info)
-        info=re.sub('搜索关键字','</p><p>搜索关键字',info)
-        info=re.sub('一句话简介：','</p><p>一句话简介：',info)
-        info=re.sub('立意：','</p><p>立意：',info)
-        TOC+="<p>"+info+"</p>"
+        info=re.sub('内容标签','<b>内容标签</b>',info)
+        info=re.sub('搜索关键字','</p><p><b>搜索关键字</b>',info)
+        info=re.sub('一句话简介：','</p><p><b>一句话简介</b>：',info)
+        info=re.sub('立意：','</p><p><b>立意</b>：',info)
+        TOC+="<hr/><p>"+info+"</p>"
         fo=open("TOC.xhtml",'w',encoding='utf-8')
-        fo.write('''<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
-<head><title></title><meta charset="utf-8"/>
-<link href="sgc-nav.css" rel="stylesheet" type="text/css"/></head>
+        fo.write('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <meta charset="utf-8"/>
+<link href="sgc-nav.css" rel="stylesheet" type="text/css"/>
+</head>
 <body>'''+TOC+'''</body></html>''')
         fo.close()
         tlist=[]
@@ -523,4 +557,4 @@ if __name__ == '__main__':
             titleInfo.append(titleInfo[len(titleInfo)-1])
         c.titleInfo=titleInfo
         
-        c.get_txt(num,state,50)#最后一个变量为线程池最大容量
+        c.get_txt(num,state,100)#最后一个变量为线程池最大容量
