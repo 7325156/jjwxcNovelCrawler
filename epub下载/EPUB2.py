@@ -45,6 +45,9 @@ class epubfile():
                 manifest += '<item id="%s" href="%s" media-type="image/jpeg"/>' % (basename, basename)
             if basename.endswith('html')|basename.endswith('jpg'):
                 spine += '<itemref idref="%s"/>' % (basename)
+        spine+='''<guide>
+    <reference type="cover" title="封面" href="C.xhtml"/>
+  </guide>'''
         epub.writestr('OEBPS/content.opf',content_info % {'manifest': manifest,'spine': spine,},compress_type=zipfile.ZIP_STORED)
 
     def create_info(self,epub,path,index,rollSign):
@@ -82,7 +85,7 @@ class epubfile():
  
         
     def create_stylesheet(self,epub):
-        css_info = '''h1{font-size:1.4em;text-align:center;}h2{font-size:1.24em;text-align:center;}
+        css_info = '''h1{font-size:1.4em;text-align:center;}h2{font-size:1.24em;text-align:center;}img{width:100%;}
 .title{
 text-align:center;
 }
