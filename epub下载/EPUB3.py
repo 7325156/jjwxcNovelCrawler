@@ -53,6 +53,9 @@ class epubfile():
                 manifest += '<item id="%s" href="Fonts/%s" media-type="application/xhtml+xml"/>' % (basename, basename)
                 if basename != 'C.xhtml' and basename != 'TOC.xhtml':
                     spine += '<itemref idref="%s"/>' % (basename)
+        spine+='''<guide>
+    <reference type="cover" title="封面" href="C.xhtml"/>
+  </guide>'''
         epub.writestr('OEBPS/content.opf',content_info % {'manifest': manifest,'spine': spine,},compress_type=zipfile.ZIP_STORED)
 
     def create_info(self,epub,path,index,rollSign):
@@ -137,7 +140,7 @@ nav#page-list {
 ol {
     list-style-type: none;
 }
-h1{font-size:1.4em;text-align:center;}h2{font-size:1.24em;text-align:center;}
+h1{font-size:1.4em;text-align:center;}h2{font-size:1.24em;text-align:center;}img{width:100%;}
 .title{
 text-align:center;
 }
