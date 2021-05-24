@@ -7,6 +7,7 @@
 <p>感谢<a href='https://github.com/lyc8503'>lyc8503</a>提供的处理反爬虫思路</p>
 <h1>使用说明</h1>
 <p>如果不想配置环境，可以直接下载EXE：<a href="https://github.com/7325156/jjdown/releases">exe程序下载</a>，如果直接下载太慢，可以通过<a href="https://d.serctl.com">这个网站</a>下载</p>
+<p><strong><center>以下是使用py文件下载的过程</center></strong></p>
 <h3>环境配置</h3>
 <p>注：我写的这个程序可以在Windows10 x64系统下运行成功，其他环境可自行调整。</p>
 <p><span style="font-weight: bold;">&#160;1、安装python环境</span></p>
