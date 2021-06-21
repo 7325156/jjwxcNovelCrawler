@@ -552,5 +552,5 @@ if __name__ == '__main__':
         while len(titleInfo)<3:
             titleInfo.append(titleInfo[len(titleInfo)-1])
         c.titleInfo=titleInfo
-        print('线程池最大数量为【'+conf.ThreadPoolMaxNum+'】')
+        print('线程池最大数量为【'+str(conf.ThreadPoolMaxNum)+'】')
         c.get_txt(num,state,conf.ThreadPoolMaxNum)#最后一个变量为线程池最大容量
