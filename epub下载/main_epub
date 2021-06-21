@@ -561,4 +561,4 @@ if __name__ == '__main__':
             titleInfo.append(titleInfo[len(titleInfo)-1])
         c.titleInfo=titleInfo
         
-        c.get_txt(num,state,100)#最后一个变量为线程池最大容量
+        c.get_txt(num,state,conf.ThreadPoolMaxNum)
