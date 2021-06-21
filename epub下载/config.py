@@ -11,3 +11,6 @@ class configinfo():
     例如：若只显示序号和内容提要，则输入'1 0 1'
     '''
     titleInfo='1 1 1'
+        
+    #线程池最大容量
+    ThreadPoolMaxNum=100
