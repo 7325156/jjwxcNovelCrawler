@@ -553,12 +553,12 @@ if __name__ == '__main__':
         if state!='s' and state!='t':
             state=conf.state
         
-        titleInfo=input('\r\n请输入标题保存状态(序号 章节名称 内容提要)\r\n显示则输入1，不显示则输入0，数字之间用空格隔开\r\n例如：若只显示序号和内容提要，则输入[1 0 1](方括号不输入)\r\n若全部显示，可以直接按回车，若不显示标题，可以直接输入0\r\n若输入的数字个数小于3，则空缺的数字与最后输入的数字相同\r\n【默认为\''+conf.titleInfo+'\'')
+        titleInfo=input('\r\n请输入标题保存状态(序号 章节名称 内容提要)\r\n显示则输入1，不显示则输入0，数字之间用空格隔开\r\n例如：若只显示序号和内容提要，则输入[1 0 1](方括号不输入)\r\n若全部显示，可以直接按回车，若不显示标题，可以直接输入0\r\n若输入的数字个数小于3，则空缺的数字与最后输入的数字相同\r\n【默认为\''+conf.titleInfo+'\'】')
         if titleInfo=='':
             titleInfo=conf.titleInfo
         titleInfo=titleInfo.split(' ')
         while len(titleInfo)<3:
             titleInfo.append(titleInfo[len(titleInfo)-1])
         c.titleInfo=titleInfo
-        
+        print('线程池最大数量为【'+conf.ThreadPoolMaxNum+'】')
         c.get_txt(num,state,conf.ThreadPoolMaxNum)
