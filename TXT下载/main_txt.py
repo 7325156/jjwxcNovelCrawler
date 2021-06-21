@@ -9,12 +9,13 @@ import shutil
 from opencc import OpenCC
 from fontTools.ttLib import TTFont
 import concurrent.futures
+import config
 
 class noveldl():
     #小说主地址，后接小说编号
     req_url_base='http://www.jjwxc.net/onebook.php?novelid='
 
-    #头文件，可用来登陆，cookie可在浏览器或者client.py中获取，user-agent为Chrome87，可替换
+    #头文件，可用来登陆，cookie可在浏览器或者client.py中获取
     headerss={'cookie': '',
               'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36'}
 
@@ -111,6 +112,10 @@ class noveldl():
         #内容提要
         if self.titleInfo[2]=='1':
             title=title+" "+self.Summary[i].strip()
+            
+        title=re.sub('&amp;','&',title)
+        title=re.sub('&lt;','<',title)
+        title=re.sub('&gt;','>',title)
         
         if self.state=='s':
             title=OpenCC('t2s').convert(title)
@@ -129,6 +134,9 @@ class noveldl():
         fo=open("z"+str(titleOrigin[2].zfill(4))+".txt",'w',encoding='utf-8')
             #写入卷标
         if self.href_list[i] in self.rollSignPlace:
+            v=re.sub('&amp;','&',v)
+            v=re.sub('&lt;','<',v)
+            v=re.sub('&gt;','>',v)
             fo.write("\r\n\r\n"+v.rstrip()+'\r\n')
             print("\r\n"+v+"\r\n")
             fo.write(title+'\r\n')
@@ -152,8 +160,11 @@ class noveldl():
             if str(sign) == "['readsmall']":
                 for m in tex1:#删除无用文字及多余空格空行
                     vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
-                    v=re.sub(' +', ' ', vv).strip()
-                    v=re.sub('　','',v)
+                    v=re.sub('　','',vv)
+                    v=re.sub(' +', ' ', v).strip()
+                    v=re.sub('&amp;','&',v)
+                    v=re.sub('&lt;','<',v)
+                    v=re.sub('&gt;','>',v)
                     if self.state=='s':
                         v=OpenCC('t2s').convert(v)
                     elif self.state=='t':
@@ -165,8 +176,11 @@ class noveldl():
                     fo.write("\n*\r\n")
                 for tn in tex:
                     vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
-                    v=re.sub(' +', ' ', vv).strip()
-                    v=re.sub('　','',v)
+                    v=re.sub('　','',vv)
+                    v=re.sub(' +', ' ', v).strip()
+                    v=re.sub('&amp;','&',v)
+                    v=re.sub('&lt;','<',v)
+                    v=re.sub('&gt;','>',v)
                     if self.state=='s':
                         v=OpenCC('t2s').convert(v)
                     elif self.state=='t':
@@ -176,8 +190,11 @@ class noveldl():
             else:#作话在文后的情况
                 for tn in tex:
                     vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
-                    v=re.sub(' +', ' ', vv).strip()
-                    v=re.sub('　','',v)
+                    v=re.sub('　','',vv)
+                    v=re.sub(' +', ' ', v).strip()
+                    v=re.sub('&amp;','&',v)
+                    v=re.sub('&lt;','<',v)
+                    v=re.sub('&gt;','>',v)
                     if self.state=='s':
                         v=OpenCC('t2s').convert(v)
                     elif self.state=='t':
@@ -188,8 +205,11 @@ class noveldl():
                     fo.write("\n*\r\n")
                 for m in tex1:
                     vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
-                    v=re.sub(' +', ' ', vv).strip()
-                    v=re.sub('　','',v)
+                    v=re.sub('　','',vv)
+                    v=re.sub(' +', ' ', v).strip()
+                    v=re.sub('&amp;','&',v)
+                    v=re.sub('&lt;','<',v)
+                    v=re.sub('&gt;','>',v)
                     if self.state=='s':
                         v=OpenCC('t2s').convert(v)
                     elif self.state=='t':
@@ -304,7 +324,6 @@ class noveldl():
         
         #对标题进行操作，删除违规字符等
         ti=re.sub('[\/:*?"<>|]','_',ti)
-        ti=re.sub('&','&amp;',ti)
         
 
         xauthref=ress.xpath("//*[@id='oneboolt']//h2/a/@href")[0]
@@ -409,10 +428,9 @@ class noveldl():
         os.chdir(path)
         f=open(ti+".txt",'w',encoding='utf-8')
         filenames=os.listdir(ppp)
-        filenames.sort()#感谢@everything411的建议
         i=0
         for filename in filenames:
-            filepath = ppp+'/'+filename#感谢@everything411的建议
+            filepath = ppp+'\\'+filename
             for line in open(filepath,encoding='utf-8', errors='ignore'):
                 f.writelines(line)
         f.close()
@@ -421,24 +439,27 @@ class noveldl():
         print("\r\ntxt文件整合完成")
 
 if __name__ == '__main__':
-    #print('请输入cookie：')
-    #cookie=input()
-    #此处为需要下载小说的编号，编号获取方法在上文中已经讲过，
+    print('*以下是输入设置，若按回车，则按照config文件中的数据进行配置*')
+    conf=config.configinfo()
+    cookie=conf.cookie
+    print('【默认cookie：\''+cookie+'\'】')
     while 1:
         num =input('\r\n请输入小说主页网址：')
         c=noveldl()
         
-        #c.headerss={'cookie':cookie,
-        #          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36'}
+        c.headerss={'cookie':cookie,
+                  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
 
-        state=input('\r\n文章内容：\r\n1、繁转简（输入s）\r\n2、简转繁（输入t）\r\n3、不变（直接按回车）\r\n')
+        state=input('\r\n文章内容：\r\n1、繁转简（输入s）\r\n2、简转繁（输入t）\r\n3、不变（直接按回车）\r\n【默认为\''+conf.state+'\'】')
+        if state!='s' and state!='t':
+            state=conf.state
         
-        titleInfo=input('\r\n请输入标题保存状态(序号 章节名称 内容提要)\r\n显示则输入1，不显示则输入0，数字之间用空格隔开\r\n例如：若只显示序号和内容提要，则输入[1 0 1](方括号不输入)\r\n若全部显示，可以直接按回车，若不显示标题，可以直接输入0\r\n若输入的数字个数小于3，则空缺的数字与最后输入的数字相同\r\n')
+        titleInfo=input('\r\n请输入标题保存状态(序号 章节名称 内容提要)\r\n显示则输入1，不显示则输入0，数字之间用空格隔开\r\n例如：若只显示序号和内容提要，则输入[1 0 1](方括号不输入)\r\n若全部显示，可以直接按回车，若不显示标题，可以直接输入0\r\n若输入的数字个数小于3，则空缺的数字与最后输入的数字相同\r\n【默认为\''+conf.titleInfo+'\'')
         if titleInfo=='':
-            titleInfo='1 1 1'
+            titleInfo=conf.titleInfo
         titleInfo=titleInfo.split(' ')
         while len(titleInfo)<3:
             titleInfo.append(titleInfo[len(titleInfo)-1])
         c.titleInfo=titleInfo
-        
-        c.get_txt(num,state,50)
+        print('线程池最大数量为【'+conf.ThreadPoolMaxNum+'】')
+        c.get_txt(num,state,conf.ThreadPoolMaxNum)
