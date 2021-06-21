@@ -36,6 +36,10 @@
 <p><b>繁简转换功能</b>：输入编号后，若不转换，直接按回车，若繁转简，输入s后按回车，若简转繁，输入t后按回车。</p>
 <p><b>若epub文件有问题，可以用epub编辑工具修复一下，本人建议使用sigil或calibre，这两个软件在GitHub上都有。</b></p>
 <h1>main_epub日志记录</h1>
+<p>2021-6-21</p>
+<ul>
+ <li>推出全新版本，将数据存放在config.py中，方便使用和定制下载模式（包括cookie，繁简转换标志，章节标题模式，线程池最大容量）</li>
+</ul>
 <p>2021-1-23</p>
 <ul>
  <li>新增乱码替换功能，对照表已全部完成，感谢<a href="https://github.com/starcrys">starcrys</a>，持续众筹新字体，详见issues</li></ul>
