@@ -1,54 +1,4 @@
-import requests
-from lxml import etree
-import sys
-import re
-import os
-import zipfile
-import shutil
-
-class epubfile():
-    #创建epub文件格式信息
-    author=''
-    title=''
-    description=''
-    fontcss=''
-    def create_mimetype(self,epub):
-        epub.writestr('mimetype','application/epub+zip',compress_type=zipfile.ZIP_STORED)
-     
-    def create_container(self,epub):
-        container_info = '''<?xml version="1.0" encoding="UTF-8"?>
-<container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
-<rootfiles><rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/>
-</rootfiles></container>'''
-        epub.writestr('META-INF/container.xml',container_info, compress_type=zipfile.ZIP_STORED)
-     
-    def create_content(self,epub,path):
-        content_info = '''<?xml version="1.0" encoding="utf-8"?>
-<package version="3.0" unique-identifier="BookId" xmlns="http://www.idpf.org/2007/opf">
-  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">'''
-        if self.title!='':
-            content_info+="<dc:title>"+self.title+"</dc:title>"
-        if self.author!='':
-            content_info+="<dc:creator>"+self.author+"</dc:creator>"
-        if self.description!='':
-            content_info+="<dc:description>"+self.description+"</dc:description>"
-        content_info+='''<meta name="cover" content="p.jpg" />
-</metadata><manifest>
-<item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
-<item id="sgc-nav.css" href="sgc-nav.css" media-type="text/css"/>
-<item id="nav.xhtml" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>
-<item id="p.jpg" href="p.jpg" media-type="image/jpeg" properties="cover-image"/>
-%(manifest)s
-</manifest><spine toc="ncx">
-<itemref idref="C.xhtml" />
-<itemref idref="info.xhtml" />
-<itemref idref="nav.xhtml" />
-%(spine)s
-</spine></package>'''
-        manifest = ''
-        spine = ''
-        for html in os.listdir(path):
-            basename = os.path.basename(html)
+path.basename(html)
             if basename.endswith('html'):
                 manifest += '<item id="%s" href="%s" media-type="application/xhtml+xml"/>' % (basename, basename)
                 if basename != 'C.xhtml' and basename != 'info.xhtml':
@@ -72,12 +22,12 @@ class epubfile():
     <ol>
     '''
         sig=0
-        nav_info+='''<li><a href="TOC.xhtml">'''+self.title+'-'+self.author+'''</a>
+        nav_info+='''<li><a href="info.xhtml">'''+self.title+'-'+self.author+'''</a>
 <ol>'''
         for html in os.listdir(path):
             basename = os.path.basename(html)
             if basename.endswith('html'):
-                if basename!='C.xhtml' and basename!='TOC.xhtml':
+                if basename!='C.xhtml' and basename!='info.xhtml':
                     iii=0
                     while index[sig] in rollSign:
                         index[sig]=re.sub('</?\w+[^>]*>','',index[sig])
@@ -107,11 +57,11 @@ class epubfile():
 </head><docTitle><text>'''+self.title+'''</text></docTitle><navMap>'''
         sig=0
         tox_info+='''<navPoint id="0" playOrder="0">
-<navLabel><text>'''+self.title+'''</text></navLabel><content src="TOC.xhtml"/>'''
+<navLabel><text>'''+self.title+'''</text></navLabel><content src="info.xhtml"/>'''
         for html in os.listdir(path):
             basename = os.path.basename(html)
             if basename.endswith('html'):
-                if basename!='C.xhtml' and basename!='TOC.xhtml':
+                if basename!='C.xhtml' and basename!='info.xhtml' and sig<len(index):
                     iii=0
                     while index[sig] in rollSign:
                         index[sig]=re.sub('</?\w+[^>]*>','',index[sig])
@@ -140,7 +90,7 @@ nav#page-list {
 ol {
     list-style-type: none;
 }
-h1{font-size:1.4em;text-align:center;}h2{font-size:1.24em;text-align:center;}img{width:100%;}
+h1{font-size:1.4em;text-align:center;}h2{font-size:1.24em;text-align:center;}
 .title{
 text-align:center;
 }
@@ -166,4 +116,3 @@ text-align:center;
         epub.close()
         os.chdir(path)
         shutil.rmtree(ppp)
-
