@@ -386,7 +386,7 @@ class noveldl():
         elif self.state=='t':
             info=OpenCC('s2t').convert(info)
         TOC+='<br/>'+info
-        fo=open("TOC.xhtml",'w',encoding='utf-8')
+        fo=open("info.xhtml",'w',encoding='utf-8')
         fo.write('''<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
 <head><title></title><meta charset="utf-8"/>
