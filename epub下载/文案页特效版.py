@@ -487,7 +487,7 @@ url("../font/%s.ttf") format("truetype");}
         info=re.sub('>','&gt;',info)
         info=re.sub('<','&lt;',info)
         TOC+='<br/>'+info
-        fo=open("TOC.xhtml",'w',encoding='utf-8')
+        fo=open("info.xhtml",'w',encoding='utf-8')
         fo.write('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -545,7 +545,7 @@ if __name__ == '__main__':
         if state!='s' and state!='t':
             state=conf.state
         
-        titleInfo=input('\r\n请输入标题保存状态(序号 章节名称 内容提要)\r\n显示则输入1，不显示则输入0，数字之间用空格隔开\r\n例如：若只显示序号和内容提要，则输入[1 0 1](方括号不输入)\r\n若全部显示，可以直接按回车，若不显示标题，可以直接输入0\r\n若输入的数字个数小于3，则空缺的数字与最后输入的数字相同\r\n【默认为\''+conf.titleInfo+'\'')
+        titleInfo=input('\r\n请输入标题保存状态(序号 章节名称 内容提要)\r\n显示则输入1，不显示则输入0，数字之间用空格隔开\r\n例如：若只显示序号和内容提要，则输入[1 0 1](方括号不输入)\r\n若全部显示，可以直接按回车，若不显示标题，可以直接输入0\r\n若输入的数字个数小于3，则空缺的数字与最后输入的数字相同\r\n【默认为\''+conf.titleInfo+'\'】')
         if titleInfo=='':
             titleInfo=conf.titleInfo
         titleInfo=titleInfo.split(' ')
