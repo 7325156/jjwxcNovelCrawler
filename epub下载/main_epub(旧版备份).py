@@ -494,7 +494,7 @@ url("../font/%s.ttf") format("truetype");}
         info=re.sub('一句话简介：','</p><p><b>一句话简介</b>：',info)
         info=re.sub('立意：','</p><p><b>立意</b>：',info)
         TOC+="<hr/><p>"+info+"</p>"
-        fo=open("TOC.xhtml",'w',encoding='utf-8')
+        fo=open("info.xhtml",'w',encoding='utf-8')
         fo.write('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
