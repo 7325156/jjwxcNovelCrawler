@@ -41,7 +41,7 @@ class epubfile():
 %(manifest)s
 </manifest><spine toc="ncx">
 <itemref idref="C.xhtml" />
-<itemref idref="TOC.xhtml" />
+<itemref idref="info.xhtml" />
 <itemref idref="nav.xhtml" />
 %(spine)s
 </spine></package>'''
@@ -50,8 +50,8 @@ class epubfile():
         for html in os.listdir(path):
             basename = os.path.basename(html)
             if basename.endswith('html'):
-                manifest += '<item id="%s" href="Fonts/%s" media-type="application/xhtml+xml"/>' % (basename, basename)
-                if basename != 'C.xhtml' and basename != 'TOC.xhtml':
+                manifest += '<item id="%s" href="%s" media-type="application/xhtml+xml"/>' % (basename, basename)
+                if basename != 'C.xhtml' and basename != 'info.xhtml':
                     spine += '<itemref idref="%s"/>' % (basename)
         spine+='''<guide>
     <reference type="cover" title="封面" href="C.xhtml"/>
