@@ -62,11 +62,11 @@ class epubfile():
 </head><docTitle><text>'''+self.title+'''</text></docTitle><navMap>'''
         sig=0
         tox_info+='''<navPoint id="0" playOrder="0">
-<navLabel><text>'''+self.title+'''</text></navLabel><content src="TOC.xhtml"/>'''
+<navLabel><text>'''+self.title+'''</text></navLabel><content src="info.xhtml"/>'''
         for html in os.listdir(path):
             basename = os.path.basename(html)
             if basename.endswith('html'):
-                if basename!='C.xhtml' and basename!='TOC.xhtml':
+                if basename!='C.xhtml' and basename!='info.xhtml' and sig<len(index):
                     iii=0
                     while index[sig] in rollSign:
                         index[sig]=re.sub('</?\w+[^>]*>','',index[sig])
@@ -85,7 +85,7 @@ class epubfile():
  
         
     def create_stylesheet(self,epub):
-        css_info = '''h1{font-size:1.4em;text-align:center;}h2{font-size:1.24em;text-align:center;}img{width:100%;}
+        css_info = '''h1{font-size:1.4em;text-align:center;}h2{font-size:1.24em;text-align:center;}
 .title{
 text-align:center;
 }
@@ -110,4 +110,3 @@ text-align:center;
         epub.close()
         os.chdir(path)
         shutil.rmtree(ppp)
-    
