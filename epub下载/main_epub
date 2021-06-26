@@ -10,7 +10,7 @@ import shutil
 from opencc import OpenCC
 from fontTools.ttLib import TTFont
 import concurrent.futures
-import EPUB2
+import EPUB3
 import config
 
 class noveldl():
@@ -366,6 +366,7 @@ url("../font/%s.ttf") format("truetype");}
             self.rollSign[rs]="§ "+self.rollSign[rs]+" §"
             
         section_ct=len(self.href_list)
+        lockinfo=''
         
         print("可下载章节数："+str(section_ct)+"\r\n")
         if loc!=[]:
@@ -373,6 +374,8 @@ url("../font/%s.ttf") format("truetype");}
             for x in loc:
                 i=i+x+" "
             print("被锁章节："+i+"\r\n")
+            lockinfo="<p><em>被锁章节："+i+"</em></p>"
+            
         
         #fillNum：填充序号的长度，例如：若全文有1437章，则每章序号有四位，依次为0001、0002……
         self.fillNum=len(str(len(self.td)-4))
@@ -495,7 +498,7 @@ url("../font/%s.ttf") format("truetype");}
         info=re.sub('一句话简介：','</p><p><b>一句话简介</b>：',info)
         info=re.sub('立意：','</p><p><b>立意</b>：',info)
         TOC+="<hr/><p>"+info+"</p>"
-        fo=open("TOC.xhtml",'w',encoding='utf-8')
+        fo=open("info.xhtml",'w',encoding='utf-8')
         fo.write('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -505,7 +508,7 @@ url("../font/%s.ttf") format("truetype");}
   <meta charset="utf-8"/>
 <link href="sgc-nav.css" rel="stylesheet" type="text/css"/>
 </head>
-<body>'''+TOC+'''</body></html>''')
+<body>'''+TOC+lockinfo+'''</body></html>''')
         fo.close()
         tlist=[]
         #获取每一章内容
@@ -532,7 +535,7 @@ url("../font/%s.ttf") format("truetype");}
         os.chdir(path)
         epub_name = ti+".epub"
         epub = zipfile.ZipFile(epub_name, 'w')
-        epubfile=EPUB2.epubfile()
+        epubfile=EPUB3.epubfile()
         epubfile.fontcss=self.fontcss
         epubfile.createEpub(epub,xaut,xtitle,ti,self.index,self.rollSign,path)
         print("\r\nepub打包完成")
