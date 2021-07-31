@@ -12,5 +12,5 @@ class configinfo():
     '''
     titleInfo='1 1 1'
         
-    #线程池最大容量
+    #线程池最大容量（数字越大，占据内存等资源越多，数字越小，下载越慢，总之看个人电脑状况决定）
     ThreadPoolMaxNum=100
