@@ -57,6 +57,14 @@ class noveldl():
     def get_sin(self,l):
         titleOrigin=l.split('=')
         i=self.href_list.index(l)
+
+        #dot=etree.HTML(cont.content)
+        fontfamily=''
+        cvlist=[]
+        cvdic=[]
+        cont=''
+        dot=''
+        codetext=''
         badgateway=True
         while(badgateway):
             cont=requests.get(l,headers=self.headerss)
@@ -67,11 +75,7 @@ class noveldl():
                 badgateway=False
             else:
                 time.sleep(1)
-            
-        #dot=etree.HTML(cont.content)
-        fontfamily=''
-        cvlist=[]
-        cvdic=[]
+
 
         #字体反爬虫
         fontsrc=re.findall(r'//static.jjwxc.net/tmp/fonts/.*?woff2.h=my.jjwxc.net',codetext)
@@ -80,6 +84,27 @@ class noveldl():
             fontname=re.sub('http://static.jjwxc.net/tmp/fonts/','',fontsrc)
             fontname=re.sub('.h=my.jjwxc.net','',fontname)
             fontfamily=re.sub('.woff2','',fontname)
+            cvdic=[]
+            if not os.path.exists(self.path+"/Fonts/"+fontfamily+'.txt'):                
+                #解析json文件
+                r=requests.get('http://jjwxc.yooooo.us/'+fontfamily+'.json')
+                fonttxt=re.sub('{"status": 0, "data": ','',r.text)
+                fonttxt=re.sub('}}','}',fonttxt)
+                cdic=json.loads(fonttxt)
+                fonttxt=''
+                f=open(self.path+"/Fonts/"+fontfamily+".txt", "w",encoding='utf-8')
+                for s,v in cdic.items():
+                    fonttxt=fonttxt+'&#x'+s+';-'+v+'\n'
+                fonttxt.strip()
+                f.write(fonttxt)
+                f.close()
+                '''
+                #若需要下载ttf文件，可运行下方代码
+                fontwb=requests.get(re.sub('woff2','ttf',fontsrc)).content
+                fontf=open(self.path+"/Fonts/"+fontfamily+'.ttf','wb')
+                fontf.write(fontwb)
+                fontf.close()
+                '''
             try:
                 with open(self.path+"/Fonts/"+fontfamily+".txt", "r",encoding='utf-8') as f:
                     cvlist=f.readlines()
@@ -88,18 +113,6 @@ class noveldl():
                     cvdic=dict(cvdic)
             except:
                 t=1
-            if not os.path.exists(self.path+"/Fonts/"+fontname):
-                fontwb=requests.get(fontsrc).content
-                fontf=open(self.path+"/Fonts/"+fontname,'wb')
-                fontf.write(fontwb)
-                fontf.close()
-                #若需要下载ttf文件，可运行下方代码
-                '''
-                fontwb=requests.get(re.sub('woff2','ttf',fontsrc)).content
-                fontf=open(self.path+"/Fonts/"+fontfamily+'.ttf','wb')
-                fontf.write(fontwb)
-                fontf.close()
-                '''
             if cvlist!=[]:
                 fontfamily+='_c'
             elif fontfamily not in self.fontlist:
