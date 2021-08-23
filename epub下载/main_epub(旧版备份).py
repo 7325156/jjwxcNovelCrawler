@@ -191,7 +191,7 @@ url("../font/%s.ttf") format("truetype");}
                             s=re.sub(r'&#x',r'\\u',s)
                             s=re.sub(';','',s).encode('utf-8').decode('unicode_escape')
                             tex[y]=re.sub(s,v.strip(),tex[y])
-            cvdic=cvlist=0
+            cvdic=cvlist=[]
             #作话在文前的情况
             if str(sign) == "['readsmall']":
                 fo.write('''<blockquote>''')
