@@ -179,7 +179,7 @@ class noveldl():
                             s=re.sub(r'&#x',r'\\u',s)
                             s=re.sub(';','',s).encode('utf-8').decode('unicode_escape')
                             tex[y]=re.sub(s,v.strip(),tex[y])
-            cvdic=cvlist=0
+            cvdic=cvlist=[]
             #作话在文前的情况
             if str(sign) == "['readsmall']":
                 for m in tex1:#删除无用文字及多余空格空行
