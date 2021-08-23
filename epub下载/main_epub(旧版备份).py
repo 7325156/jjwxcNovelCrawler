@@ -11,6 +11,7 @@ from fontTools.ttLib import TTFont
 import concurrent.futures
 import EPUB2
 #如更换epub格式，将所有EPUB2替换为EPUB3即可
+import json
 
 class noveldl():
     #小说主地址，后接小说编号
