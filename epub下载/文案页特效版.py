@@ -12,6 +12,7 @@ from fontTools.ttLib import TTFont
 import concurrent.futures
 import EPUB2
 import config
+import json
 
 class noveldl():
     #小说主地址，后接小说编号
