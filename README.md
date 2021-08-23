@@ -1,5 +1,5 @@
 <p>此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。</p>
-<p><strong>我的程序已经过时了，咱们先用它：https://github.com/fffonion/JJGet ，等我搞明白了再进化一下。</strong></p>
+<p><strong>我的程序已经过时了，咱们先用这位大佬的：https://github.com/fffonion/JJGet ，等我搞明白了再进化一下。</strong></p>
 <h3>众筹晋江反爬虫字体文件和对照表，详见issues和“反爬虫对照表”文件夹</h3>
 <p>Android系统建议使用静读天下专业版阅读（将jjwxcfont里的ttf文件复制到静读天下显示的字体文件夹中），Windows系统建议使用浏览器的EPUBReader插件，谷歌和edge浏览器都可以安装。</p>
 <p>若文章无法下载，可以在issues里把网址发给我。若只有某一章显示乱码，先看看fonts文件夹里有没有多出来一个不在字体列表中的文件，将文件名发给我。</p>
