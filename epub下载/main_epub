@@ -10,7 +10,7 @@ import shutil
 from opencc import OpenCC
 from fontTools.ttLib import TTFont
 import concurrent.futures
-import EPUB3
+import EPUB2
 import config
 import json
 
@@ -549,7 +549,7 @@ url("../font/%s.ttf") format("truetype");}
         os.chdir(path)
         epub_name = ti+".epub"
         epub = zipfile.ZipFile(epub_name, 'w')
-        epubfile=EPUB3.epubfile()
+        epubfile=EPUB2.epubfile()
         epubfile.fontcss=self.fontcss
         epubfile.createEpub(epub,xaut,xtitle,ti,self.index,self.rollSign,path)
         print("\r\nepub打包完成")
