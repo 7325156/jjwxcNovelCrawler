@@ -10,6 +10,7 @@ from opencc import OpenCC
 from fontTools.ttLib import TTFont
 import concurrent.futures
 import config
+import json
 
 class noveldl():
     #小说主地址，后接小说编号
