@@ -172,6 +172,15 @@ url("../font/%s.ttf") format("truetype");}
             self.failInfo.append(titleOrigin[2].zfill(self.fillNum))
             #print("第"+titleOrigin[2]+"章未购买或加载失败")
         else:
+            #反爬虫处理，必须把对照表TXT文件下载至Fonts文件夹
+            if cvdic!=[]:
+                for y in range(len(tex)):
+                    for s,v in cvdic.items():
+                        if not s=='&#x78"/;':
+                            s=re.sub(r'&#x',r'\\u',s)
+                            s=re.sub(';','',s).encode('utf-8').decode('unicode_escape')
+                            tex[y]=re.sub(s,v.strip(),tex[y])
+            cvdic=cvlist=[]
             #作话在文前的情况
             if str(sign) == "['readsmall']":
                 fo.write('''<blockquote>''')
