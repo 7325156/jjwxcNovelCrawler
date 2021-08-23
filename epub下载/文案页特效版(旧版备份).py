@@ -9,6 +9,7 @@ import shutil
 from opencc import OpenCC
 import concurrent.futures
 import EPUB2
+import json
 
 class noveldl():
     #小说主地址，后接小说编号
