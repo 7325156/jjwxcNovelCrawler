@@ -62,24 +62,25 @@ class epubfile():
 </head><docTitle><text>'''+self.title+'''</text></docTitle><navMap>'''
         sig=0
         tox_info+='''<navPoint id="0" playOrder="0">
-<navLabel><text>'''+self.title+'''</text></navLabel><content src="info.xhtml"/>'''
+<navLabel><text>'''+self.title+'''</text></navLabel><content src="TOC.xhtml"/>'''
         for html in os.listdir(path):
             basename = os.path.basename(html)
             if basename.endswith('html'):
-                if basename!='C.xhtml' and basename!='info.xhtml' and sig<len(index):
+                if basename!='C.xhtml' and basename!='TOC.xhtml':
                     iii=0
-                    while index[sig] in rollSign:
+                    if sig<len(index):
+                        while index[sig] in rollSign:
+                            index[sig]=re.sub('</?\w+[^>]*>','',index[sig])
+                            tox_info+='''</navPoint><navPoint id="'''+str(sig)+'''" playOrder="'''+str(sig)+'''">
+    <navLabel><text>'''+index[sig]+'''</text></navLabel><content src="'''+basename+'''"/>'''
+                            sig+=1
+                            iii=1
+                        if iii==1:
+                            basename+='#v'
                         index[sig]=re.sub('</?\w+[^>]*>','',index[sig])
-                        tox_info+='''</navPoint><navPoint id="'''+str(sig)+'''" playOrder="'''+str(sig)+'''">
-<navLabel><text>'''+index[sig]+'''</text></navLabel><content src="'''+basename+'''"/>'''
+                        tox_info+='''<navPoint id="'''+str(sig)+'''" playOrder="'''+str(sig)+'''">
+    <navLabel><text>'''+index[sig]+'''</text></navLabel><content src="'''+basename+'''"/></navPoint>'''
                         sig+=1
-                        iii=1
-                    if iii==1:
-                        basename+='#v'
-                    index[sig]=re.sub('</?\w+[^>]*>','',index[sig])
-                    tox_info+='''<navPoint id="'''+str(sig)+'''" playOrder="'''+str(sig)+'''">
-<navLabel><text>'''+index[sig]+'''</text></navLabel><content src="'''+basename+'''"/></navPoint>'''
-                    sig+=1
         tox_info+='''</navPoint></navMap></ncx>'''
         epub.writestr('OEBPS/toc.ncx',tox_info,compress_type=zipfile.ZIP_STORED)
  
@@ -110,3 +111,4 @@ text-align:center;
         epub.close()
         os.chdir(path)
         shutil.rmtree(ppp)
+    
