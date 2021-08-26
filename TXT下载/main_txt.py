@@ -440,6 +440,7 @@ class noveldl():
         '''
         for i in self.href_list:
             self.get_sin(i)
+            print('\r 下载进度：%d/%d' % (self.percent,section_ct),end='',flush=True)
         '''
         if self.failInfo != []:
             self.failInfo.sort()
