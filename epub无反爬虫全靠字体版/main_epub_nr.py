@@ -19,7 +19,7 @@ class noveldl():
     req_url_base='http://www.jjwxc.net/onebook.php?novelid='
 
     #头文件，可用来登陆，cookie可在浏览器或者client.py中获取
-    headerss={'cookie': 'timeOffset_o=-2184.800048828125; testcookie=yes; Hm_lvt_bc3b748c21fe5cf393d26c12b2c38d99=1621601230,1621643507,1621644093,1622035841; smidV2=2021020523525895c40cb64e2ebc10e61c92bae31ccb8e00880dd4f17c44b40; token=MjAwNzA4OTB8ZTVlMzRjMzU3OWFlNTIwZTlhY2Q5OTFhZGM2OWFiZWR8fHwxODMxMjQ3fDI1OTIwMDB8MXzmupDliJ3kuYvngat8fOaZi%2Baxn%2BeUqOaIt3wwfGF1dGhvcm5hbWV8MQ%3D%3D; JJEVER=%7B%22sms_total%22%3A%220%22%2C%22user_signin_days%22%3A%2220210529_20070890_0%22%2C%22desid%22%3A%227bLNNb0EK%5C%2FgWHTGyay9gTXNL71dzJ3oy%22%2C%22background%22%3A%22%22%2C%22font_size%22%3A%22%22%2C%22isKindle%22%3A%22%22%2C%22fenzhan%22%3A%22noyq%22%2C%22ispayuser%22%3A%2220070890-1%22%2C%22foreverreader%22%3A%2220070890%22%2C%22nicknameAndsign%22%3A%222%257E%2529%2524%25E9%2587%2591%25E7%259F%25B3%25E4%25B9%258B%25E8%25AA%2593%22%7D; UM_distinctid=179b6ad1c821c5-0a4702d542ac79-2363163-144000-179b6ad1c832d1; CNZZDATA30075907=cnzz_eid%3D1630076582-1610849236-http%253A%252F%252Fwww.jjwxc.net%252F%26ntime%3D1622266288; JJSESS=%7B%22returnUrl%22%3A%22//my.jjwxc.net/backend/oneauthor_login.php%3Fjsid%3D20070890-0.16773700741556952%22%2C%22sidkey%22%3A%22rvz06D7TuS4M2IcjhWCHFaVEBb9KA5%22%2C%22clicktype%22%3A%22%22%7D; Hm_lpvt_bc3b748c21fe5cf393d26c12b2c38d99=1622271923',
+    headerss={'cookie': '',
               'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36'}
 
     percent=0
