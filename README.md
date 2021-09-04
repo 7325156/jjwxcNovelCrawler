@@ -1,6 +1,6 @@
 <p>此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。</p>
 <p><strong>感谢@fffonion大佬的反爬虫方案：https://github.com/fffonion/JJGet 。</strong></p>
-<p><strong>如现有反爬虫字体有误，可使用https://github.com/yingziwu/jjwxcFontTables 的反爬虫数据（yingziwu大佬用的是图像对照方式）</strong></p>
+<p><strong>还有以下两位大佬的反爬虫方案：https://github.com/yingziwu/jjwxcFontTables ， https://github.com/iHamsterball/jjwxcfont_mapper</strong></p>
 <h3>目前手动制作的反爬虫对照表已退出历史舞台，但我们仍要感谢制作对照表的大佬们在过渡时期做出的贡献。（这话听起来好像有点不对）</h3>
 <p>Android系统建议使用静读天下专业版阅读（将jjwxcfont里的ttf文件复制到静读天下显示的字体文件夹中），Windows系统建议使用浏览器的EPUBReader插件，谷歌和edge浏览器都可以安装。</p>
 <p>若文章无法下载，可以在issues里把网址发给我。若只有某一章显示乱码，先看看fonts文件夹里有没有多出来一个不在字体列表中的文件，将文件名发给我。</p>
