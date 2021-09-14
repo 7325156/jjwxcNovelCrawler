@@ -413,7 +413,7 @@ url("../font/%s.ttf") format("truetype");}
         TOC="<h1 class='title' title='"+xtitle+"-"+xaut+"'><a href='"+req_url+"'>"+xtitle+"</a></h1>"
         TOC+="<h2 class='sigil_not_in_toc title'>作者：<a href='"+xauthref+"'>"+xaut+"</a></h2>"
         TOC+='''<blockquote>'''
-        self.index.append(xtitle+"-"+xaut)
+        #self.index.append(xtitle+"-"+xaut)
         #生成目录文字
         for l in self.href_list:
             titleOrigin=l.split('=')
