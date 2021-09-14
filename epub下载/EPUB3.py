@@ -41,7 +41,7 @@ class epubfile():
 %(manifest)s
 </manifest><spine toc="ncx">
 <itemref idref="C.xhtml" />
-<itemref idref="TOC.xhtml" />
+<itemref idref="info.xhtml" />
 <itemref idref="nav.xhtml" />
 %(spine)s
 </spine></package>'''
@@ -51,7 +51,7 @@ class epubfile():
             basename = os.path.basename(html)
             if basename.endswith('html'):
                 manifest += '<item id="%s" href="Fonts/%s" media-type="application/xhtml+xml"/>' % (basename, basename)
-                if basename != 'C.xhtml' and basename != 'TOC.xhtml':
+                if basename != 'C.xhtml' and basename != 'info.xhtml':
                     spine += '<itemref idref="%s"/>' % (basename)
         spine+='''<guide>
     <reference type="cover" title="封面" href="C.xhtml"/>
@@ -72,12 +72,12 @@ class epubfile():
     <ol>
     '''
         sig=0
-        nav_info+='''<li><a href="TOC.xhtml">'''+self.title+'-'+self.author+'''</a>
+        nav_info+='''<li><a href="info.xhtml">'''+self.title+'-'+self.author+'''</a>
 <ol>'''
         for html in os.listdir(path):
             basename = os.path.basename(html)
             if basename.endswith('html'):
-                if basename!='C.xhtml' and basename!='TOC.xhtml':
+                if basename!='C.xhtml' and basename!='info.xhtml':
                     iii=0
                     if sig<len(index):
                         while index[sig] in rollSign:
@@ -108,11 +108,11 @@ class epubfile():
 </head><docTitle><text>'''+self.title+'''</text></docTitle><navMap>'''
         sig=0
         tox_info+='''<navPoint id="0" playOrder="0">
-<navLabel><text>'''+self.title+'''</text></navLabel><content src="TOC.xhtml"/>'''
+<navLabel><text>'''+self.title+'''</text></navLabel><content src="info.xhtml"/>'''
         for html in os.listdir(path):
             basename = os.path.basename(html)
             if basename.endswith('html'):
-                if basename!='C.xhtml' and basename!='TOC.xhtml':
+                if basename!='C.xhtml' and basename!='info.xhtml':
                     iii=0
                     if sig<len(index):
                         while index[sig] in rollSign:
@@ -168,4 +168,3 @@ text-align:center;
         epub.close()
         os.chdir(path)
         shutil.rmtree(ppp)
-
