@@ -62,11 +62,11 @@ class epubfile():
 </head><docTitle><text>'''+self.title+'''</text></docTitle><navMap>'''
         sig=0
         tox_info+='''<navPoint id="0" playOrder="0">
-<navLabel><text>'''+self.title+'''</text></navLabel><content src="TOC.xhtml"/>'''
+<navLabel><text>'''+self.title+'-'+self.author+'''</text></navLabel><content src="info.xhtml"/>'''
         for html in os.listdir(path):
             basename = os.path.basename(html)
             if basename.endswith('html'):
-                if basename!='C.xhtml' and basename!='TOC.xhtml':
+                if basename!='C.xhtml' and basename!='info.xhtml':
                     iii=0
                     if sig<len(index):
                         while index[sig] in rollSign:
@@ -111,4 +111,3 @@ text-align:center;
         epub.close()
         os.chdir(path)
         shutil.rmtree(ppp)
-    
