@@ -497,6 +497,7 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
             ti = OpenCC('s2t').convert(ti)
         self.textEdit.append("网址：" + ids + "\n小说信息：" + str(ti) + "\n")
         self.textEdit.moveCursor(self.textEdit.textCursor().End)
+        self.setWindowTitle("正在下载："+xtitle + '-' + xaut)
 
         # 获取所有章节网址、标题、内容提要
         self.td = ress.xpath('//*[@id="oneboolt"]//tr')
@@ -754,6 +755,7 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
                     self.progressBar.setValue(int(100 * self.percent / section_ct))
                     self.progressBar.update()
                     self.pct.setText(str(self.percent) + '/' + str(section_ct))
+                    self.setWindowTitle("正在下载：" + xtitle + '-' + xaut+" ("+self.pct.text()+")")
                     QApplication.processEvents()
             self.progressBar.setValue(int(100 * self.percent / section_ct))
             self.progressBar.update()
@@ -799,6 +801,7 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
             epubfile.createEpub(epub, xaut, xtitle, ti, self.index, self.rollSign, path)
             self.textEdit.append("\nepub打包完成")
             self.textEdit.moveCursor(self.textEdit.textCursor().End)
+        self.setWindowTitle("下载完成：" + xtitle + '-' + xaut + " (" + self.pct.text() + ")")
         QApplication.processEvents()
 
 
