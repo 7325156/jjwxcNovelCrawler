@@ -1,0 +1,7 @@
+lxml
+opencc-python-reimplemented
+fontTools
+requests
+selenium
+PyQt5
+PyQt5-tools
