@@ -24,7 +24,6 @@ from PyQt5.QtGui import *
 import EPUB2
 import EPUB3
 
-
 class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
     # 小说主地址，后接小说编号
     req_url_base = 'http://www.jjwxc.net/onebook.php?novelid='
@@ -54,6 +53,7 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
         # self._thread.updated.connect(self.download)
         super(MyWindow, self).__init__(parent)
         self.setupUi(self)
+
         # 限制lineEdit编辑框只能输入数字
         intValidator = QIntValidator(self)
         intValidator.setRange(1, 999)
@@ -63,7 +63,6 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
         self.start.clicked.connect(self.download)
         self.progressBar.setRange(0, 100)
         self.progressBar.setValue(0)
-
         ico_path = os.path.join(os.path.dirname(__file__), 'jjlogo.ico')
         icon = QIcon()
         icon.addPixmap(QPixmap(ico_path), QIcon.Normal, QIcon.Off)
@@ -104,9 +103,8 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
             else:
                 self.checkBox.setChecked(False)
         else:
-            f=open('config.yml', 'w', encoding='utf-8')
+            f = open('config.yml', 'w', encoding='utf-8')
         f.close()
-
 
     def saveconfig(self):
         with open('config.yml', encoding='utf-8') as f:
@@ -164,24 +162,22 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
 
     def download(self):
         self.textEdit.clear()
-        self.textEdit.append('*以下是输入设置，若按回车，则按照config文件中的数据进行配置*')
         self.textEdit.moveCursor(self.textEdit.textCursor().End)
-        f = open('config.yml', encoding='utf-8')
-        confdict = yaml.load(f.read(), Loader=yaml.FullLoader)
 
-        cookie = confdict['cookie']
+        cookie = self.jjcookie.text()
         num = self.jjurl.text()
         self.headerss = {'cookie': cookie,
                          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
 
-        state = confdict['state']
+        if self.stremain.isChecked():
+            self.state = ""
+        elif self.s2t.isChecked():
+            self.state = str("t")
+        elif self.t2s.isChecked():
+            self.state = str("s")
 
-        titleInfo = confdict['titleInfo']
-        titleInfo = titleInfo.split(' ')
-        while len(titleInfo) < 3:
-            titleInfo.append(titleInfo[len(titleInfo) - 1])
-        self.titleInfo = titleInfo
-        self.get_txt(num, state, confdict['ThreadPoolMaxNum'])
+        self.get_txt(num, int(self.threadnum.text()))
+        QApplication.processEvents()
 
     def get_sin(self, l):
         titleOrigin = l.split('=')
@@ -262,17 +258,17 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
 
         title = ''
         # 序号填充
-        if self.titleInfo[0] == '1':
+        if self.number.isChecked():
             title = str(titleOrigin[2]).zfill(self.fillNum)
             if self.txt.isChecked():
                 title += " #"
 
         # 章节名称
-        if self.titleInfo[1] == '1':
+        if self.title.isChecked():
             title = title + " " + self.titleindex[i].strip()
 
         # 内容提要
-        if self.titleInfo[2] == '1':
+        if self.summary.isChecked():
             title = title + " " + self.Summary[i].strip()
 
         title = title.strip()
@@ -425,8 +421,9 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
             fo.write("</body></html>")
         fo.close()
         self.percent += 1
+        QApplication.processEvents()
 
-    def get_txt(self, txt_id, state, threadnum):
+    def get_txt(self, txt_id, threadnum):
         titlem = ''
         intro = ''
         ids = str(txt_id)
@@ -754,12 +751,15 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
             tlist = {executor.submit(self.get_sin, i): i for i in self.href_list}
             for future in concurrent.futures.as_completed(tlist):
                 if self.percent < section_ct:
-                    self.progressBar.setValue(100 * self.percent / section_ct)
+                    self.progressBar.setValue(int(100 * self.percent / section_ct))
                     self.progressBar.update()
+                    self.pct.setText(str(self.percent) + '/' + str(section_ct))
+                    QApplication.processEvents()
             self.progressBar.setValue(int(100 * self.percent / section_ct))
             self.progressBar.update()
             self.textEdit.append('\n 下载完成，总进度：' + str(self.percent) + '/' + str(section_ct))
             self.textEdit.moveCursor(self.textEdit.textCursor().End)
+            self.pct.setText(str(self.percent) + '/' + str(section_ct))
         '''
         for i in self.href_list:
             self.get_sin(i)
@@ -799,6 +799,7 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
             epubfile.createEpub(epub, xaut, xtitle, ti, self.index, self.rollSign, path)
             self.textEdit.append("\nepub打包完成")
             self.textEdit.moveCursor(self.textEdit.textCursor().End)
+        QApplication.processEvents()
 
 
 if __name__ == '__main__':
