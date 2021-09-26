@@ -1,4 +1,4 @@
-github下载：[![GitHub release](https://img.shields.io/github/release/7325156/jjwxcNovelCrawler.svg)](https://github.com/7325156/jjwxcNovelCrawler/releases/latest/) <br/>
+github下载：[![GitHub release](https://img.shields.io/github/release/7325156/jjwxcNovelCrawler-red.svg)](https://github.com/7325156/jjwxcNovelCrawler/releases/latest/) <br/>
 蓝奏云下载：https://wwr.lanzoui.com/b02oduqmd 密码:a5jo <br/>
 <p>此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。</p>
 <p><strong>感谢@fffonion大佬的反爬虫方案：https://github.com/fffonion/JJGet 。</strong></p>
