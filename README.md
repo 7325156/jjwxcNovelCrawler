@@ -1,6 +1,5 @@
+[![GitHub release](https://img.shields.io/github/release/7325156/jjwxcNovelCrawler.svg)](https://github.com/7325156/jjwxcNovelCrawler/releases/latest/)
 <p>此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。</p>
-<p>如要下载，请见此处：[![GitHub release](https://img.shields.io/github/v/release/7325156/jjwxcNovelCrawler.svg)](https://github.com/7325156/jjwxcNovelCrawler/releases/latest)
-</p>
 <p><strong>感谢@fffonion大佬的反爬虫方案：https://github.com/fffonion/JJGet 。</strong></p>
 <p><strong>还有以下两位大佬的反爬虫方案：https://github.com/yingziwu/jjwxcFontTables ， https://github.com/iHamsterball/jjwxcfont_mapper</strong></p>
 <h3>鉴于各位大佬的反爬虫方案或多或少有bug，所以在<a href="https://github.com/7325156/jjwxcNovelCrawler/issues/12"> 此处 </a>众筹校对版的反爬虫对照表（至少减轻了工作量）</h3>
