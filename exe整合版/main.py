@@ -78,7 +78,7 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
                 self.stremain.setChecked(True)
             self.jjcookie.setText(confdict['cookie'])
             self.threadnum.setText(str(confdict['ThreadPoolMaxNum']))
-            QApplication.processEvents()
+
             while len(titleInfo) < 3:
                 titleInfo.append(titleInfo[len(titleInfo) - 1])
             if titleInfo[0] == '0':
@@ -101,7 +101,7 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
                 self.checkBox.setChecked(True)
             else:
                 self.checkBox.setChecked(False)
-            QApplication.processEvents()
+
         else:
             f = open('config.yml', 'w', encoding='utf-8')
         f.close()
@@ -163,7 +163,6 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
     def download(self):
         self.textEdit.clear()
         self.textEdit.moveCursor(self.textEdit.textCursor().End)
-        QApplication.processEvents()
 
         cookie = self.jjcookie.text()
         num = self.jjurl.text()
@@ -178,7 +177,6 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
             self.state = str("s")
 
         self.get_txt(num, int(self.threadnum.text()))
-        QApplication.processEvents()
 
     def get_sin(self, l):
         titleOrigin = l.split('=')
@@ -202,7 +200,6 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
                 badgateway = False
             else:
                 time.sleep(1)
-        QApplication.processEvents()
 
         # 字体反爬虫
         fontsrc = re.findall(r'//static.jjwxc.net/tmp/fonts/.*?woff2.h=my.jjwxc.net', codetext)
@@ -213,10 +210,12 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
             fontfamily = re.sub('.woff2', '', fontname)
             cvdic = []
             if not os.path.exists(self.path + "/Fonts/" + fontfamily + '.txt'):
-                r=requests.get('https://raw.fastgit.org/7325156/7325156.github.io/master/jjFontTable/' + fontfamily + '.txt')
-                fonttxt=r.text
+                r = requests.get(
+                    'https://raw.fastgit.org/7325156/7325156.github.io/master/jjFontTable/' + fontfamily + '.txt')
+                fonttxt = r.text
+                f = open(self.path + "/Fonts/" + fontfamily + ".txt", "w", encoding='utf-8')
                 if 'Not Found' in fonttxt:
-                    fonttxt=''
+                    fonttxt = ''
                     # 解析json文件
                     r = requests.get('http://jjwxc.yooooo.us/' + fontfamily + '.json')
                     fonttxt = re.sub('{"status": 0, "data": ', '', r.text)
@@ -227,15 +226,12 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
                             'https://raw.fastgit.org/yingziwu/jjwxcFontTables/master/tables/' + fontfamily + '.json')
                         cdic = json.loads(r.text)
                     fonttxt = ''
-                    f = open(self.path + "/Fonts/" + fontfamily + ".txt", "w", encoding='utf-8')
+
                     for s, v in cdic.items():
                         fonttxt = fonttxt + '&#x' + s + ';-' + v + '\n'
                     fonttxt.strip()
-                    f.write(fonttxt)
-                else:
-                    with open(self.path + "/Fonts/" + fontfamily + ".txt", "w", encoding='utf-8') as code:
-                        code.write(fonttxt)
 
+                f.write(fonttxt)
                 f.close()
                 r.close()
 
@@ -266,7 +262,6 @@ url("../font/%s") format('woff2'),
 url("../font/%s.ttf") format("truetype");}
 .%s{font-family:"%s",serif;}
 ''' % (fontfamily, fontsrc, fontname, fontfamily, fontfamily, fontfamily)
-            QApplication.processEvents()
 
         # tex:正文
         tex = dot.xpath('//*[@id="oneboolt"]/tr[2]/td[1]/div/text()')
@@ -331,7 +326,6 @@ url("../font/%s.ttf") format("truetype");}
                 rs = " id='v'"
             self.textEdit.append("\n" + v + "\n")
             self.textEdit.moveCursor(self.textEdit.textCursor().End)
-            QApplication.processEvents()
 
         # 写入标题
         if self.txt.isChecked():
@@ -442,7 +436,6 @@ url("../font/%s.ttf") format("truetype");}
             fo.write("</body></html>")
         fo.close()
         self.percent += 1
-        QApplication.processEvents()
 
     def get_txt(self, txt_id, threadnum):
         titlem = ''
@@ -472,7 +465,6 @@ url("../font/%s.ttf") format("truetype");}
         res = requests.get(req_url, headers=self.headerss)
         # 对文章进行编码
         ress = etree.HTML(res.content.decode("GB18030", "ignore").encode("utf-8", "ignore").decode('utf-8'))
-        QApplication.processEvents()
         res.close()
 
         # 获取文案
@@ -498,7 +490,7 @@ url("../font/%s.ttf") format("truetype");}
                 img = "0"
                 self.textEdit.append("【封面下载失败！请检查网络或尝试科学上网。】\n")
                 self.textEdit.moveCursor(self.textEdit.textCursor().End)
-                QApplication.processEvents()
+
             else:
                 img = pres.content
         else:
@@ -519,7 +511,6 @@ url("../font/%s.ttf") format("truetype");}
         self.textEdit.append("网址：" + ids + "\n小说信息：" + str(ti) + "\n")
         self.textEdit.moveCursor(self.textEdit.textCursor().End)
         self.setWindowTitle("正在下载：" + xtitle + '-' + xaut)
-        QApplication.processEvents()
 
         # 获取所有章节网址、标题、内容提要
         self.td = ress.xpath('//*[@id="oneboolt"]//tr')
@@ -784,7 +775,7 @@ url("../font/%s.ttf") format("truetype");}
             self.textEdit.append('\n 下载完成，总进度：' + str(self.percent) + '/' + str(section_ct))
             self.textEdit.moveCursor(self.textEdit.textCursor().End)
             self.pct.setText(str(self.percent) + '/' + str(section_ct))
-            QApplication.processEvents()
+
         '''
         for i in self.href_list:
             self.get_sin(i)
@@ -797,7 +788,7 @@ url("../font/%s.ttf") format("truetype");}
             self.textEdit.append("\n未购买或加载失败章节：")
             self.textEdit.append(vs[:-1] + "\n")
             self.textEdit.moveCursor(self.textEdit.textCursor().End)
-            QApplication.processEvents()
+
         if self.txt.isChecked():
             # txt整合
             os.chdir(path)
@@ -812,7 +803,7 @@ url("../font/%s.ttf") format("truetype");}
             shutil.rmtree(ppp)
             self.textEdit.append("\ntxt文件整合完成")
             self.textEdit.moveCursor(self.textEdit.textCursor().End)
-            QApplication.processEvents()
+
         else:
             # 保存为epub
             os.chdir(path)
@@ -827,7 +818,6 @@ url("../font/%s.ttf") format("truetype");}
             self.textEdit.append("\nepub打包完成")
             self.textEdit.moveCursor(self.textEdit.textCursor().End)
         self.setWindowTitle("下载完成：" + xtitle + '-' + xaut + " (" + self.pct.text() + ")")
-        QApplication.processEvents()
 
 
 if __name__ == '__main__':
