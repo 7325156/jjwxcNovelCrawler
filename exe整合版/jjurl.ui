@@ -24,41 +24,36 @@
    <widget class="QWidget" name="formLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>250</x>
       <y>90</y>
-      <width>191</width>
-      <height>91</height>
+      <width>171</width>
+      <height>45</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="tstran">
+     <item row="0" column="1">
+      <widget class="QComboBox" name="stch">
+       <item>
+        <property name="text">
+         <string>不变</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>繁转简</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>简转繁</string>
+        </property>
+       </item>
+      </widget>
+     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
         <string>繁简转换：</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QRadioButton" name="stremain">
-       <property name="text">
-        <string>不变</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QRadioButton" name="s2t">
-       <property name="text">
-        <string>简转繁</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QRadioButton" name="t2s">
-       <property name="text">
-        <string>繁转简</string>
        </property>
       </widget>
      </item>
@@ -67,10 +62,10 @@
    <widget class="QWidget" name="formLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>20</x>
       <y>90</y>
-      <width>251</width>
-      <height>132</height>
+      <width>171</width>
+      <height>41</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="fileend">
@@ -82,44 +77,22 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QRadioButton" name="txt">
-       <property name="text">
-        <string>txt</string>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QRadioButton" name="epub2">
-       <property name="text">
-        <string>epub2</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QRadioButton" name="epub2s">
-       <property name="text">
-        <string>epub2-文案带特效</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QRadioButton" name="epub3">
-       <property name="text">
-        <string>epub3</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QRadioButton" name="epub3s">
-       <property name="text">
-        <string>epub3-文案带特效</string>
-       </property>
+      <widget class="QComboBox" name="format">
+       <item>
+        <property name="text">
+         <string>txt</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>epub2</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>epub3</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
@@ -179,10 +152,10 @@
    <widget class="QWidget" name="formLayoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>180</y>
+      <x>20</x>
+      <y>210</y>
       <width>191</width>
-      <height>101</height>
+      <height>81</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="titlestyle">
@@ -203,16 +176,6 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QCheckBox" name="summary">
-       <property name="text">
-        <string>内容提要</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="1">
       <widget class="QCheckBox" name="title">
        <property name="text">
@@ -223,52 +186,17 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="1">
+      <widget class="QCheckBox" name="summary">
+       <property name="text">
+        <string>内容提要</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
-   </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>240</y>
-      <width>91</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>最大线程数：</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="threadnum">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>240</y>
-      <width>113</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="inputMask">
-     <string/>
-    </property>
-    <property name="text">
-     <string>100</string>
-    </property>
-    <property name="echoMode">
-     <enum>QLineEdit::Normal</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>280</y>
-      <width>171</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>（建议范围：1-999）</string>
-    </property>
    </widget>
    <widget class="QPushButton" name="start">
     <property name="geometry">
@@ -287,7 +215,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>360</y>
+      <y>340</y>
       <width>81</width>
       <height>21</height>
      </rect>
@@ -313,9 +241,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>380</y>
+      <y>370</y>
       <width>521</width>
-      <height>221</height>
+      <height>231</height>
      </rect>
     </property>
     <property name="contextMenuPolicy">
@@ -335,11 +263,11 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;（当前无输出信息）&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QCheckBox" name="cover">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>280</y>
+      <x>20</x>
+      <y>170</y>
       <width>181</width>
       <height>41</height>
      </rect>
@@ -355,7 +283,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>330</y>
+      <y>310</y>
       <width>421</width>
       <height>23</height>
      </rect>
@@ -368,13 +296,149 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>325</y>
+      <y>300</y>
       <width>81</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
      <string>下载进度：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="pct">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>340</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>0/0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="special">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>150</y>
+      <width>164</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>epub文案加特效</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="formLayoutWidget_4">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>230</y>
+      <width>171</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>最大线程数：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="threadnum">
+         <property name="inputMask">
+          <string/>
+         </property>
+         <property name="text">
+          <string>100</string>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::Normal</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>（建议范围：1-999）</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="formLayoutWidget_5">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>140</y>
+      <width>283</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QFormLayout" name="formLayout_2">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>反爬虫方案：</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="crawler">
+       <item>
+        <property name="text">
+         <string>7325156的方案（推荐）</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>fffonion的方案</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>yingziwu的方案</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QCheckBox" name="crawlerupdate">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>200</y>
+      <width>181</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>更新反爬虫文件</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="ttffile">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>170</y>
+      <width>191</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>下载ttf格式反爬虫文件</string>
     </property>
    </widget>
   </widget>

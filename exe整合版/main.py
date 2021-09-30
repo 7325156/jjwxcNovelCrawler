@@ -46,6 +46,7 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
     titleInfo = [1, 1, 1]
     fontcss = ''
     fontlist = []
+    currentTitle=''
 
     def __init__(self, parent=None):
         # self._thread = MyThread(self)
@@ -71,11 +72,11 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
             titleInfo = confdict['titleInfo'].split(' ')
             state = confdict['state']
             if state == 't':
-                self.s2t.setChecked(True)
+                self.stch.setCurrentIndex(2)
             elif state == 's':
-                self.t2s.setChecked(True)
+                self.stch.setCurrentIndex(1)
             else:
-                self.stremain.setChecked(True)
+                self.stch.setCurrentIndex(0)
             self.jjcookie.setText(confdict['cookie'])
             self.threadnum.setText(str(confdict['ThreadPoolMaxNum']))
 
@@ -88,34 +89,52 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
             if titleInfo[2] == '0':
                 self.summary.setChecked(False)
             if confdict['format'] == 'epub2':
-                self.epub2.setChecked(True)
+                self.format.setCurrentIndex(1)
             elif confdict['format'] == 'epub3':
-                self.epub3.setChecked(True)
-            elif confdict['format'] == 'epub2s':
-                self.epub2s.setChecked(True)
-            elif confdict['format'] == 'epub3s':
-                self.epub3s.setChecked(True)
+                self.format.setCurrentIndex(2)
             elif confdict['format'] == 'txt':
-                self.txt.setChecked(True)
-            if confdict['cover']:
-                self.checkBox.setChecked(True)
+                self.format.setCurrentIndex(0)
+            if confdict['special']:
+                self.special.setChecked(True)
             else:
-                self.checkBox.setChecked(False)
+                self.special.setChecked(False)
+            if confdict['cover']:
+                self.cover.setChecked(True)
+            else:
+                self.cover.setChecked(False)
+            if confdict['crawlermode'] == '7325156的方案':
+                self.crawler.setCurrentIndex(0)
+            elif confdict['crawlermode'] == "fffonion的方案":
+                self.crawler.setCurrentIndex(1)
+            elif confdict['crawlermode'] == "yingziwu的方案":
+                self.crawler.setCurrentIndex(2)
+            if confdict['ttf']:
+                self.ttffile.setChecked(True)
+            else:
+                self.ttffile.setChecked(False)
+            if confdict['crawlerupdate']:
+                self.crawlerupdate.setChecked(True)
+            else:
+                self.crawlerupdate.setChecked(False)
 
         else:
             f = open('config.yml', 'w', encoding='utf-8')
         f.close()
+
+    def updateText(self, text):
+        self.textEdit.append(text)
+        self.textEdit.moveCursor(self.textEdit.textCursor().End)
 
     def saveconfig(self):
         with open('config.yml', encoding='utf-8') as f:
             doc = yaml.load(f.read(), Loader=yaml.FullLoader)
         cookies = self.jjcookie.text().replace("\n", " ")
         doc['cookie'] = str(cookies)
-        if self.stremain.isChecked():
+        if self.stch.currentIndex() == 0:
             doc['state'] = ""
-        elif self.s2t.isChecked():
+        elif self.stch.currentIndex() == 2:
             doc['state'] = str("t")
-        elif self.t2s.isChecked():
+        elif self.stch.currentIndex() == 1:
             doc['state'] = str("s")
         titleinfo = ""
         if self.number.isChecked():
@@ -132,20 +151,34 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
         else:
             titleinfo += " 0"
         doc['titleInfo'] = str(titleinfo)
-        if self.epub2.isChecked():
+        if self.format.currentText() == "epub2":
             doc['format'] = 'epub2'
-        elif self.epub3.isChecked():
+        elif self.format.currentText() == "epub3":
             doc['format'] = 'epub3'
-        elif self.epub3s.isChecked():
-            doc['format'] = 'epub3s'
-        elif self.epub2s.isChecked():
-            doc['format'] = 'epub2s'
-        elif self.txt.isChecked():
+        elif self.format.currentText() == "txt":
             doc['format'] = 'txt'
-        if self.checkBox.isChecked():
+        if self.special.isChecked():
+            doc['special'] = 1
+        else:
+            doc['special'] = 0
+        if self.cover.isChecked():
             doc['cover'] = 'e'
         else:
             doc['cover'] = ''
+        if self.crawler.currentText() == "7325156的方案":
+            doc['crawlermode'] = "7325156的方案"
+        elif self.crawler.currentText() == "fffonion的方案":
+            doc['crawlermode'] = "fffonion的方案"
+        elif self.crawler.currentText() == "yingziwu的方案":
+            doc['crawlermode'] = "yingziwu的方案"
+        if self.ttffile.isChecked():
+            doc['ttf'] = 1
+        else:
+            doc['ttf'] = 0
+        if self.crawlerupdate.isChecked():
+            doc['crawlerupdate'] = 1
+        else:
+            doc['crawlerupdate'] = 0
 
         try:
             if 0 < int(self.threadnum.text()) < 1000:
@@ -159,6 +192,7 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
 
         with open('config.yml', 'w', encoding='utf-8') as f:
             yaml.dump(doc, f)
+        self.setWindowTitle("晋江小说下载-配置保存完成！")
 
     def download(self):
         self.textEdit.clear()
@@ -169,19 +203,21 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
         self.headerss = {'cookie': cookie,
                          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
 
-        if self.stremain.isChecked():
+        if self.stch.currentIndex() == 0:
             self.state = ""
-        elif self.s2t.isChecked():
+        elif self.stch.currentIndex() == 2:
             self.state = str("t")
-        elif self.t2s.isChecked():
+        elif self.stch.currentIndex() == 1:
             self.state = str("s")
-
-        self.get_txt(num, int(self.threadnum.text()))
+        if re.findall(r'http\://www.jjwxc.net/onebook.php\?novelid=[0-9]+',num):
+            self.get_txt(num, int(self.threadnum.text()))
+        else:
+            QMessageBox.warning(self, '警告', '网址格式错误！请使用网页版网址', QMessageBox.Yes)
 
     def get_sin(self, l):
         titleOrigin = l.split('=')
         i = self.href_list.index(l)
-
+        self.currentTitle=''
         # dot=etree.HTML(cont.content)
         fontfamily = ''
         cvlist = []
@@ -209,39 +245,99 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
             fontname = re.sub('.h=my.jjwxc.net', '', fontname)
             fontfamily = re.sub('.woff2', '', fontname)
             cvdic = []
-            if not os.path.exists(self.path + "/Fonts/" + fontfamily + '.txt'):
-                r = requests.get(
-                    'https://raw.fastgit.org/7325156/7325156.github.io/master/jjFontTable/' + fontfamily + '.txt')
-                fonttxt = r.text
-                f = open(self.path + "/Fonts/" + fontfamily + ".txt", "w", encoding='utf-8')
-                if 'Not Found' in fonttxt:
-                    fonttxt = ''
+            fonttxt=''
+            fonttxtb=''
+            if not os.path.exists(self.path + "/Fonts/" + fontfamily + '.txt') or self.crawlerupdate.isChecked():
+                if self.crawler.currentIndex() == 0:
+                    r = requests.get('https://raw.fastgit.org/7325156/7325156.github.io/master/jjFontTable/' + fontfamily + '.txt')
+                    fonttxtb = r.content
+                    fonttxt = r.text
+                    if len(fonttxt.splitlines(True))<100:
+                        f = open(self.path + "/Fonts/" + fontfamily + ".txt", "w", encoding='utf-8')
+                        r = requests.get('https://raw.fastgit.org/yingziwu/jjwxcFontTables/master/tables/' + fontfamily + '.json')
+                        r=re.sub(' ','',r.text)
+                        r=re.sub('\n','',r)
+                        r=re.sub(r'\{\"\\u','{"',r)
+                        r=re.sub(r'\,\"\\u',',"',r)
+                        cdic = json.loads(r)
+
+                        if len(cdic) < 100:
+                            r = requests.get('http://jjwxc.yooooo.us/' + fontfamily + '.json')
+                            fonttxt = re.sub('{"status": 0, "data": ', '', r.text)
+                            fonttxt = re.sub('}}', '}', fonttxt)
+                            cdic = json.loads(fonttxt)
+
+                        fonttxt = ''
+                        fonttxtb=''
+
+                        for s, v in cdic.items():
+                            fonttxt = fonttxt + '&#x' + s + ';-' + v + '\n'
+                        fonttxt.strip()
+                elif self.crawler.currentIndex() == 2:
                     # 解析json文件
-                    r = requests.get('http://jjwxc.yooooo.us/' + fontfamily + '.json')
-                    fonttxt = re.sub('{"status": 0, "data": ', '', r.text)
-                    fonttxt = re.sub('}}', '}', fonttxt)
-                    cdic = json.loads(fonttxt)
+                    r = requests.get('https://raw.fastgit.org/yingziwu/jjwxcFontTables/master/tables/' + fontfamily + '.json')
+                    r=re.sub(' ','',r.text)
+                    r=re.sub('\n','',r)
+                    r=re.sub(r'\{\"\\u','{"',r)
+                    r=re.sub(r'\,\"\\u',',"',r)
+                    cdic = json.loads(r)
+
                     if len(cdic) < 100:
-                        r = requests.get(
-                            'https://raw.fastgit.org/yingziwu/jjwxcFontTables/master/tables/' + fontfamily + '.json')
-                        cdic = json.loads(r.text)
+                        r = requests.get('http://jjwxc.yooooo.us/' + fontfamily + '.json')
+                        fonttxt = re.sub('{"status": 0, "data": ', '', r.text)
+                        fonttxt = re.sub('}}', '}', fonttxt)
+                        cdic = json.loads(fonttxt)
+
                     fonttxt = ''
 
                     for s, v in cdic.items():
                         fonttxt = fonttxt + '&#x' + s + ';-' + v + '\n'
                     fonttxt.strip()
+                    if  len(fonttxt.splitlines(True))<100:
+                        r = requests.get(
+                            'https://raw.fastgit.org/7325156/7325156.github.io/master/jjFontTable/' + fontfamily + '.txt')
+                        fonttxtb = r.content
+                else:
+                    # 解析json文件
+                    r = requests.get('http://jjwxc.yooooo.us/' + fontfamily + '.json')
+                    fonttxt = re.sub('{"status": 0, "data": ', '', r.text)
+                    fonttxt = re.sub('}}', '}', fonttxt)
+                    cdic = json.loads(fonttxt)
 
-                f.write(fonttxt)
-                f.close()
-                r.close()
+                    if len(cdic) < 100:
+                        f = open(self.path + "/Fonts/" + fontfamily + ".txt", "w", encoding='utf-8')
+                        r = requests.get(
+                            'https://raw.fastgit.org/yingziwu/jjwxcFontTables/master/tables/' + fontfamily + '.json')
+                        r=re.sub(' ','',r.text)
+                        r=re.sub('\n','',r)
+                        r=re.sub(r'\{\"\\u','{"',r)
+                        r=re.sub(r'\,\"\\u',',"',r)
+                        cdic = json.loads(r)
+
+                    fonttxt = ''
+
+                    for s, v in cdic.items():
+                        fonttxt = fonttxt + '&#x' + s + ';-' + v + '\n'
+                    fonttxt.strip()
+                    if  len(fonttxt.splitlines(True))<100:
+                        r = requests.get(
+                            'https://raw.fastgit.org/7325156/7325156.github.io/master/jjFontTable/' + fontfamily + '.txt')
+                        fonttxtb = r.content
+                if fonttxtb:
+                    with open(self.path + "/Fonts/" + fontfamily + ".txt", "wb") as f:
+                        f.write(fonttxtb)
+                else:
+                    with open(self.path + "/Fonts/" + fontfamily + ".txt", "w", encoding='utf-8') as f:
+                        f.write(fonttxt.strip())
 
                 # 若需要下载ttf文件，可运行下方代码
-                fontwb = requests.get(re.sub('woff2', 'ttf', fontsrc))
-                fontct = fontwb.content
-                fontf = open(self.path + "/Fonts/" + fontfamily + '.ttf', 'wb')
-                fontf.write(fontct)
-                fontf.close()
-                fontwb.close()
+                if self.ttffile.isChecked():
+                    fontwb = requests.get(re.sub('woff2', 'ttf', fontsrc))
+                    fontct = fontwb.content
+                    fontf = open(self.path + "/Fonts/" + fontfamily + '.ttf', 'wb')
+                    fontf.write(fontct)
+                    fontf.close()
+                    fontwb.close()
 
             try:
                 with open(self.path + "/Fonts/" + fontfamily + ".txt", "r", encoding='utf-8') as f:
@@ -267,7 +363,7 @@ url("../font/%s.ttf") format("truetype");}
         tex = dot.xpath('//*[@id="oneboolt"]/tr[2]/td[1]/div/text()')
 
         # tex1:作话
-        tex1 = dot.xpath("//div[@class='readsmall']/text()")
+        tex1 = dot.xpath("//div[@class='readsmall']//text()")
         # sign:作话位置
         sign = dot.xpath("//*[@id='oneboolt']/tr[2]/td[1]/div/div[4]/@class")
 
@@ -275,7 +371,7 @@ url("../font/%s.ttf") format("truetype");}
         # 序号填充
         if self.number.isChecked():
             title = str(titleOrigin[2]).zfill(self.fillNum)
-            if self.txt.isChecked():
+            if self.format.currentText() == "txt":
                 title += " #"
 
         # 章节名称
@@ -287,6 +383,7 @@ url("../font/%s.ttf") format("truetype");}
             title = title + " " + self.Summary[i].strip()
 
         title = title.strip()
+        self.currentTitle=title
 
         if self.state == 's':
             title = OpenCC('t2s').convert(title)
@@ -300,38 +397,28 @@ url("../font/%s.ttf") format("truetype");}
                 v = OpenCC('s2t').convert(self.rollSign[self.rollSignPlace.index(l)])
 
         # 创建章节文件
-        if self.txt.isChecked():
-            fo = open("z" + str(titleOrigin[2].zfill(4)) + ".txt", 'w', encoding='utf-8')
-        else:
-            fo = open("z" + str(titleOrigin[2].zfill(4)) + ".xhtml", 'w', encoding='utf-8')
-            fo.write('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head><title>''' + title + '''</title>
-<meta charset="utf-8"/>
-<link href="sgc-nav.css" rel="stylesheet" type="text/css"/>
-</head><body class="''' + fontfamily + '''">''')
+        content = ''
+
         # 写入卷标
         rs = ''
         if self.href_list[i] in self.rollSignPlace:
-            if self.txt.isChecked():
+            if self.format.currentText() == "txt":
                 v = re.sub('&amp;', '&', v)
                 v = re.sub('&lt;', '<', v)
                 v = re.sub('&gt;', '>', v)
-                fo.write("\n\n" + v.rstrip() + '\n')
-                fo.write(title + '\n')
+                content += "\n\n" + v.rstrip() + '\n'
+                content += title + '\n'
             else:
-                fo.write("<h1>" + v.rstrip() + "</h1>")
+                content += "<h1>" + v.rstrip() + "</h1>"
                 rs = " id='v'"
             self.textEdit.append("\n" + v + "\n")
             self.textEdit.moveCursor(self.textEdit.textCursor().End)
 
         # 写入标题
-        if self.txt.isChecked():
-            fo.write("\n\n" + title + "\n")
+        if self.format.currentText() == "txt":
+            content += "\n\n" + title + "\n"
         else:
-            fo.write('<h2' + rs + '>' + title + "</h2>")
+            content += '<h2' + rs + '>' + title + "</h2>"
         if len(tex) == 0:
             self.failInfo.append(titleOrigin[2].zfill(self.fillNum))
             # self.textEdit.append("第"+titleOrigin[2]+"章未购买或加载失败")
@@ -347,8 +434,8 @@ url("../font/%s.ttf") format("truetype");}
             cvdic = cvlist = []
             # 作话在文前的情况
             if str(sign) == "['readsmall']":
-                if not self.txt.isChecked():
-                    fo.write('''<blockquote>''')
+                if not self.format.currentText() == "txt" and len(tex1):
+                    content += "<blockquote>"
                 for m in tex1:  # 删除无用文字及多余空格空行
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(m))
                     v = re.sub('　', '', vv)
@@ -360,20 +447,20 @@ url("../font/%s.ttf") format("truetype");}
                         v = OpenCC('t2s').convert(v)
                     elif self.state == 't':
                         v = OpenCC('s2t').convert(v)
-                    if self.txt.isChecked():
+                    if self.format.currentText() == "txt":
                         v = re.sub('作者有话要说：', '作者有话要说：\n', v)
                     else:
                         v = re.sub('作者有话要说：', '<b>作者有话要说</b>：</p><p>', v)
-                    if v != "" and self.txt.isChecked():  # 按行写入正文
-                        fo.write(v + "\n")
+                    if v != "" and self.format.currentText() == "txt":  # 按行写入正文
+                        content += v + "\n"
                     elif v != "":
-                        fo.write("<p>" + v + "</p>")
-                if not self.txt.isChecked():
-                    fo.write("</blockquote>")
-                if len(tex1) != 0 and self.txt.isChecked():
-                    fo.write("\n*\n")
+                        content += "<p>" + v + "</p>"
+                if not self.format.currentText() == "txt":
+                    content += "</blockquote>"
+                if len(tex1) != 0 and self.format.currentText() == "txt":
+                    content += "\n*\n"
                 elif len(tex1) != 0:
-                    fo.write("<hr/>")
+                    content += "<hr/>"
                 for tn in tex:
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(tn))
                     v = re.sub('　', '', vv)
@@ -385,10 +472,10 @@ url("../font/%s.ttf") format("truetype");}
                         v = OpenCC('t2s').convert(v)
                     elif self.state == 't':
                         v = OpenCC('s2t').convert(v)
-                    if v != "" and self.txt.isChecked():  # 按行写入正文
-                        fo.write(v + "\n")
+                    if v != "" and self.format.currentText() == "txt":  # 按行写入正文
+                        content += v + "\n"
                     elif v != "":
-                        fo.write("<p>" + v + "</p>")
+                        content += "<p>" + v + "</p>"
             else:  # 作话在文后的情况
                 for tn in tex:
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(tn))
@@ -401,16 +488,16 @@ url("../font/%s.ttf") format("truetype");}
                         v = OpenCC('t2s').convert(v)
                     elif self.state == 't':
                         v = OpenCC('s2t').convert(v)
-                    if v != "" and self.txt.isChecked():  # 按行写入正文
-                        fo.write(v + "\n")
+                    if v != "" and self.format.currentText() == "txt":  # 按行写入正文
+                        content += v + "\n"
                     elif v != "":
-                        fo.write("<p>" + v + "</p>")
-                if len(tex1) != 0 and self.txt.isChecked():
-                    fo.write("\n*\n")
+                        content += "<p>" + v + "</p>"
+                if len(tex1) != 0 and self.format.currentText() == "txt":
+                    content += "\n*\n"
                 elif len(tex1) != 0:
-                    fo.write("<hr/>")
-                if not self.txt.isChecked():
-                    fo.write('''<blockquote>''')
+                    content += "<hr/>"
+                if not self.format.currentText() == "txt" and len(tex1):
+                    content += "<blockquote>"
                 for m in tex1:
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(m))
                     v = re.sub('　', '', vv)
@@ -422,19 +509,33 @@ url("../font/%s.ttf") format("truetype");}
                         v = OpenCC('t2s').convert(v)
                     elif self.state == 't':
                         v = OpenCC('s2t').convert(v)
-                    if self.txt.isChecked():
+                    if self.format.currentText() == "txt":
                         v = re.sub('作者有话要说：', '作者有话要说：\n', v)
                     else:
                         v = re.sub('作者有话要说：', '<b>作者有话要说</b>：</p><p>', v)
-                    if v != "" and self.txt.isChecked():  # 按行写入正文
-                        fo.write(v + "\n")
+                    if v != "" and self.format.currentText() == "txt":  # 按行写入正文
+                        content += v + "\n"
                     elif v != "":
-                        fo.write("<p>" + v + "</p>")
-                if len(tex1) != 0 and not self.txt.isChecked():
-                    fo.write("</blockquote>")
-        if not self.txt.isChecked():
-            fo.write("</body></html>")
-        fo.close()
+                        content += "<p>" + v + "</p>"
+                if len(tex1) != 0 and not self.format.currentText() == "txt":
+                    content += "</blockquote>"
+        if not self.format.currentText() == "txt":
+            content += "</body></html>"
+
+        if self.format.currentText() == "txt":
+            with open("z" + str(titleOrigin[2].zfill(4)) + ".txt", 'w', encoding='utf-8') as f:
+                f.write(content)
+        else:
+            with open("z" + str(titleOrigin[2].zfill(4)) + ".xhtml", 'w', encoding='utf-8') as f:
+                f.write('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>''' + title + '''</title>
+<meta charset="utf-8"/>
+<link href="sgc-nav.css" rel="stylesheet" type="text/css"/>
+</head><body class="''' + fontfamily + '''">''')
+                f.write(content)
         self.percent += 1
 
     def get_txt(self, txt_id, threadnum):
@@ -468,7 +569,7 @@ url("../font/%s.ttf") format("truetype");}
         res.close()
 
         # 获取文案
-        if self.epub2s.isChecked() or self.epub3s.isChecked():
+        if self.special.isChecked():
             intro = ress.xpath("//html/body/table/tr/td[1]/div[2]/div[@id='novelintro']")
             info = ress.xpath('//html/body/table[1]/tr[1]/td[1]/div[3]')
         else:
@@ -524,7 +625,7 @@ url("../font/%s.ttf") format("truetype");}
                 v = i.xpath('./td[2]/span/div[1]/a')
                 v = etree.tostring(v[0], encoding="utf-8").decode().strip()
                 v = re.sub('  +', ' ', v)
-                if self.txt.isChecked():
+                if self.format.currentText() == "txt":
                     v = re.sub('</?\w+[^>]*>', '', v)
                 else:
                     v = re.sub('<a.*?>', '', v)
@@ -532,7 +633,7 @@ url("../font/%s.ttf") format("truetype");}
                 self.titleindex.append(v.strip())
                 v = i.xpath('./td[3]')
                 v = etree.tostring(v[0], encoding="utf-8").decode().strip()
-                if self.txt.isChecked():
+                if self.format.currentText() == "txt":
                     v = re.sub('</?\w+[^>]*>', '', v)
                     v = re.sub('&#13;', '', v)
                 else:
@@ -545,7 +646,7 @@ url("../font/%s.ttf") format("truetype");}
                 self.href_list += x
                 v = i.xpath('./td[2]/span/div[1]/a')
                 v = etree.tostring(v[0], encoding="utf-8").decode().strip()
-                if self.txt.isChecked():
+                if self.format.currentText() == "txt":
                     v = re.sub('</?\w+[^>]*>', '', v)
                 else:
                     v = re.sub('<a.*?>', '', v)
@@ -553,7 +654,7 @@ url("../font/%s.ttf") format("truetype");}
                 self.titleindex.append(v.strip())
                 v = i.xpath('./td[3]')
                 v = etree.tostring(v[0], encoding="utf-8").decode().strip()
-                if self.txt.isChecked():
+                if self.format.currentText() == "txt":
                     v = re.sub('</?\w+[^>]*>', '', v)
                     v = re.sub('&#13;', '', v)
                 else:
@@ -579,7 +680,7 @@ url("../font/%s.ttf") format("truetype");}
         # 修改卷标格式
         for rs in range(len(self.rollSign)):
             self.rollSign[rs] = etree.tostring(self.rollSign[rs], encoding="utf-8").decode().strip()
-            if self.txt.isChecked():
+            if self.format.currentText() == "txt":
                 self.rollSign[rs] = re.sub('</?\w+[^>]*>', '', self.rollSign[rs])
             else:
                 self.rollSign[rs] = re.sub('<b.*?>', '', self.rollSign[rs])
@@ -597,7 +698,7 @@ url("../font/%s.ttf") format("truetype");}
                 i = i + x + " "
             self.textEdit.append("被锁章节：" + i + "\n")
             self.textEdit.moveCursor(self.textEdit.textCursor().End)
-            if self.txt.isChecked():
+            if self.format.currentText() == "txt":
                 lockinfo = "被锁章节：" + i + "\n"
             else:
                 lockinfo = "<p><em>被锁章节：" + i + "</em></p>"
@@ -630,14 +731,13 @@ url("../font/%s.ttf") format("truetype");}
 
         self.index = []
         # 保存封面图片
-        if img != "0" and self.checkBox.isChecked() and not self.txt.isChecked():
-            pic = open("p.jpg", 'wb')
-            pic.write(img)
-            pic.close()
+        if img != "0" and self.checkBox.isChecked() and not self.format.currentText() == "txt":
+            with open("p.jpg", 'wb') as pic:
+                pic.write(img)
 
             # 写入封面
-            f = open("C.xhtml", 'w', encoding='utf-8')
-            f.write('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+            with open("C.xhtml", 'w', encoding='utf-8') as f:
+                f.write('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -645,10 +745,10 @@ url("../font/%s.ttf") format("truetype");}
 <body><div style="text-align: center; padding: 0pt; margin: 0pt;">
 <svg xmlns="http://www.w3.org/2000/svg" height="100%" preserveAspectRatio="xMidYMid meet" version="1.1" width="100%" xmlns:xlink="http://www.w3.org/1999/xlink">
 <image width="100%" xlink:href="p.jpg"/></svg></div></body></html>''')
-            f.close()
+
 
         # 写入文章信息页
-        if self.txt.isChecked():
+        if self.format.currentText() == "txt":
             TOC = xtitle + '\n'
             TOC += '作者：' + xaut + "\n"
             TOC += '源网址：' + req_url + '\n'
@@ -687,16 +787,16 @@ url("../font/%s.ttf") format("truetype");}
             ix = re.sub('&', '&amp;', ix)
             ix = re.sub('>', '&gt;', ix)
             ix = re.sub('<', '&lt;', ix)
-            if self.txt.isChecked():
+            if self.format.currentText() == "txt":
                 TOC += ix + "\n"
             else:
                 TOC += "<p>" + ix + "</p>"
-        if self.txt.isChecked():
+        if self.format.currentText() == "txt":
             TOC += "文案：\n"
         else:
             TOC += "</blockquote>"
             TOC += "<hr/><p><b>文案：</b></p>"
-        if self.epub2s.isChecked() or self.epub3s.isChecked():
+        if self.special.isChecked():
             v = etree.tostring(intro[0], encoding="utf-8").decode()
             if self.state == 's':
                 v = OpenCC('t2s').convert(v)
@@ -713,7 +813,7 @@ url("../font/%s.ttf") format("truetype");}
                     v = OpenCC('t2s').convert(v)
                 elif self.state == 't':
                     v = OpenCC('s2t').convert(v)
-                if v != "" and self.txt.isChecked():
+                if v != "" and self.format.currentText() == "txt":
                     TOC += v + "\n"
                 elif v:
                     TOC += "<p>" + v + "</p>"
@@ -726,7 +826,7 @@ url("../font/%s.ttf") format("truetype");}
                 info = OpenCC('t2s').convert(info)
             elif self.state == 't':
                 info = OpenCC('s2t').convert(info)
-        if self.txt.isChecked():
+        if self.format.currentText() == "txt":
             info = re.sub('搜索关键字', '\n搜索关键字', info)
             info = re.sub(' +一句话简介：', '\n一句话简介：', info)
             info = re.sub('\n +\n +立意：', '\n立意：', info)
@@ -736,7 +836,7 @@ url("../font/%s.ttf") format("truetype");}
             fo.write(lockinfo.strip() + '\n')
             fo.close()
         else:
-            if self.epub2s.isChecked() or self.epub3s.isChecked():
+            if self.special.isChecked():
                 info = etree.tostring(info[0], encoding="utf-8").decode()
                 if self.state == 's':
                     info = OpenCC('t2s').convert(info)
@@ -749,18 +849,18 @@ url("../font/%s.ttf") format("truetype");}
                 info = re.sub('一句话简介：', '</p><p><b>一句话简介</b>：', info)
                 info = re.sub('立意：', '</p><p><b>立意</b>：', info)
                 TOC += "<hr/><p>" + info + "</p>"
-            fo = open("info.xhtml", 'w', encoding='utf-8')
-            fo.write('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+            with open("info.xhtml", 'w', encoding='utf-8') as fo:
+                fo.write('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head><title></title><meta charset="utf-8"/>
 <link href="sgc-nav.css" rel="stylesheet" type="text/css"/></head>
 <body>''' + TOC + lockinfo + '''</body></html>''')
-            fo.close()
         tlist = []
         # 获取每一章内容
 
+        
         with concurrent.futures.ThreadPoolExecutor(max_workers=threadnum) as executor:
             tlist = {executor.submit(self.get_sin, i): i for i in self.href_list}
             for future in concurrent.futures.as_completed(tlist):
@@ -770,12 +870,13 @@ url("../font/%s.ttf") format("truetype");}
                     self.pct.setText(str(self.percent) + '/' + str(section_ct))
                     self.setWindowTitle("正在下载：" + xtitle + '-' + xaut + " (" + self.pct.text() + ")")
                     QApplication.processEvents()
+            if self.percent<section_ct:
+                QMessageBox.warning(self, '警告', '请检查反爬虫文件是否错误！\n章节：'+self.currentTitle, QMessageBox.Yes)
             self.progressBar.setValue(int(100 * self.percent / section_ct))
             self.progressBar.update()
             self.textEdit.append('\n 下载完成，总进度：' + str(self.percent) + '/' + str(section_ct))
             self.textEdit.moveCursor(self.textEdit.textCursor().End)
             self.pct.setText(str(self.percent) + '/' + str(section_ct))
-
         '''
         for i in self.href_list:
             self.get_sin(i)
@@ -789,7 +890,7 @@ url("../font/%s.ttf") format("truetype");}
             self.textEdit.append(vs[:-1] + "\n")
             self.textEdit.moveCursor(self.textEdit.textCursor().End)
 
-        if self.txt.isChecked():
+        if self.format.currentText() == "txt":
             # txt整合
             os.chdir(path)
             f = open(ti + ".txt", 'w', encoding='utf-8')
@@ -809,7 +910,7 @@ url("../font/%s.ttf") format("truetype");}
             os.chdir(path)
             epub_name = ti + ".epub"
             epub = zipfile.ZipFile(epub_name, 'w')
-            if self.epub2.isChecked() or self.epub2s.isChecked():
+            if self.format.currentText() == "epub2":
                 epubfile = EPUB2.epubfile()
             else:
                 epubfile = EPUB3.epubfile()
