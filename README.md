@@ -3,7 +3,7 @@ github下载：[![GitHub release](https://img.shields.io/github/release/7325156/
 <p>此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。</p>
 <p>目前找到无需反爬虫的源，所以反爬虫功能暂时退出历史舞台（做人不能太铁齿），反爬虫表依然保留在项目里，感谢各位大佬做出的贡献。</p>
 <p>最新版使用app接口下载，无需反爬虫。感谢<b>酷安 @关耳010225 @乃星 @viviyaaa</b>的方案。</p>
-<p>也可以直接去微信公众号“开源阅读”下载app，然后按教程添加女频书源：</p>
+<p>也可以直接去微信公众号“开源阅读”下载app，然后按教程添加女频书源</p>
 <p>若文章无法下载，可以在issues里把网址和配置的config.yml发给我。</p>
 <p>常见问题见wiki</p>
 <p>感谢<a href='https://github.com/lyc8503'>lyc8503</a>提供的处理反爬虫思路</p>
@@ -41,6 +41,7 @@ github下载：[![GitHub release](https://img.shields.io/github/release/7325156/
 <p>2021-10-22</p>
 <ul>
  <li>使用app接口下载，无需反爬虫。</li>
+ <li>添加编辑css功能。</li>
 </ul>
 <p>2021-9-30</p>
 <ul>
