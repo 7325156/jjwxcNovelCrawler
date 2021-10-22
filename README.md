@@ -1,4 +1,4 @@
-github下载：[![GitHub release](https://img.shields.io/github/release/7325156/jjwxcNovelCrawler.svg)](https://github.com/7325156/jjwxcNovelCrawler/releases/latest/) <br/>
+github下载：[![GitHub release](https://img.shields.io/github/release/7325156/jjwxcNovelCrawler.svg)](https://github.com/7325156/jjwxcNovelCrawler/releases/tag/v2.4/) <br/>
 蓝奏云下载：https://wwr.lanzoui.com/b02oduqmd#a5jo 密码:a5jo <br/>
 <p>此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。</p>
 <p>目前找到无需反爬虫的源，所以反爬虫功能暂时退出历史舞台（做人不能太铁齿），反爬虫表依然保留在项目里，感谢各位大佬做出的贡献。</p>
