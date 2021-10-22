@@ -13,7 +13,7 @@ class epubfile():
     title = ''
     description = ''
     TOC = ''
-    fontcss = ''
+    csstext = ''
 
     def create_mimetype(self, epub):
         epub.writestr('mimetype', 'application/epub+zip', compress_type=zipfile.ZIP_STORED)
@@ -89,11 +89,7 @@ class epubfile():
         epub.writestr('OEBPS/toc.ncx', tox_info, compress_type=zipfile.ZIP_STORED)
 
     def create_stylesheet(self, epub):
-        css_info = '''h1{font-size:1.4em;text-align:center;}h2{font-size:1.24em;text-align:center;}
-.title{
-text-align:center;
-}
-''' + self.fontcss
+        css_info = self.csstext
         epub.writestr('OEBPS/sgc-nav.css', css_info, compress_type=zipfile.ZIP_STORED)
 
     def createEpub(self, epub, xaut, xtitle, ti, index, rollSign, path):

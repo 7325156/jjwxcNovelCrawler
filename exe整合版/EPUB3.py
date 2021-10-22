@@ -64,14 +64,13 @@ class epubfile():
     def create_info(self, epub, path, index, rollSign):
         nav_info = '''<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="en" xml:lang="en">
 <head><title></title>
 <meta charset="utf-8"/>
 <link href="sgc-nav.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<nav epub:type="toc" id="toc"><h1>目录</h1>
+<nav epub:type="toc" id="toc" role="doc-toc"><h1>目录</h1>
     <ol>
     '''
         sig = 0
@@ -135,22 +134,7 @@ class epubfile():
         epub.writestr('OEBPS/toc.ncx', tox_info, compress_type=zipfile.ZIP_STORED)
 
     def create_stylesheet(self, epub):
-        css_info = '''nav#landmarks {
-    display:none;
-}
-
-nav#page-list {
-    display:none;
-}
-
-ol {
-    list-style-type: none;
-}
-h1{font-size:1.4em;text-align:center;}h2{font-size:1.24em;text-align:center;}
-.title{
-text-align:center;
-}
-''' + self.fontcss
+        css_info = self.csstext
         epub.writestr('OEBPS/sgc-nav.css', css_info, compress_type=zipfile.ZIP_STORED)
 
     def createEpub(self, epub, xaut, xtitle, ti, index, rollSign, path):
@@ -173,4 +157,3 @@ text-align:center;
         epub.close()
         os.chdir(path)
         shutil.rmtree(ppp)
-

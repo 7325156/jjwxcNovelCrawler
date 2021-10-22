@@ -24,10 +24,10 @@
    <widget class="QWidget" name="formLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>220</x>
       <y>90</y>
       <width>171</width>
-      <height>45</height>
+      <height>31</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="tstran">
@@ -337,10 +337,10 @@ p, li { white-space: pre-wrap; }
    <widget class="QWidget" name="formLayoutWidget_4">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>230</y>
-      <width>171</width>
-      <height>61</height>
+      <x>210</x>
+      <y>150</y>
+      <width>331</width>
+      <height>41</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -366,80 +366,62 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>（建议范围：1-999）</string>
+         </property>
+        </widget>
+       </item>
       </layout>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>（建议范围：1-999）</string>
-       </property>
-      </widget>
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="formLayoutWidget_5">
+   <widget class="QCheckBox" name="chInfo">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>140</y>
-      <width>283</width>
+      <x>220</x>
+      <y>120</y>
+      <width>281</width>
       <height>31</height>
      </rect>
     </property>
-    <layout class="QFormLayout" name="formLayout_2">
+    <property name="text">
+     <string>是否添加章节信息（字数、更新时间）</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>190</y>
+      <width>331</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
       <widget class="QLabel" name="label_10">
        <property name="text">
-        <string>反爬虫方案：</string>
+        <string>自定义css：</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QComboBox" name="crawler">
-       <item>
-        <property name="text">
-         <string>7325156的方案（推荐）</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>fffonion的方案</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>yingziwu的方案</string>
-        </property>
-       </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="cssbutton">
+       <property name="text">
+        <string>恢复默认</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" rowspan="3">
+      <widget class="QPlainTextEdit" name="cssedit">
+       <property name="plainText">
+        <string/>
+       </property>
       </widget>
      </item>
     </layout>
-   </widget>
-   <widget class="QCheckBox" name="crawlerupdate">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>200</y>
-      <width>181</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>更新反爬虫文件</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="ttffile">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>170</y>
-      <width>191</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>下载ttf格式反爬虫文件</string>
-    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
