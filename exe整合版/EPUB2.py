@@ -59,32 +59,36 @@ class epubfile():
 <!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN"
 "http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">
 <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
-<head><meta name="dtb:uid" content=""/>
-<meta name="dtb:depth" content="2"/>
-<meta name="dtb:totalPageCount" content="0"/>
-<meta name="dtb:maxPageNumber" content="0"/>
+<head><meta name="dtb:uid" content="" />
+<meta name="dtb:depth" content="2" />
+<meta name="dtb:totalPageCount" content="0" />
+<meta name="dtb:maxPageNumber" content="0" />
 </head><docTitle><text>''' + self.title + '''</text></docTitle><navMap>'''
         sig = 0
+        sigr = 0
+        count = 0
         tox_info += '''<navPoint id="0" playOrder="0">
-<navLabel><text>''' + self.title + '-' + self.author + '''</text></navLabel><content src="info.xhtml"/>'''
+            <navLabel><text>''' + self.title + '''</text></navLabel><content src="info.xhtml"/>'''
         for html in os.listdir(path):
             basename = os.path.basename(html)
             if basename.endswith('html'):
                 if basename != 'C.xhtml' and basename != 'info.xhtml':
                     iii = 0
-                    if sig < len(index):
-                        while index[sig] in rollSign:
+                    if sig < len(index) or sigr < len(rollSign):
+                        if "vol" in basename:
+                            rollSign[sigr] = re.sub('</?\w+[^>]*>', '', rollSign[sigr])
+                            tox_info += '''</navPoint><navPoint id="''' + str(count) + '''" playOrder="''' + str(
+                                count) + '''">
+                <navLabel><text>''' + rollSign[sigr] + '''</text></navLabel><content src="''' + basename + '''"/>'''
+                            sigr += 1
+                            count += 1
+                        else:
                             index[sig] = re.sub('</?\w+[^>]*>', '', index[sig])
-                            tox_info += '''</navPoint><navPoint id="''' + str(sig) + '''" playOrder="''' + str(sig) + '''">
-    <navLabel><text>''' + index[sig] + '''</text></navLabel><content src="''' + basename + '''"/>'''
+                            tox_info += '''<navPoint id="''' + str(count) + '''" playOrder="''' + str(count) + '''">
+                                            <navLabel><text>''' + index[
+                                sig] + '''</text></navLabel><content src="''' + basename + '''"/></navPoint>'''
                             sig += 1
-                            iii = 1
-                        if iii == 1:
-                            basename += '#v'
-                        index[sig] = re.sub('</?\w+[^>]*>', '', index[sig])
-                        tox_info += '''<navPoint id="''' + str(sig) + '''" playOrder="''' + str(sig) + '''">
-    <navLabel><text>''' + index[sig] + '''</text></navLabel><content src="''' + basename + '''"/></navPoint>'''
-                        sig += 1
+                            count += 1
         tox_info += '''</navPoint></navMap></ncx>'''
         epub.writestr('OEBPS/toc.ncx', tox_info, compress_type=zipfile.ZIP_STORED)
 
@@ -92,22 +96,22 @@ class epubfile():
         css_info = self.csstext
         epub.writestr('OEBPS/sgc-nav.css', css_info, compress_type=zipfile.ZIP_STORED)
 
-    def createEpub(self, epub, xaut, xtitle, ti, index, rollSign, path):
-        self.author = xaut
-        self.title = xtitle
+    def createEpub(self,epub,xaut,xtitle,ti,index,rollSign,path):
+        self.author=xaut
+        self.title=xtitle
         self.create_mimetype(epub)
         self.create_container(epub)
         os.chdir(ti)
-        ppp = os.getcwd()
-        self.create_content(epub, ppp)
-        self.create_info(epub, ppp, index, rollSign)
+        ppp=os.getcwd()
+        self.create_content(epub,ppp)
+        self.create_info(epub,ppp,index,rollSign)
         self.create_stylesheet(epub)
         for html in os.listdir('.'):
             basename = os.path.basename(html)
             if basename.endswith('jpg'):
-                epub.write(html, "OEBPS/" + basename, compress_type=zipfile.ZIP_DEFLATED)
+                epub.write(html, "OEBPS/"+basename, compress_type=zipfile.ZIP_DEFLATED)
             if basename.endswith('html'):
-                epub.write(html, "OEBPS/" + basename, compress_type=zipfile.ZIP_DEFLATED)
+                epub.write(html, "OEBPS/"+basename, compress_type=zipfile.ZIP_DEFLATED)
         epub.close()
         os.chdir(path)
         shutil.rmtree(ppp)

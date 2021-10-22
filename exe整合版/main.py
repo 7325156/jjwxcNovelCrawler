@@ -238,40 +238,29 @@ body{}/*全局格式*/''')
         title = title.strip()
         self.currentTitle = title
 
+
         if self.state == 's':
             title = OpenCC('t2s').convert(title)
         elif self.state == 't':
             title = OpenCC('s2t').convert(title)
-        if self.href_list[i] in self.rollSignPlace:
-            v = self.rollSign[self.rollSignPlace.index(l)]
+
+        if str(i) in self.rollSignPlace:
+            v = self.rollSign[self.rollSignPlace.index(str(i))]
             if self.state == 's':
                 v = OpenCC('t2s').convert(self.rollSign[self.rollSignPlace.index(l)])
             elif self.state == 't':
                 v = OpenCC('s2t').convert(self.rollSign[self.rollSignPlace.index(l)])
+            self.textEdit.append('\n'+v+'\n')
+            self.textEdit.moveCursor(self.textEdit.textCursor().End)
 
         # 创建章节文件
         content = ''
-
-        # 写入卷标
-        rs = ''
-        if self.href_list[i] in self.rollSignPlace:
-            if self.format.currentText() == "txt":
-                v = re.sub('&amp;', '&', v)
-                v = re.sub('&lt;', '<', v)
-                v = re.sub('&gt;', '>', v)
-                content += "\n\n" + v.rstrip() + '\n'
-                content += title + '\n'
-            else:
-                content += "<h1>" + v.rstrip() + "</h1>"
-                rs = " id='v'"
-            self.textEdit.append("\n" + v + "\n")
-            self.textEdit.moveCursor(self.textEdit.textCursor().End)
 
         # 写入标题
         if self.format.currentText() == "txt":
             content += "\n\n" + title + "\n"
         else:
-            content += '<h2' + rs + '>' + title + "</h2>"
+            content += '<h2>' + title + "</h2>"
         if len(tex) == 0:
             self.failInfo.append(titleOrigin[2].zfill(self.fillNum))
             # self.textEdit.append("第"+titleOrigin[2]+"章未购买或加载失败")
@@ -291,9 +280,6 @@ body{}/*全局格式*/''')
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(m))
                     v = re.sub('　', '', vv)
                     v = re.sub(' +', ' ', v).strip()
-                    v = re.sub('&', '&amp;', v)
-                    v = re.sub('>', '&gt;', v)
-                    v = re.sub('<', '&lt;', v)
                     if self.state == 's':
                         v = OpenCC('t2s').convert(v)
                     elif self.state == 't':
@@ -345,9 +331,6 @@ body{}/*全局格式*/''')
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(m))
                     v = re.sub('　', '', vv)
                     v = re.sub(' +', ' ', v).strip()
-                    v = re.sub('&', '&amp;', v)
-                    v = re.sub('>', '&gt;', v)
-                    v = re.sub('<', '&lt;', v)
                     if self.state == 's':
                         v = OpenCC('t2s').convert(v)
                     elif self.state == 't':
@@ -508,10 +491,7 @@ body{}/*全局格式*/''')
         self.rollSignPlace = []
         # self.rollSignPlace+=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@href")
         # self.rollSignPlace+=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@rel")
-        self.rollSignPlace += ress.xpath(
-            "//*[@class='volumnfont']/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@href")
-        self.rollSignPlace += ress.xpath(
-            "//*[@class='volumnfont']/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@rel")
+        self.rollSignPlace += ress.xpath("//*[@class='volumnfont']/ancestor-or-self::tr/following-sibling::tr[1]/td[1]/text()")
 
         # 修改卷标格式
         for rs in range(len(self.rollSign)):
@@ -562,7 +542,23 @@ body{}/*全局格式*/''')
             os.mkdir(ti)
             os.chdir(ti)
         ppp = os.getcwd()
-
+        for vol in range(len(self.rollSignPlace)):
+            self.rollSignPlace[vol] = self.rollSignPlace[vol].strip()
+            volt = self.rollSignPlace[vol]
+            ros = self.rollSign[vol]
+            nm = 'z' + str(int(volt) - 1).zfill(4) + '_vol.xhtml'
+            if self.state == 's':
+                ros = OpenCC('t2s').convert(ros)
+            elif self.state == 't':
+                rose = OpenCC('s2t').convert(ros)
+            with open(nm, 'w', encoding='utf-8') as f:
+                f.write(('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>''' + ros + '''</title><meta charset="utf-8"/>
+<link href="sgc-nav.css" rel="stylesheet" type="text/css"/></head>
+<body><h1>''' + ros + '''</h1></body></html>'''))
         self.index = []
         # 保存封面图片
         if img != "0" and self.cover.isChecked() and not self.format.currentText() == "txt":
@@ -604,13 +600,6 @@ body{}/*全局格式*/''')
                 title = OpenCC('t2s').convert(title)
             elif self.state == 't':
                 title = OpenCC('s2t').convert(title)
-            if self.href_list[i] in self.rollSignPlace:
-                v = self.rollSign[self.rollSignPlace.index(l)]
-                if self.state == 's':
-                    v = OpenCC('t2s').convert(self.rollSign[self.rollSignPlace.index(l)])
-                elif self.state == 't':
-                    v = OpenCC('s2t').convert(self.rollSign[self.rollSignPlace.index(l)])
-                self.index.append(v)
             self.index.append(title)
 
         for ix in infox:
@@ -663,6 +652,7 @@ body{}/*全局格式*/''')
             info = re.sub('搜索关键字', '\n搜索关键字', info)
             info = re.sub(' +一句话简介：', '\n一句话简介：', info)
             info = re.sub('\n +\n +立意：', '\n立意：', info)
+            info = re.sub(' +', ' ', info)
             TOC += info
             fo = open("info.txt", 'w', encoding='utf-8')
             fo.write(TOC.strip() + '\n')

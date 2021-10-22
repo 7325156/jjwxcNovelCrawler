@@ -12,7 +12,7 @@ class epubfile():
     author = ''
     title = ''
     description = ''
-    fontcss = ''
+    csstext=''
 
     def create_mimetype(self, epub):
         epub.writestr('mimetype', 'application/epub+zip', compress_type=zipfile.ZIP_STORED)
@@ -74,28 +74,26 @@ class epubfile():
     <ol>
     '''
         sig = 0
+        sigr = 0
         nav_info += '''<li><a href="info.xhtml">''' + self.title + '-' + self.author + '''</a>
 <ol>'''
         for html in os.listdir(path):
             basename = os.path.basename(html)
             if basename.endswith('html'):
                 if basename != 'C.xhtml' and basename != 'info.xhtml':
-                    iii = 0
-                    if sig < len(index):
-                        while index[sig] in rollSign:
-                            index[sig] = re.sub('</?\w+[^>]*>', '', index[sig])
+                    if sig < len(index) or sigr < len(rollSign):
+                        if "vol" in basename:
+                            rollSign[sigr] = re.sub('</?\w+[^>]*>', '', rollSign[sigr])
                             nav_info += '''</ol></li>
     <li><a href="''' + basename + '''">
     ''' + index[sig] + '''</a>
     <ol>'''
-                            sig += 1
-                            iii = 1
-                        if iii == 1:
-                            basename += '#v'
-                        index[sig] = re.sub('</?\w+[^>]*>', '', index[sig])
-                        nav_info += '''<li><a href="''' + basename + '''">''' + index[sig] + '''</a></li>
+                            sigr += 1
+                        else:
+                            index[sig] = re.sub('</?\w+[^>]*>', '', index[sig])
+                            nav_info += '''<li><a href="''' + basename + '''">''' + index[sig] + '''</a></li>
     '''
-                        sig += 1
+                            sig += 1
         nav_info += '''</ol></li></ol></nav></body></html>'''
         epub.writestr('OEBPS/nav.xhtml', nav_info, compress_type=zipfile.ZIP_STORED)
 
@@ -110,26 +108,28 @@ class epubfile():
     <meta name="dtb:maxPageNumber" content="0" />
 </head><docTitle><text>''' + self.title + '''</text></docTitle><navMap>'''
         sig = 0
+        sigr = 0
+        count = 0
         tox_info += '''<navPoint id="0" playOrder="0">
 <navLabel><text>''' + self.title + '''</text></navLabel><content src="info.xhtml"/>'''
         for html in os.listdir(path):
             basename = os.path.basename(html)
             if basename.endswith('html'):
                 if basename != 'C.xhtml' and basename != 'info.xhtml':
-                    iii = 0
-                    if sig < len(index):
-                        while index[sig] in rollSign:
+                    if sig < len(index) or sigr < len(rollSign):
+                        if "vol" in basename:
+                            rollSign[sigr] = re.sub('</?\w+[^>]*>', '', rollSign[sigr])
+                            tox_info += '''</navPoint><navPoint id="''' + str(count) + '''" playOrder="''' + str(count) + '''">
+    <navLabel><text>''' + rollSign[sigr] + '''</text></navLabel><content src="''' + basename + '''"/>'''
+                            sigr += 1
+                            count += 1
+                        else:
                             index[sig] = re.sub('</?\w+[^>]*>', '', index[sig])
-                            tox_info += '''</navPoint><navPoint id="''' + str(sig) + '''" playOrder="''' + str(sig) + '''">
-    <navLabel><text>''' + index[sig] + '''</text></navLabel><content src="''' + basename + '''"/>'''
+                            tox_info += '''<navPoint id="''' + str(count) + '''" playOrder="''' + str(count) + '''">
+                                <navLabel><text>''' + index[
+                                sig] + '''</text></navLabel><content src="''' + basename + '''"/></navPoint>'''
                             sig += 1
-                            iii = 1
-                        if iii == 1:
-                            basename += '#v'
-                        index[sig] = re.sub('</?\w+[^>]*>', '', index[sig])
-                        tox_info += '''<navPoint id="''' + str(sig) + '''" playOrder="''' + str(sig) + '''">
-    <navLabel><text>''' + index[sig] + '''</text></navLabel><content src="''' + basename + '''"/></navPoint>'''
-                        sig += 1
+                            count += 1
         tox_info += '''</navPoint></navMap></ncx>'''
         epub.writestr('OEBPS/toc.ncx', tox_info, compress_type=zipfile.ZIP_STORED)
 
