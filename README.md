@@ -1,11 +1,9 @@
 github下载：[![GitHub release](https://img.shields.io/github/release/7325156/jjwxcNovelCrawler.svg)](https://github.com/7325156/jjwxcNovelCrawler/releases/latest/) <br/>
 蓝奏云下载：https://wwr.lanzoui.com/b02oduqmd#a5jo 密码:a5jo <br/>
 <p>此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。</p>
-<p><strong>感谢@fffonion大佬的反爬虫方案：https://github.com/fffonion/JJGet 。</strong></p>
-<p><strong>还有以下两位大佬的反爬虫方案：https://github.com/yingziwu/jjwxcFontTables ， https://github.com/iHamsterball/jjwxcfont_mapper</strong></p>
-<h3>鉴于各位大佬的反爬虫方案或多或少有bug，所以在<a href="https://github.com/7325156/jjwxcNovelCrawler/issues/12"> 此处 </a>众筹校对版的反爬虫对照表（至少减轻了工作量）</h3>
-<p>Android系统建议使用静读天下专业版阅读（将jjwxcfont里的ttf文件复制到静读天下显示的字体文件夹中），Windows系统建议使用浏览器的EPUBReader插件，谷歌和edge浏览器都可以安装。</p>
-<p>若文章无法下载，可以在issues里把网址发给我。若只有某一章显示乱码，先看看fonts文件夹里有没有多出来一个不在字体列表中的文件，将文件名发给我。</p>
+<p>目前找到无需反爬虫的源，所以反爬虫功能暂时退出历史舞台（做人不能太铁齿），反爬虫表依然保留在项目里，感谢各位大佬做出的贡献。</p>
+<p>最新版使用app接口下载，无需反爬虫。感谢<b>酷安 @关耳010225 @乃星 @viviyaaa</b>的方案。</p>
+<p>若文章无法下载，可以在issues里把网址和配置的config.yml发给我。</p>
 <p>常见问题见wiki</p>
 <p>感谢<a href='https://github.com/lyc8503'>lyc8503</a>提供的处理反爬虫思路</p>
 <h1>使用说明</h1>
