@@ -1,6 +1,5 @@
 lxml
 opencc_python_reimplemented
-fontTools
 requests
 selenium
 PyQt5
