@@ -86,7 +86,7 @@ class epubfile():
                             rollSign[sigr] = re.sub('</?\w+[^>]*>', '', rollSign[sigr])
                             nav_info += '''</ol></li>
     <li><a href="''' + basename + '''">
-    ''' + index[sig] + '''</a>
+    ''' + rollSign[sigr] + '''</a>
     <ol>'''
                             sigr += 1
                         else:

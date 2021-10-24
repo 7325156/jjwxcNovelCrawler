@@ -186,6 +186,7 @@ body{}/*全局格式*/''')
     def download(self):
         self.textEdit.clear()
         self.textEdit.moveCursor(self.textEdit.textCursor().End)
+        time.sleep(0.1)
 
         cookie = self.jjcookie.text()
         num = self.jjurl.text()
@@ -207,18 +208,38 @@ body{}/*全局格式*/''')
         titleOrigin = l.split('=')
         i = self.href_list.index(l)
         self.currentTitle = ''
-
         # 获取app源
-        chlink = re.sub(r'http.*?novelid=', 'https://app-cdn.jjwxc.net/androidapi/chapterContent?novelId=', l)
+        chlink = re.sub(r'http.*?novelid=', 'https://app.jjwxc.net/androidapi/chapterContent?novelId=', l)
         chlink = re.sub('chapterid', 'chapterId', chlink)
-        chcont = requests.get(chlink, headers=self.headerss)
-        chcont = json.loads(chcont.text)
-        tex = chcont['content']
-        tex = re.sub('&lt;br&gt;', '\n', tex).splitlines()
-        # tex1:作话
-        tex1 = chcont['sayBody'].splitlines()
-        # sign:作话位置
-        sign = chcont['upDown']
+        chcot = requests.get(chlink, headers=self.headerss)
+        try:
+            chcont = json.loads(chcot.text)
+        except:
+            chcont = {'chapterSize': '', 'chapterDate': '', 'sayBody': '', 'upDown': '', 'content':''}
+
+
+
+        if 'content' in chcont.keys():
+            tex = chcont['content']
+            tex = re.sub('&lt;br&gt;', '\n', tex).splitlines()
+            # tex1:作话
+            tex1 = chcont['sayBody'].splitlines()
+            # sign:作话位置
+            sign = chcont['upDown']
+        else:
+            tex=''
+            tex1=''
+            sign=''
+
+        if str(i) in self.rollSignPlace:
+            v = self.rollSign[self.rollSignPlace.index(str(i))]
+            if self.state == 's':
+                v = OpenCC('t2s').convert(self.rollSign[self.rollSignPlace.index(l)])
+            elif self.state == 't':
+                v = OpenCC('s2t').convert(self.rollSign[self.rollSignPlace.index(l)])
+            self.textEdit.append('\n' + v + '\n')
+            self.textEdit.moveCursor(self.textEdit.textCursor().End)
+            time.sleep(0.1)
 
         title = ''
         # 序号填充
@@ -238,20 +259,10 @@ body{}/*全局格式*/''')
         title = title.strip()
         self.currentTitle = title
 
-
         if self.state == 's':
             title = OpenCC('t2s').convert(title)
         elif self.state == 't':
             title = OpenCC('s2t').convert(title)
-
-        if str(i) in self.rollSignPlace:
-            v = self.rollSign[self.rollSignPlace.index(str(i))]
-            if self.state == 's':
-                v = OpenCC('t2s').convert(self.rollSign[self.rollSignPlace.index(l)])
-            elif self.state == 't':
-                v = OpenCC('s2t').convert(self.rollSign[self.rollSignPlace.index(l)])
-            self.textEdit.append('\n'+v+'\n')
-            self.textEdit.moveCursor(self.textEdit.textCursor().End)
 
         # 创建章节文件
         content = ''
@@ -491,7 +502,8 @@ body{}/*全局格式*/''')
         self.rollSignPlace = []
         # self.rollSignPlace+=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@href")
         # self.rollSignPlace+=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@rel")
-        self.rollSignPlace += ress.xpath("//*[@class='volumnfont']/ancestor-or-self::tr/following-sibling::tr[1]/td[1]/text()")
+        self.rollSignPlace += ress.xpath(
+            "//*[@class='volumnfont']/ancestor-or-self::tr/following-sibling::tr[1]/td[1]/text()")
 
         # 修改卷标格式
         for rs in range(len(self.rollSign)):
@@ -698,6 +710,7 @@ body{}/*全局格式*/''')
             self.progressBar.update()
             self.textEdit.append('\n 下载完成，总进度：' + str(self.percent) + '/' + str(section_ct))
             self.textEdit.moveCursor(self.textEdit.textCursor().End)
+            time.sleep(0.1)
             self.pct.setText(str(self.percent) + '/' + str(section_ct))
         '''
         for i in self.href_list:
