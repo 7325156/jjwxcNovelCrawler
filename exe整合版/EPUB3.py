@@ -83,14 +83,14 @@ class epubfile():
                 if basename != 'C.xhtml' and basename != 'info.xhtml':
                     if sig < len(index) or sigr < len(rollSign):
                         if "vol" in basename:
-                            rollSign[sigr] = re.sub('</?\w+[^>]*>', '', rollSign[sigr])
+                            #rollSign[sigr] = re.sub('</?\w+[^>]*>', '', rollSign[sigr])
                             nav_info += '''</ol></li>
     <li><a href="''' + basename + '''">
     ''' + rollSign[sigr] + '''</a>
     <ol>'''
                             sigr += 1
                         else:
-                            index[sig] = re.sub('</?\w+[^>]*>', '', index[sig])
+                            #index[sig] = re.sub('</?\w+[^>]*>', '', index[sig])
                             nav_info += '''<li><a href="''' + basename + '''">''' + index[sig] + '''</a></li>
     '''
                             sig += 1
@@ -111,7 +111,7 @@ class epubfile():
         sigr = 0
         count = 0
         tox_info += '''<navPoint id="0" playOrder="0">
-<navLabel><text>''' + self.title + '''</text></navLabel><content src="info.xhtml"/>'''
+<navLabel><text>''' + self.title +'-'+self.author+ '''</text></navLabel><content src="info.xhtml"/>'''
         for html in os.listdir(path):
             basename = os.path.basename(html)
             if basename.endswith('html'):

@@ -65,7 +65,7 @@
       <x>20</x>
       <y>90</y>
       <width>171</width>
-      <height>41</height>
+      <height>31</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="fileend">
@@ -153,7 +153,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>210</y>
+      <y>220</y>
       <width>191</width>
       <height>81</height>
      </rect>
@@ -267,13 +267,13 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>170</y>
+      <y>150</y>
       <width>181</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>EPUB格式文件添加封面</string>
+     <string>epub格式文件添加封面</string>
     </property>
     <property name="checked">
      <bool>true</bool>
@@ -325,7 +325,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>150</y>
+      <y>130</y>
       <width>164</width>
       <height>19</height>
      </rect>
@@ -422,6 +422,19 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QCheckBox" name="hvol">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>190</y>
+      <width>171</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>epub2添加网页目录</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

@@ -106,6 +106,10 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
                 self.chInfo.setChecked(True)
             else:
                 self.chInfo.setChecked(False)
+            if confdict['htmlvol']:
+                self.hvol.setChecked(True)
+            else:
+                self.hvol.setChecked(False)
 
         else:
             f = open('config.yml', 'w', encoding='utf-8')
@@ -168,6 +172,10 @@ body{}/*全局格式*/''')
             doc['chinfo'] = 1
         else:
             doc['chinfo'] = 0
+        if self.hvol.isChecked():
+            doc['htmlvol']=1
+        else:
+            doc['htmlvol']=0
 
         try:
             if 0 < int(self.threadnum.text()) < 1000:
@@ -209,16 +217,13 @@ body{}/*全局格式*/''')
         i = self.href_list.index(l)
         self.currentTitle = ''
         # 获取app源
-        chlink = re.sub(r'http.*?novelid=', 'https://app.jjwxc.net/androidapi/chapterContent?novelId=', l)
-        chlink = re.sub('chapterid', 'chapterId', chlink)
+        chlink = l
         chcot = requests.get(chlink, headers=self.headerss)
         try:
             chcont = json.loads(chcot.text)
         except:
-            chcont = {'chapterSize': '', 'chapterDate': '', 'sayBody': '', 'upDown': '', 'content':''}
-
-
-
+            chcont = {'chapterSize': '', 'chapterDate': '', 'sayBody': '', 'upDown': '', 'content': ''}
+        texm=''
         if 'content' in chcont.keys():
             tex = chcont['content']
             tex = re.sub('&lt;br&gt;', '\n', tex).splitlines()
@@ -227,9 +232,10 @@ body{}/*全局格式*/''')
             # sign:作话位置
             sign = chcont['upDown']
         else:
-            tex=''
-            tex1=''
-            sign=''
+            texm = chcont["message"]
+            tex1 = ''
+            sign = ''
+            tex = ''
 
         if str(i) in self.rollSignPlace:
             v = self.rollSign[self.rollSignPlace.index(str(i))]
@@ -272,8 +278,12 @@ body{}/*全局格式*/''')
             content += "\n\n" + title + "\n"
         else:
             content += '<h2>' + title + "</h2>"
-        if len(tex) == 0:
+        if len(tex)==0:
             self.failInfo.append(titleOrigin[2].zfill(self.fillNum))
+            if self.format.currentText()=="txt":
+                content += texm + "\n"
+            else:
+                content += '<p>'+texm+'</p>'
             # self.textEdit.append("第"+titleOrigin[2]+"章未购买或加载失败")
         else:
             if self.chInfo.isChecked() and self.format.currentText() == "txt":
@@ -291,6 +301,9 @@ body{}/*全局格式*/''')
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(m))
                     v = re.sub('　', '', vv)
                     v = re.sub(' +', ' ', v).strip()
+                    v = re.sub('&', '&amp;', v)
+                    v = re.sub('>', '&gt;', v)
+                    v = re.sub('<', '&lt;', v)
                     if self.state == 's':
                         v = OpenCC('t2s').convert(v)
                     elif self.state == 't':
@@ -309,6 +322,9 @@ body{}/*全局格式*/''')
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(tn))
                     v = re.sub('　', '', vv)
                     v = re.sub(' +', ' ', v).strip()
+                    v = re.sub('&amp;#', '&#', v)
+                    v = re.sub('>', '&gt;', v)
+                    v = re.sub('<', '&lt;', v)
                     if self.state == 's':
                         v = OpenCC('t2s').convert(v)
                     elif self.state == 't':
@@ -322,6 +338,9 @@ body{}/*全局格式*/''')
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(tn))
                     v = re.sub('　', '', vv)
                     v = re.sub(' +', ' ', v).strip()
+                    v = re.sub('&amp;#', '&#', v)
+                    v = re.sub('>', '&gt;', v)
+                    v = re.sub('<', '&lt;', v)
                     if self.state == 's':
                         v = OpenCC('t2s').convert(v)
                     elif self.state == 't':
@@ -342,6 +361,9 @@ body{}/*全局格式*/''')
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(m))
                     v = re.sub('　', '', vv)
                     v = re.sub(' +', ' ', v).strip()
+                    v = re.sub('&', '&amp;', v)
+                    v = re.sub('>', '&gt;', v)
+                    v = re.sub('<', '&lt;', v)
                     if self.state == 's':
                         v = OpenCC('t2s').convert(v)
                     elif self.state == 't':
@@ -364,7 +386,7 @@ body{}/*全局格式*/''')
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head><title>''' + title + '''</title>
+<head><title>''' + re.sub('<.*?>','',title) + '''</title>
 <meta charset="utf-8"/>
 <link href="sgc-nav.css" rel="stylesheet" type="text/css"/>
 </head><body>''')
@@ -391,28 +413,48 @@ body{}/*全局格式*/''')
 
         # 获取文章网址
         req_url = ids
+        nid = ids.split('=')[1]
+        apireq = 'https://app.jjwxc.net/androidapi/novelbasicinfo?novelId=' + nid
+        apivol = 'https://app.jjwxc.net/androidapi/chapterList?novelId=' + nid + '&more=0&whole=1'
 
         # 通过cookie获取文章信息
         res = requests.get(req_url, headers=self.headerss)
-        # 对文章进行编码
+        apires = requests.get(apireq, headers=self.headerss)
+        apicont = json.loads(apires.text)
+        # 获取目录
+        rc = requests.get(apivol, headers=self.headerss)
+        cdic = json.loads(rc.text)["chapterlist"]
+        # 对文案进行编码
         ress = etree.HTML(res.content.decode("GB18030", "ignore").encode("utf-8", "ignore").decode('utf-8'))
         res.close()
 
         # 获取文案
         if self.special.isChecked():
             intro = ress.xpath("//html/body/table/tr/td[1]/div[2]/div[@id='novelintro']")
-            info = ress.xpath('//html/body/table[1]/tr[1]/td[1]/div[3]')
         else:
-            intro = ress.xpath("//html/body/table/tr/td[1]/div[2]/div[@id='novelintro']//text()")
-            info = ress.xpath("string(/html/body/table[1]/tr/td[1]/div[3])")
+            intro = apicont["novelIntro"]
+            intro = re.sub("&lt;br/&gt;","\n",intro).splitlines()
         # 获取标签
+        info=[]
+        info.append("<b>内容标签：</b>"+apicont["novelTags"])
+        info.append("<b>搜索关键字：</b>" + apicont["protagonist"]+'|'+apicont["costar"]+'|'+apicont["other"])
+        info.append("<b>一句话简介：</b>" + apicont["novelIntroShort"])
 
         infox = []
-        for i in range(1, 7):
-            infox.append(ress.xpath("string(/html/body/table[1]/tr/td[3]/div[2]/ul/li[" + str(i) + "])"))
+        infox.append("文章类型：" + apicont["novelClass"])
+        infox.append("作品视角：" + apicont["mainview"])
+        infox.append("作品风格：" + apicont["novelStyle"])
+        infox.append("所属系列：" + apicont["series"])
+        if apicont["novelClass"] == "1":
+            infox.append("文章进度：连载")
+        elif apicont["novelClass"] == "2":
+            infox.append("文章进度：完结")
+        elif apicont["novelClass"] == "0":
+            infox.append("文章进度：暂停")
+        infox.append("全文字数："+apicont["novelSize"]+"字")
 
         # 获取封面
-        cover = ress.xpath("string(/html/body/table[1]/tr/td[1]/div[2]/img/@src)")
+        cover = apicont["novelCover"]
 
         if cover != '':
             try:
@@ -431,8 +473,8 @@ body{}/*全局格式*/''')
         if fpi:
             img = '0'
         # 获取标题和作者
-        xtitle = ress.xpath('string(//*[@itemprop="articleSection"])').strip()
-        xaut = ress.xpath('string(//*[@itemprop="author"])').strip()
+        xtitle = apicont["novelName"]
+        xaut = apicont["authorName"]
         ti = xtitle + '-' + xaut
 
         if self.state == 's':
@@ -443,77 +485,37 @@ body{}/*全局格式*/''')
         self.textEdit.moveCursor(self.textEdit.textCursor().End)
         self.setWindowTitle("正在下载：" + xtitle + '-' + xaut)
 
-        # 获取所有章节网址、标题、内容提要
-        self.td = ress.xpath('//*[@id="oneboolt"]//tr')
+        # 获取所有章节网址、标题、内容提要、卷标
         loc = []
 
-        for i in self.td:
-            u = i.xpath('./td[2]/span/div[1]/a/@href')
-            x = i.xpath('./td[2]/span/div[1]/a[1]/@rel')
-            if len(u) > 0:
-                self.href_list += u
-                v = i.xpath('./td[2]/span/div[1]/a')
-                v = etree.tostring(v[0], encoding="utf-8").decode().strip()
-                v = re.sub('  +', ' ', v)
+        for i in cdic:
+            if i["chaptertype"] == "1":
+                v = i["chaptername"]
+                v = re.sub('&', '&amp;', v)
+                v = re.sub('<', '&lt;', v)
+                v = re.sub('>', '&gt;', v)
                 if self.format.currentText() == "txt":
-                    v = re.sub('</?\w+[^>]*>', '', v)
-                else:
-                    v = re.sub('<a.*?>', '', v)
-                    v = re.sub('</a>', '', v)
-                self.titleindex.append(v.strip())
-                v = i.xpath('./td[3]')
-                v = etree.tostring(v[0], encoding="utf-8").decode().strip()
-                if self.format.currentText() == "txt":
-                    v = re.sub('</?\w+[^>]*>', '', v)
-                    v = re.sub('&#13;', '', v)
-                else:
-                    v = re.sub('<td>&#13;', '', v)
-                    v = re.sub('<td>', '', v)
-                    v = re.sub('</td>&#13;', '', v)
-                    v = re.sub('</td>', '', v)
-                self.Summary.append(v.strip())
-            elif len(x) > 0:
-                self.href_list += x
-                v = i.xpath('./td[2]/span/div[1]/a')
-                v = etree.tostring(v[0], encoding="utf-8").decode().strip()
-                if self.format.currentText() == "txt":
-                    v = re.sub('</?\w+[^>]*>', '', v)
-                else:
-                    v = re.sub('<a.*?>', '', v)
-                    v = re.sub('</a>', '', v)
-                self.titleindex.append(v.strip())
-                v = i.xpath('./td[3]')
-                v = etree.tostring(v[0], encoding="utf-8").decode().strip()
-                if self.format.currentText() == "txt":
-                    v = re.sub('</?\w+[^>]*>', '', v)
-                    v = re.sub('&#13;', '', v)
-                else:
-                    v = re.sub('<td>&#13;', '', v)
-                    v = re.sub('<td>', '', v)
-                    v = re.sub('</td>&#13;', '', v)
-                    v = re.sub('</td>', '', v)
-                self.Summary.append(v.strip())
-            elif i.xpath('./td[2]/span/div[1]/span'):
-                loc.append(i.xpath('./td[1]/text()')[0].strip())
-
-        # 获取卷标名称
-        self.rollSign = ress.xpath("//*[@id='oneboolt']//tr/td/b[@class='volumnfont']")
-        # 获取卷标位置
-        self.rollSignPlace = []
-        # self.rollSignPlace+=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@href")
-        # self.rollSignPlace+=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@rel")
-        self.rollSignPlace += ress.xpath(
-            "//*[@class='volumnfont']/ancestor-or-self::tr/following-sibling::tr[1]/td[1]/text()")
-
-        # 修改卷标格式
-        for rs in range(len(self.rollSign)):
-            self.rollSign[rs] = etree.tostring(self.rollSign[rs], encoding="utf-8").decode().strip()
-            if self.format.currentText() == "txt":
-                self.rollSign[rs] = re.sub('</?\w+[^>]*>', '', self.rollSign[rs])
+                    v = re.sub('</?\w+[^>]*>', '', v).strip()
+                self.rollSign.append("§ " + v + " §")
+                self.rollSignPlace.append(i["chapterid"])
             else:
-                self.rollSign[rs] = re.sub('<b.*?>', '', self.rollSign[rs])
-                self.rollSign[rs] = re.sub('</b>', '', self.rollSign[rs])
-            self.rollSign[rs] = "§ " + self.rollSign[rs] + " §"
+                u = "https://app.jjwxc.net/androidapi/chapterContent?novelId=" + nid + "&chapterId=" + i["chapterid"]
+                self.href_list.append(u)
+                v = i["chaptername"]
+                v = re.sub('&', '&amp;', v)
+                v = re.sub('&&amp;#', '&#', v)
+                v = re.sub('</?\w+[^>]*>', '', v)
+                if self.format.currentText() == "txt":
+                    v = re.sub('</?\w+[^>]*>', '', v)
+                self.titleindex.append(v.strip())
+                v = i["chapterintro"]
+                v = re.sub('&', '&amp;', v)
+                v = re.sub('&&amp;#', '&#', v)
+                if self.format.currentText() == "txt":
+                    v = re.sub('</?\w+[^>]*>', '', v)
+                self.Summary.append(v.strip())
+                if i["islock"] != "0":
+                    loc.append(i["chapterid"])
 
         section_ct = len(self.href_list)
         lockinfo = ''
@@ -532,13 +534,13 @@ body{}/*全局格式*/''')
                 lockinfo = "<p><em>被锁章节：" + i + "</em></p>"
 
         # fillNum：填充序号的长度，例如：若全文有1437章，则每章序号有四位，依次为0001、0002……
-        self.fillNum = len(str(len(self.td) - 4))
+        self.fillNum = len(str(len(self.href_list)))
 
         # 对标题进行操作，删除违规字符等
         ti = re.sub('[\/:*?"<>|]', '_', ti)
         ti = re.sub('&', '&amp;', ti)
 
-        xauthref = ress.xpath('//*[@id="oneboolt"]//h2/a/@href')[0]
+        xauthref = "http://www.jjwxc.net/oneauthor.php?authorid="+apicont["authorId"]
 
         # 若文件名不想加编号，可以将这行删除
         ti = ti + '.' + ids.split('=')[1]
@@ -600,10 +602,14 @@ body{}/*全局格式*/''')
 
         # 生成目录文字
         for l in self.href_list:
+            title=''
             titleOrigin = l.split('=')
+            if titleOrigin[2] in loc:
+                title += "[锁]"
+
             i = self.href_list.index(l)
             #
-            title = str(titleOrigin[2]).zfill(self.fillNum) + " "
+            title += str(titleOrigin[2]).zfill(self.fillNum) + " "
             #
             title = title + self.titleindex[i].strip() + " "
             #
@@ -618,9 +624,6 @@ body{}/*全局格式*/''')
             ix = ix.strip()
             ix = re.sub('\n', '', ix)
             ix = re.sub(' +', '', ix)
-            ix = re.sub('&', '&amp;', ix)
-            ix = re.sub('>', '&gt;', ix)
-            ix = re.sub('<', '&lt;', ix)
             if self.format.currentText() == "txt":
                 TOC += ix + "\n"
             else:
@@ -639,8 +642,7 @@ body{}/*全局格式*/''')
             TOC += v
         else:
             for nx in intro:
-                v = re.sub(' +', ' ', str(nx)).rstrip()
-                v = re.sub('&', '&amp;', v).rstrip()
+                v = re.sub(' +', ' ', str(nx)).strip()
                 v = re.sub('>', '&gt;', v)
                 v = re.sub('<', '&lt;', v)
                 if self.state == 's':
@@ -651,39 +653,23 @@ body{}/*全局格式*/''')
                     TOC += v + "\n"
                 elif v:
                     TOC += "<p>" + v + "</p>"
-        if type(info) == str:
-            info = re.sub(' +', ' ', info).strip()
-            info = re.sub('&', '&amp;', info)
-            info = re.sub('>', '&gt;', info)
-            info = re.sub('<', '&lt;', info)
-            if self.state == 's':
-                info = OpenCC('t2s').convert(info)
-            elif self.state == 't':
-                info = OpenCC('s2t').convert(info)
         if self.format.currentText() == "txt":
-            info = re.sub('搜索关键字', '\n搜索关键字', info)
-            info = re.sub(' +一句话简介：', '\n一句话简介：', info)
-            info = re.sub('\n +\n +立意：', '\n立意：', info)
-            info = re.sub(' +', ' ', info)
-            TOC += info
+            for v in info:
+                TOC += re.sub("<.*?>","",v)+'\n'
             fo = open("info.txt", 'w', encoding='utf-8')
             fo.write(TOC.strip() + '\n')
             fo.write(lockinfo.strip() + '\n')
             fo.close()
         else:
-            if self.special.isChecked():
-                info = etree.tostring(info[0], encoding="utf-8").decode()
+            TOC += "<hr/>"
+            for v in info:
                 if self.state == 's':
-                    info = OpenCC('t2s').convert(info)
+                    v = OpenCC('t2s').convert(v)
                 elif self.state == 't':
-                    info = OpenCC('s2t').convert(info)
-                TOC += '<hr/><br/>' + info
+                    v = OpenCC('s2t').convert(v)
+                TOC += "<p>" + v + "</p>"
             else:
-                info = re.sub('内容标签', '<b>内容标签</b>', info)
-                info = re.sub('搜索关键字', '</p><p><b>搜索关键字</b>', info)
-                info = re.sub('一句话简介：', '</p><p><b>一句话简介</b>：', info)
-                info = re.sub('立意：', '</p><p><b>立意</b>：', info)
-                TOC += "<hr/><p>" + info + "</p>"
+                TOC = re.sub('立意：', '</p><p><b>立意</b>：', TOC)
             with open("info.xhtml", 'w', encoding='utf-8') as fo:
                 fo.write('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
@@ -747,6 +733,8 @@ body{}/*全局格式*/''')
             epub = zipfile.ZipFile(epub_name, 'w')
             if self.format.currentText() == "epub2":
                 epubfile = EPUB2.epubfile()
+                if self.hvol.isChecked():
+                    epubfile.htmlvol=1
             else:
                 epubfile = EPUB3.epubfile()
             epubfile.csstext = self.cssedit.toPlainText()

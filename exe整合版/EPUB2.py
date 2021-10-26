@@ -14,6 +14,43 @@ class epubfile():
     description = ''
     TOC = ''
     csstext = ''
+    htmlvol = 0
+
+    def create_vol(self, epub, path, index, rollSign):
+        nav_info = '''<?xml version="1.0" encoding="utf-8"?>
+    <!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="en" xml:lang="en">
+    <head><title></title>
+    <meta charset="utf-8"/>
+    <link href="sgc-nav.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+    <nav epub:type="toc" id="toc" role="doc-toc"><h1>目录</h1>
+        <ol>
+        '''
+        sig = 0
+        sigr = 0
+        nav_info += '''<li><a href="info.xhtml">''' + self.title + '-' + self.author + '''</a>
+    <ol>'''
+        for html in os.listdir(path):
+            basename = os.path.basename(html)
+            if basename.endswith('html'):
+                if basename != 'C.xhtml' and basename != 'info.xhtml':
+                    if sig < len(index) or sigr < len(rollSign):
+                        if "vol" in basename:
+                            # rollSign[sigr] = re.sub('</?\w+[^>]*>', '', rollSign[sigr])
+                            nav_info += '''</ol></li>
+        <li><a href="''' + basename + '''">
+        ''' + rollSign[sigr] + '''</a>
+        <ol>'''
+                            sigr += 1
+                        else:
+                            # index[sig] = re.sub('</?\w+[^>]*>', '', index[sig])
+                            nav_info += '''<li><a href="''' + basename + '''">''' + index[sig] + '''</a></li>
+        '''
+                            sig += 1
+        nav_info += '''</ol></li></ol></nav></body></html>'''
+        epub.writestr('OEBPS/nav.xhtml', nav_info, compress_type=zipfile.ZIP_STORED)
 
     def create_mimetype(self, epub):
         epub.writestr('mimetype', 'application/epub+zip', compress_type=zipfile.ZIP_STORED)
@@ -51,6 +88,9 @@ class epubfile():
         spine += '''<guide>
     <reference type="cover" title="封面" href="C.xhtml"/>
   </guide>'''
+        if self.htmlvol:
+            manifest += '<item id="nav.xhtml" href="nav.xhtml" media-type="application/xhtml+xml"/>'
+            spine += '<itemref idref="nav.xhtml"/>'
         epub.writestr('OEBPS/content.opf', content_info % {'manifest': manifest, 'spine': spine, },
                       compress_type=zipfile.ZIP_STORED)
 
@@ -68,7 +108,7 @@ class epubfile():
         sigr = 0
         count = 0
         tox_info += '''<navPoint id="0" playOrder="0">
-            <navLabel><text>''' + self.title + '''</text></navLabel><content src="info.xhtml"/>'''
+            <navLabel><text>''' + self.title + '-' + self.author + '''</text></navLabel><content src="info.xhtml"/>'''
         for html in os.listdir(path):
             basename = os.path.basename(html)
             if basename.endswith('html'):
@@ -96,23 +136,24 @@ class epubfile():
         css_info = self.csstext
         epub.writestr('OEBPS/sgc-nav.css', css_info, compress_type=zipfile.ZIP_STORED)
 
-    def createEpub(self,epub,xaut,xtitle,ti,index,rollSign,path):
-        self.author=xaut
-        self.title=xtitle
+    def createEpub(self, epub, xaut, xtitle, ti, index, rollSign, path):
+        self.author = xaut
+        self.title = xtitle
         self.create_mimetype(epub)
         self.create_container(epub)
         os.chdir(ti)
-        ppp=os.getcwd()
-        self.create_content(epub,ppp)
-        self.create_info(epub,ppp,index,rollSign)
+        ppp = os.getcwd()
+        if self.htmlvol:
+            self.create_vol(epub, ppp, index, rollSign)
+        self.create_content(epub, ppp)
+        self.create_info(epub, ppp, index, rollSign)
         self.create_stylesheet(epub)
         for html in os.listdir('.'):
             basename = os.path.basename(html)
             if basename.endswith('jpg'):
-                epub.write(html, "OEBPS/"+basename, compress_type=zipfile.ZIP_DEFLATED)
+                epub.write(html, "OEBPS/" + basename, compress_type=zipfile.ZIP_DEFLATED)
             if basename.endswith('html'):
-                epub.write(html, "OEBPS/"+basename, compress_type=zipfile.ZIP_DEFLATED)
+                epub.write(html, "OEBPS/" + basename, compress_type=zipfile.ZIP_DEFLATED)
         epub.close()
         os.chdir(path)
         shutil.rmtree(ppp)
-
