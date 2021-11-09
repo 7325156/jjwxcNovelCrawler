@@ -38,6 +38,10 @@ github下载：[![GitHub release](https://img.shields.io/github/release/7325156/
 <p><b>繁简转换功能</b>：输入编号后，若不转换，直接按回车，若繁转简，输入s后按回车，若简转繁，输入t后按回车。</p>
 <p><b>若epub文件有问题，可以用epub编辑工具修复一下，本人建议使用sigil或calibre，这两个软件在GitHub上都有。</b></p>
 <h1>main_epub日志记录</h1>
+<p>2021-11-09</p>
+<ul>
+ <li>添加自定义标题、卷标格式功能。</li>
+</ul>
 <p>2021-10-26</p>
 <ul>
  <li>为epub2添加网页目录</li>
