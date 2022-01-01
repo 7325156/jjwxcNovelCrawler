@@ -18,13 +18,16 @@ github下载：[![GitHub release](https://img.shields.io/github/release/7325156/
 <p><span style="font-weight: bold;">&#160;2、安装第三方库</span></p>
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>联网，使用<b>管理员模式</b>打开命令提示符（cmd），依次输入以下命令、按回车键运行</p>
 <p>(如果下载慢，可以用pip install --index https://pypi.mirrors.ustc.edu.cn/simple/ 代替pip install</p>
-<ul><li>pip install requests</li>
- <li>pip install fonttools</li>
-<li>pip install lxml</li>
+<ul><li>pip install lxml</li>
+ <li>pip install opencc_python_reimplemented</li>
+ <li>pip install requests</li>
+ <li>pip install PyQt5</li>
+ <li>pip install PyQt5-tools</li>
+ <li>pip install PyYAML</li>
 <li>pip install selenium(用于Chrome浏览器)</li>
- <li>pip install opencc-python-reimplemented</li>
 </ul>
-&#160;3、（可跳过）安装chormedriver<p></p>
+<p>(也可下载requirements.txt文件，使用cmd进入该文件所在目录，输入 pip install -r requirements.txt)</p>
+<p>3、（可跳过）安装chormedriver</p>
 <p>若要使用client.py获取cookie，必须执行步骤3</p>
 <p>该程序使用Chrome87，请在以下网址安装对应的chormedriver：https://chromedriver.chromium.org/downloads</p>
 <p>以管理员身份打开cmd，输入where python，找到python路径，将chormedriver放到python.exe所在路径下</p>
