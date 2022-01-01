@@ -1,14 +1,15 @@
+![jj](https://user-images.githubusercontent.com/57527406/147842885-d7b07e15-a09a-4da7-9384-8fad50ff9c29.png)
 github下载：[![GitHub release](https://img.shields.io/github/release/7325156/jjwxcNovelCrawler.svg)](https://github.com/7325156/jjwxcNovelCrawler/releases/latest/) <br/>
 蓝奏云下载：https://wwr.lanzoui.com/b02oduqmd#a5jo 密码:a5jo <br/>
 <p>此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。</p>
 <p>目前找到无需反爬虫的源，所以反爬虫功能暂时退出历史舞台（做人不能太铁齿），反爬虫表依然保留在项目里，感谢各位大佬做出的贡献。</p>
 <p>最新版使用app接口下载，无需反爬虫。感谢<b>酷安 @关耳010225 @乃星 @viviyaaa</b>的方案。</p>
 <p>也可以直接去微信公众号“开源阅读”下载app，然后按教程添加女频书源</p>
-<p>若文章无法下载，可以在issues里把网址和配置的config.yml发给我。</p>
+<p>若文章无法下载，可以在issues里把网址和配置的config.yml里除了cookie以外的信息发给我。</p>
 <p>常见问题见wiki</p>
-<p>感谢<a href='https://github.com/lyc8503'>lyc8503</a>提供的处理反爬虫思路</p>
 <h1>使用说明</h1>
 <p>如果不想配置环境，可以直接下载EXE：<a href="https://github.com/7325156/jjdown/releases">exe程序下载</a>，如果直接下载太慢，可以通过<a href="https://d.serctl.com">这个网站</a>下载</p>
+<p>如果打开exe后报错，注意下载与版本匹配的config.yml文件，与exe放在同一目录下，还报错的话，在exe里填好配置，点击“保存配置”按钮，还不行就将config.yml里除了cookie以外的信息发给我，我想办法修bug。</p>
 <p><strong><center>以下是使用py文件下载的过程</center></strong></p>
 <h3>环境配置</h3>
 <p>注：我写的这个程序可以在Windows10 x64系统下运行成功，其他环境可自行调整。</p>
@@ -34,6 +35,10 @@ github下载：[![GitHub release](https://img.shields.io/github/release/7325156/
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>或者直接下载并打开client.py，按步骤输入用户名密码，将得到的值输入到对应的框里。</p>
 <p>　　(注：cookie若失效，请重新登录晋江并及时更换，还不行就更换浏览器。)</p>
 <h1>main_epub日志记录</h1>
+<p>2022-01-01</p>
+<ul>
+ <li>修改网址不能匹配https的bug。</li>
+</ul>
 <p>2021-11-09</p>
 <ul>
  <li>添加自定义标题、卷标格式功能。</li>
