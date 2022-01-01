@@ -1,4 +1,4 @@
-![jj](https://user-images.githubusercontent.com/57527406/147842885-d7b07e15-a09a-4da7-9384-8fad50ff9c29.png)
+![jj](https://user-images.githubusercontent.com/57527406/147842885-d7b07e15-a09a-4da7-9384-8fad50ff9c29.png)<br/>
 github下载：[![GitHub release](https://img.shields.io/github/release/7325156/jjwxcNovelCrawler.svg)](https://github.com/7325156/jjwxcNovelCrawler/releases/latest/) <br/>
 蓝奏云下载：https://wwr.lanzoui.com/b02oduqmd#a5jo 密码:a5jo <br/>
 <p>此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。</p>
