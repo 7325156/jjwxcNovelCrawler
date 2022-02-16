@@ -20,6 +20,7 @@ import EPUB2
 import EPUB3
 import ctypes
 import ico
+import html
 
 
 class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
@@ -227,7 +228,7 @@ body{text-indent:2em;}/*全局格式*/''')
             self.state = str("t")
         elif self.stch.currentIndex() == 1:
             self.state = str("s")
-        if re.findall(r'http\://www.jjwxc.net/onebook.php\?novelid=[0-9]+', num):
+        if re.findall(r'(http|https)\://www.jjwxc.net/onebook.php\?novelid=[0-9]+', num):
             self.get_txt(num, int(self.threadnum.text()))
         else:
             QMessageBox.warning(self, '警告', '网址格式错误！请使用网页版网址', QMessageBox.Yes)
@@ -298,10 +299,14 @@ body{text-indent:2em;}/*全局格式*/''')
         # 创建章节文件
         content = ''
 
+
         # 写入标题
         if self.format.currentText() == "txt":
+            title = html.unescape(title)
             content += "\n\n" + title + "\n"
         else:
+            title=html.escape(title)
+            title=re.sub('&amp;amp;','&amp;',title)
             content += '<h2>' + title + "</h2>"
         if len(tex) == 0:
             self.failInfo.append(titleOrigin[2].zfill(self.fillNum))
@@ -326,10 +331,13 @@ body{text-indent:2em;}/*全局格式*/''')
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(m))
                     v = re.sub('　', '', vv)
                     v = re.sub(' +', ' ', v).strip()
-                    v = re.sub('&', '&amp;', v)
-                    v = re.sub('>', '&gt;', v)
-                    v = re.sub('<', '&lt;', v)
+                    v = html.escape(v)
+                    v = re.sub("&amp;amp;", "&amp;", v)
+                    v = re.sub("&amp;gt;", "&gt;", v)
+                    v = re.sub("&amp;lt;", "&lt;", v)
+                    v = re.sub('&amp;#', '&#', v)
                     if v != "" and self.format.currentText() == "txt":  # 按行写入正文
+                        v=html.unescape(v)
                         content += v + "\n"
                     elif v != "":
                         content += "<p>" + v + "</p>"
@@ -343,10 +351,13 @@ body{text-indent:2em;}/*全局格式*/''')
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(tn))
                     v = re.sub('　', '', vv)
                     v = re.sub(' +', ' ', v).strip()
+                    v = html.escape(v)
+                    v = re.sub("&amp;amp;", "&amp;", v)
+                    v = re.sub("&amp;gt;", "&gt;", v)
+                    v = re.sub("&amp;lt;", "&lt;", v)
                     v = re.sub('&amp;#', '&#', v)
-                    v = re.sub('>', '&gt;', v)
-                    v = re.sub('<', '&lt;', v)
                     if v != "" and self.format.currentText() == "txt":  # 按行写入正文
+                        v=html.unescape(v)
                         content += v + "\n"
                     elif v != "":
                         content += "<p>" + v + "</p>"
@@ -355,10 +366,13 @@ body{text-indent:2em;}/*全局格式*/''')
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(tn))
                     v = re.sub('　', '', vv)
                     v = re.sub(' +', ' ', v).strip()
+                    v = html.escape(v)
+                    v = re.sub("&amp;amp;", "&amp;", v)
+                    v = re.sub("&amp;gt;", "&gt;", v)
+                    v = re.sub("&amp;lt;", "&lt;", v)
                     v = re.sub('&amp;#', '&#', v)
-                    v = re.sub('>', '&gt;', v)
-                    v = re.sub('<', '&lt;', v)
                     if v != "" and self.format.currentText() == "txt":  # 按行写入正文
+                        v=html.unescape(v)
                         content += v + "\n"
                     elif v != "":
                         content += "<p>" + v + "</p>"
@@ -374,10 +388,13 @@ body{text-indent:2em;}/*全局格式*/''')
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(m))
                     v = re.sub('　', '', vv)
                     v = re.sub(' +', ' ', v).strip()
-                    v = re.sub('&', '&amp;', v)
-                    v = re.sub('>', '&gt;', v)
-                    v = re.sub('<', '&lt;', v)
+                    v = html.escape(v)
+                    v = re.sub("&amp;amp;", "&amp;", v)
+                    v = re.sub("&amp;gt;", "&gt;", v)
+                    v = re.sub("&amp;lt;", "&lt;", v)
+                    v = re.sub('&amp;#', '&#', v)
                     if v != "" and self.format.currentText() == "txt":  # 按行写入正文
+                        v=html.unescape(v)
                         content += v + "\n"
                     elif v != "":
                         content += "<p>" + v + "</p>"
@@ -526,9 +543,7 @@ body{text-indent:2em;}/*全局格式*/''')
                 if i["chaptertype"] == "1":
                     vcount+=1
                     v = i["chaptername"]
-                    v = re.sub('&', '&amp;', v)
-                    v = re.sub('<', '&lt;', v)
-                    v = re.sub('>', '&gt;', v)
+                    v = html.escape(v)
                     if self.format.currentText() == "txt":
                         v = re.sub('</?\w+[^>]*>', '', v).strip()
                     v="§ " + v + " §"
@@ -542,14 +557,14 @@ body{text-indent:2em;}/*全局格式*/''')
                         "chapterid"]
                     self.href_list.append(u)
                     v = i["chaptername"]
-                    v = re.sub('&', '&amp;', v)
+                    v = html.escape(v)
                     v = re.sub('&&amp;#', '&#', v)
                     v = re.sub('</?\w+[^>]*>', '', v)
                     if self.format.currentText() == "txt":
                         v = re.sub('</?\w+[^>]*>', '', v)
                     self.titleindex.append(v.strip())
                     v = i["chapterintro"]
-                    v = re.sub('&', '&amp;', v)
+                    v = html.escape(v)
                     v = re.sub('&&amp;#', '&#', v)
                     if self.format.currentText() == "txt":
                         v = re.sub('</?\w+[^>]*>', '', v)
@@ -604,13 +619,20 @@ body{text-indent:2em;}/*全局格式*/''')
                 self.rollSignPlace[vol] = self.rollSignPlace[vol].strip()
                 volt = self.rollSignPlace[vol]
                 ros = self.rollSign[vol]
-                nm = 'z' + str(int(volt) - 1).zfill(4) + '_vol.xhtml'
+                if self.format.currentText() == "txt":
+                    nm = 'z' + str(int(volt) - 1).zfill(4) + '_vol.txt'
+                else:
+                    nm = 'z' + str(int(volt) - 1).zfill(4) + '_vol.xhtml'
                 if self.state == 's':
                     ros = OpenCC('t2s').convert(ros)
                 elif self.state == 't':
                     rose = OpenCC('s2t').convert(ros)
-                with open(nm, 'w', encoding='utf-8') as f:
-                    f.write(('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+                if self.format.currentText() == "txt":
+                    with open(nm, 'w', encoding='utf-8') as f:
+                        f.write('\n\n'+ros+'\n')
+                else:
+                    with open(nm, 'w', encoding='utf-8') as f:
+                        f.write(('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -669,6 +691,7 @@ body{text-indent:2em;}/*全局格式*/''')
                 ix = re.sub('\n', '', ix)
                 ix = re.sub(' +', '', ix)
                 if self.format.currentText() == "txt":
+                    ix=html.unescape(ix)
                     TOC += ix + "\n"
                 else:
                     TOC += "<p>" + ix + "</p>"
@@ -683,9 +706,9 @@ body{text-indent:2em;}/*全局格式*/''')
             else:
                 for nx in intro:
                     v = re.sub(' +', ' ', str(nx)).strip()
-                    v = re.sub('>', '&gt;', v)
-                    v = re.sub('<', '&lt;', v)
+                    v = html.escape(v)
                     if v != "" and self.format.currentText() == "txt":
+                        v=html.unescape(v)
                         TOC += v + "\n"
                     elif v:
                         TOC += "<p>" + v + "</p>"
@@ -695,6 +718,7 @@ body{text-indent:2em;}/*全局格式*/''')
                     TOC += '<hr/>'
             if self.format.currentText() == "txt":
                 for v in info:
+                    v=html.unescape(v)
                     TOC += re.sub("<.*?>", "", v) + '\n'
                 if self.state == 's':
                     TOC = OpenCC('t2s').convert(TOC)

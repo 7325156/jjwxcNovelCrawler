@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>579</width>
+    <width>610</width>
     <height>773</height>
    </rect>
   </property>
@@ -31,12 +31,13 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>561</width>
+      <width>591</width>
       <height>741</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">&quot;QTabWidget:pane {border-top:0px solid #e8f3f9;background:  transparent; }&quot;</string>
+     <string notr="true">background-color: rgb(240, 240, 240);
+font: 9pt &quot;Microsoft YaHei UI&quot;,&quot;思源黑体 CN&quot;,&quot;黑体&quot;,&quot;Arial&quot;,sans-serif;</string>
     </property>
     <property name="tabShape">
      <enum>QTabWidget::Rounded</enum>
@@ -69,9 +70,12 @@
        <rect>
         <x>80</x>
         <y>10</y>
-        <width>351</width>
+        <width>381</width>
         <height>31</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
        <string>http://www.jjwxc.net/onebook.php?novelid=1</string>
@@ -80,7 +84,7 @@
      <widget class="QPushButton" name="start">
       <property name="geometry">
        <rect>
-        <x>440</x>
+        <x>480</x>
         <y>10</y>
         <width>93</width>
         <height>31</height>
@@ -93,7 +97,7 @@
      <widget class="QPushButton" name="configsave">
       <property name="geometry">
        <rect>
-        <x>440</x>
+        <x>480</x>
         <y>50</y>
         <width>93</width>
         <height>31</height>
@@ -121,9 +125,12 @@
        <rect>
         <x>80</x>
         <y>50</y>
-        <width>351</width>
+        <width>381</width>
         <height>31</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
        <string>请输入cookie</string>
@@ -148,6 +155,9 @@
        </item>
        <item row="0" column="1">
         <widget class="QComboBox" name="format">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
          <item>
           <property name="text">
            <string>txt</string>
@@ -170,15 +180,25 @@
      <widget class="QWidget" name="formLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>230</x>
         <y>90</y>
         <width>171</width>
-        <height>31</height>
+        <height>53</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="tstran">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>繁简转换：</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="1">
         <widget class="QComboBox" name="stch">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
          <item>
           <property name="text">
            <string>不变</string>
@@ -194,13 +214,6 @@
            <string>简转繁</string>
           </property>
          </item>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>繁简转换：</string>
-         </property>
         </widget>
        </item>
       </layout>
@@ -234,7 +247,7 @@
      <widget class="QCheckBox" name="chInfo">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>230</x>
         <y>120</y>
         <width>281</width>
         <height>31</height>
@@ -263,10 +276,10 @@
      <widget class="QWidget" name="formLayoutWidget_4">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>140</y>
-        <width>337</width>
-        <height>41</height>
+        <x>236</x>
+        <y>150</y>
+        <width>301</width>
+        <height>31</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayout"/>
@@ -277,18 +290,18 @@
         <x>10</x>
         <y>220</y>
         <width>191</width>
-        <height>94</height>
+        <height>98</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="titlestyle">
-       <item row="0" column="0">
+       <item row="1" column="0">
         <widget class="QLabel" name="label_5">
          <property name="text">
           <string>标题格式：</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
+       <item row="1" column="1">
         <widget class="QCheckBox" name="number">
          <property name="text">
           <string>序号</string>
@@ -298,7 +311,7 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="2" column="1">
         <widget class="QCheckBox" name="title">
          <property name="text">
           <string>章节名称</string>
@@ -308,7 +321,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="3" column="1">
         <widget class="QCheckBox" name="summary">
          <property name="text">
           <string>内容提要</string>
@@ -318,36 +331,54 @@
          </property>
         </widget>
        </item>
+       <item row="0" column="0">
+        <widget class="Line" name="line_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="gridLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>230</x>
         <y>190</y>
         <width>341</width>
         <height>115</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="1" rowspan="3">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>自定义css：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" rowspan="3">
         <widget class="QPlainTextEdit" name="cssedit">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+         </property>
          <property name="plainText">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="2" column="0">
         <widget class="QPushButton" name="cssbutton">
          <property name="text">
           <string>恢复默认</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>自定义css：</string>
+       <item row="0" column="0" colspan="2">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
@@ -357,7 +388,7 @@
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>440</y>
+        <y>450</y>
         <width>81</width>
         <height>21</height>
        </rect>
@@ -369,8 +400,8 @@
      <widget class="QLabel" name="pct">
       <property name="geometry">
        <rect>
-        <x>400</x>
-        <y>440</y>
+        <x>440</x>
+        <y>450</y>
         <width>131</width>
         <height>31</height>
        </rect>
@@ -386,7 +417,7 @@
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>400</y>
+        <y>410</y>
         <width>81</width>
         <height>31</height>
        </rect>
@@ -399,8 +430,8 @@
       <property name="geometry">
        <rect>
         <x>120</x>
-        <y>410</y>
-        <width>421</width>
+        <y>420</y>
+        <width>451</width>
         <height>23</height>
        </rect>
       </property>
@@ -412,13 +443,17 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>470</y>
-        <width>521</width>
-        <height>231</height>
+        <y>480</y>
+        <width>551</width>
+        <height>221</height>
        </rect>
       </property>
       <property name="contextMenuPolicy">
        <enum>Qt::DefaultContextMenu</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: transparent;
+font: 9pt &quot;Microsoft YaHei UI&quot;,&quot;思源黑体 CN&quot;,&quot;黑体&quot;,&quot;Arial&quot;,sans-serif;</string>
       </property>
       <property name="horizontalScrollBarPolicy">
        <enum>Qt::ScrollBarAsNeeded</enum>
@@ -430,15 +465,15 @@
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Microsoft YaHei UI','思源黑体 CN','黑体','Arial','sans-serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;（当前无输出信息）&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>208</x>
-        <y>151</y>
+        <x>230</x>
+        <y>150</y>
         <width>328</width>
         <height>39</height>
        </rect>
@@ -453,6 +488,9 @@ p, li { white-space: pre-wrap; }
        </item>
        <item>
         <widget class="QLineEdit" name="threadnum">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
          <property name="inputMask">
           <string/>
          </property>
@@ -478,13 +516,16 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>20</x>
         <y>320</y>
-        <width>312</width>
-        <height>81</height>
+        <width>318</width>
+        <height>92</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayout_2">
        <item row="1" column="0">
         <widget class="QLineEdit" name="tfedit">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
          <property name="text">
           <string>$1 $2 $3</string>
          </property>
@@ -511,8 +552,8 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>340</x>
         <y>320</y>
-        <width>221</width>
-        <height>80</height>
+        <width>225</width>
+        <height>92</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayout_3">
@@ -524,7 +565,11 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QLineEdit" name="voledit"/>
+        <widget class="QLineEdit" name="voledit">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_12">
@@ -534,6 +579,32 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="Line" name="line_2">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>90</y>
+        <width>20</width>
+        <height>221</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+     <widget class="Line" name="line_4">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>210</y>
+        <width>191</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
@@ -558,7 +629,7 @@ p, li { white-space: pre-wrap; }
       <property name="markdown">
        <string>本软件由7325156制作，若运行软件时有问题，请 [联系作者](https://github.com/7325156/jjwxcNovelCrawler)
 
-版本：2.4.2
+版本：2.4.3
 
 最新版本下载： [github](https://github.com/7325156/jjwxcNovelCrawler/releases/latest/)
 | [蓝奏云](https://wwr.lanzoui.com/b02oduqmd#a5jo)
@@ -566,6 +637,10 @@ p, li { white-space: pre-wrap; }
 此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。
 
 **更新记录**：
+
+2022-01-01
+
+- 修改网址不能匹配https的bug。
 
 2021-11-09 
 
@@ -589,12 +664,14 @@ p, li { white-space: pre-wrap; }
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;本软件由7325156制作，若运行软件时有问题，请 &lt;/span&gt;&lt;a href=&quot;https://github.com/7325156/jjwxcNovelCrawler&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;联系作者&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;版本：2.4.2&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;最新版本下载： &lt;/span&gt;&lt;a href=&quot;https://github.com/7325156/jjwxcNovelCrawler/releases/latest/&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;github&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt; | &lt;/span&gt;&lt;a href=&quot;https://wwr.lanzoui.com/b02oduqmd#a5jo&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;蓝奏云&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Microsoft YaHei UI','思源黑体 CN','黑体','Arial','sans-serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;本软件由7325156制作，若运行软件时有问题，请 &lt;/span&gt;&lt;a href=&quot;https://github.com/7325156/jjwxcNovelCrawler&quot;&gt;&lt;span style=&quot; font-family:'SimSun'; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;联系作者&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;版本：2.4.3&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;最新版本下载： &lt;/span&gt;&lt;a href=&quot;https://github.com/7325156/jjwxcNovelCrawler/releases/latest/&quot;&gt;&lt;span style=&quot; font-family:'SimSun'; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;github&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt; | &lt;/span&gt;&lt;a href=&quot;https://wwr.lanzoui.com/b02oduqmd#a5jo&quot;&gt;&lt;span style=&quot; font-family:'SimSun'; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;蓝奏云&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑'; font-size:10pt;&quot;&gt;此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt; font-weight:600;&quot;&gt;更新记录&lt;/span&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;：&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;2022-01-01&lt;/span&gt;&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;修改网址不能匹配https的bug。&lt;/li&gt;&lt;/ul&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;2021-11-09 &lt;/span&gt;&lt;/p&gt;
 &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;添加自定义标题、卷标格式功能。&lt;/li&gt;&lt;/ul&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;2021-10-26 &lt;/span&gt;&lt;/p&gt;
