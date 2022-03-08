@@ -54,7 +54,7 @@ class Ui_MainWindow(object):
         self.jjcookie.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.jjcookie.setObjectName("jjcookie")
         self.formLayoutWidget_2 = QtWidgets.QWidget(self.tab)
-        self.formLayoutWidget_2.setGeometry(QtCore.QRect(10, 90, 171, 51))
+        self.formLayoutWidget_2.setGeometry(QtCore.QRect(10, 90, 181, 51))
         self.formLayoutWidget_2.setObjectName("formLayoutWidget_2")
         self.fileend = QtWidgets.QFormLayout(self.formLayoutWidget_2)
         self.fileend.setContentsMargins(0, 0, 0, 0)
@@ -70,7 +70,7 @@ class Ui_MainWindow(object):
         self.format.addItem("")
         self.fileend.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.format)
         self.formLayoutWidget = QtWidgets.QWidget(self.tab)
-        self.formLayoutWidget.setGeometry(QtCore.QRect(230, 90, 171, 53))
+        self.formLayoutWidget.setGeometry(QtCore.QRect(230, 90, 179, 53))
         self.formLayoutWidget.setObjectName("formLayoutWidget")
         self.tstran = QtWidgets.QFormLayout(self.formLayoutWidget)
         self.tstran.setContentsMargins(0, 0, 0, 0)
@@ -105,7 +105,7 @@ class Ui_MainWindow(object):
         self.formLayout.setContentsMargins(0, 0, 0, 0)
         self.formLayout.setObjectName("formLayout")
         self.formLayoutWidget_3 = QtWidgets.QWidget(self.tab)
-        self.formLayoutWidget_3.setGeometry(QtCore.QRect(10, 220, 191, 98))
+        self.formLayoutWidget_3.setGeometry(QtCore.QRect(10, 220, 191, 107))
         self.formLayoutWidget_3.setObjectName("formLayoutWidget_3")
         self.titlestyle = QtWidgets.QFormLayout(self.formLayoutWidget_3)
         self.titlestyle.setContentsMargins(0, 0, 0, 0)
@@ -176,7 +176,7 @@ class Ui_MainWindow(object):
         self.textEdit.setReadOnly(True)
         self.textEdit.setObjectName("textEdit")
         self.layoutWidget = QtWidgets.QWidget(self.tab)
-        self.layoutWidget.setGeometry(QtCore.QRect(230, 150, 328, 39))
+        self.layoutWidget.setGeometry(QtCore.QRect(230, 150, 343, 39))
         self.layoutWidget.setObjectName("layoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -194,7 +194,7 @@ class Ui_MainWindow(object):
         self.label_7.setObjectName("label_7")
         self.horizontalLayout.addWidget(self.label_7)
         self.formLayoutWidget_5 = QtWidgets.QWidget(self.tab)
-        self.formLayoutWidget_5.setGeometry(QtCore.QRect(20, 320, 318, 92))
+        self.formLayoutWidget_5.setGeometry(QtCore.QRect(20, 320, 358, 95))
         self.formLayoutWidget_5.setObjectName("formLayoutWidget_5")
         self.formLayout_2 = QtWidgets.QFormLayout(self.formLayoutWidget_5)
         self.formLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -210,7 +210,7 @@ class Ui_MainWindow(object):
         self.label_11.setObjectName("label_11")
         self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_11)
         self.formLayoutWidget_6 = QtWidgets.QWidget(self.tab)
-        self.formLayoutWidget_6.setGeometry(QtCore.QRect(340, 320, 225, 92))
+        self.formLayoutWidget_6.setGeometry(QtCore.QRect(340, 320, 253, 95))
         self.formLayoutWidget_6.setObjectName("formLayoutWidget_6")
         self.formLayout_3 = QtWidgets.QFormLayout(self.formLayoutWidget_6)
         self.formLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -242,8 +242,9 @@ class Ui_MainWindow(object):
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
         self.textBrowser_2 = QtWidgets.QTextBrowser(self.tab_2)
-        self.textBrowser_2.setGeometry(QtCore.QRect(10, 10, 531, 691))
-        self.textBrowser_2.setStyleSheet("“background:transparent;border-width:0;border-style:outset”")
+        self.textBrowser_2.setGeometry(QtCore.QRect(10, 10, 571, 691))
+        self.textBrowser_2.setStyleSheet("background:transparent;border-width:0;border-style:outset;\n"
+"font: 10pt \"微软雅黑\";")
         self.textBrowser_2.setReadOnly(True)
         self.textBrowser_2.setObjectName("textBrowser_2")
         self.tabWidget.addTab(self.tab_2, "")
@@ -303,7 +304,7 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "下载页面"))
         self.textBrowser_2.setMarkdown(_translate("MainWindow", "本软件由7325156制作，若运行软件时有问题，请 [联系作者](https://github.com/7325156/jjwxcNovelCrawler)\n"
 "\n"
-"版本：2.4.4\n"
+"版本：2.4.5\n"
 "\n"
 "最新版本下载： [github](https://github.com/7325156/jjwxcNovelCrawler/releases/latest/)\n"
 "| [蓝奏云](https://wwr.lanzoui.com/b02oduqmd#a5jo)\n"
@@ -311,6 +312,10 @@ class Ui_MainWindow(object):
 "此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。\n"
 "\n"
 "**更新记录**：\n"
+"\n"
+"2022-03-08\n"
+"\n"
+"- 新增去除一键感谢功能\n"
 "\n"
 "2022-02-16\n"
 "\n"
@@ -340,23 +345,25 @@ class Ui_MainWindow(object):
         self.textBrowser_2.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Microsoft YaHei UI\',\'思源黑体 CN\',\'黑体\',\'Arial\',\'sans-serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">本软件由7325156制作，若运行软件时有问题，请 </span><a href=\"https://github.com/7325156/jjwxcNovelCrawler\"><span style=\" font-family:\'SimSun\'; font-size:10pt; text-decoration: underline; color:#0000ff;\">联系作者</span></a></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">版本：2.4.4</span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">最新版本下载： </span><a href=\"https://github.com/7325156/jjwxcNovelCrawler/releases/latest/\"><span style=\" font-family:\'SimSun\'; font-size:10pt; text-decoration: underline; color:#0000ff;\">github</span></a><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\"> | </span><a href=\"https://wwr.lanzoui.com/b02oduqmd#a5jo\"><span style=\" font-family:\'SimSun\'; font-size:10pt; text-decoration: underline; color:#0000ff;\">蓝奏云</span></a></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\'; font-size:10pt;\">此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。</span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt; font-weight:600;\">更新记录</span><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">：</span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">2022-02-16</span></p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">修复转义字符与字符的格式错误。</li></ul>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">2022-01-01</span></p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">修改网址不能匹配https的bug。</li></ul>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">2021-11-09 </span></p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">添加自定义标题、卷标格式功能。</li></ul>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">2021-10-26 </span></p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">为epub2添加网页目录 获取未购买、被锁章节信息</li></ul>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">2021-10-22 </span></p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\" style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">使用app接口下载，无需反爬虫。感谢 <span style=\" font-weight:600;\">酷安 @关耳010225 @乃星 @viviyaaa</span> 的方案。 </li>\n"
-"<li style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\" style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">添加编辑css功能。</li></ul>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">2021-9-30</span></p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">新增窗口模式，可自由选择反爬虫模式（侵删）、文件下载格式以及其他必备配置。</li></ul></body></html>"))
+"</style></head><body style=\" font-family:\'微软雅黑\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">本软件由7325156制作，若运行软件时有问题，请 </span><a href=\"https://github.com/7325156/jjwxcNovelCrawler\"><span style=\" font-family:\'SimSun\'; text-decoration: underline; color:#0000ff;\">联系作者</span></a></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">版本：2.4.5</span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">最新版本下载： </span><a href=\"https://github.com/7325156/jjwxcNovelCrawler/releases/latest/\"><span style=\" font-family:\'SimSun\'; text-decoration: underline; color:#0000ff;\">github</span></a><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\"> | </span><a href=\"https://wwr.lanzoui.com/b02oduqmd#a5jo\"><span style=\" font-family:\'SimSun\'; text-decoration: underline; color:#0000ff;\">蓝奏云</span></a></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。</p>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-weight:600;\">更新记录</span><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">：</span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2022-03-08</span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">新增去除一键感谢功能</li></ul>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2022-02-16</span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">修复转义字符与字符的格式错误。</li></ul>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2022-01-01</span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">修改网址不能匹配https的bug。</li></ul>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2021-11-09 </span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">添加自定义标题、卷标格式功能。</li></ul>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2021-10-26 </span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">为epub2添加网页目录 获取未购买、被锁章节信息</li></ul>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2021-10-22 </span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">使用app接口下载，无需反爬虫。感谢 <span style=\" font-weight:600;\">酷安 @关耳010225 @乃星 @viviyaaa</span> 的方案。 </li>\n"
+"<li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">添加编辑css功能。</li></ul>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2021-9-30</span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">新增窗口模式，可自由选择反爬虫模式（侵删）、文件下载格式以及其他必备配置。</li></ul></body></html>"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "帮助"))

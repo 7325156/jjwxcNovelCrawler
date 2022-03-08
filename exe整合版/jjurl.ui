@@ -141,7 +141,7 @@ font: 9pt &quot;Microsoft YaHei UI&quot;,&quot;思源黑体 CN&quot;,&quot;黑�
        <rect>
         <x>10</x>
         <y>90</y>
-        <width>171</width>
+        <width>181</width>
         <height>51</height>
        </rect>
       </property>
@@ -182,7 +182,7 @@ font: 9pt &quot;Microsoft YaHei UI&quot;,&quot;思源黑体 CN&quot;,&quot;黑�
        <rect>
         <x>230</x>
         <y>90</y>
-        <width>171</width>
+        <width>179</width>
         <height>53</height>
        </rect>
       </property>
@@ -290,7 +290,7 @@ font: 9pt &quot;Microsoft YaHei UI&quot;,&quot;思源黑体 CN&quot;,&quot;黑�
         <x>10</x>
         <y>220</y>
         <width>191</width>
-        <height>98</height>
+        <height>107</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="titlestyle">
@@ -474,7 +474,7 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>230</x>
         <y>150</y>
-        <width>328</width>
+        <width>343</width>
         <height>39</height>
        </rect>
       </property>
@@ -516,8 +516,8 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>20</x>
         <y>320</y>
-        <width>318</width>
-        <height>92</height>
+        <width>358</width>
+        <height>95</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayout_2">
@@ -552,8 +552,8 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>340</x>
         <y>320</y>
-        <width>225</width>
-        <height>92</height>
+        <width>253</width>
+        <height>95</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayout_3">
@@ -629,12 +629,13 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>531</width>
+        <width>571</width>
         <height>691</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">“background:transparent;border-width:0;border-style:outset”</string>
+       <string notr="true">background:transparent;border-width:0;border-style:outset;
+font: 10pt &quot;微软雅黑&quot;;</string>
       </property>
       <property name="readOnly">
        <bool>true</bool>
@@ -642,7 +643,7 @@ p, li { white-space: pre-wrap; }
       <property name="markdown">
        <string>本软件由7325156制作，若运行软件时有问题，请 [联系作者](https://github.com/7325156/jjwxcNovelCrawler)
 
-版本：2.4.4
+版本：2.4.5
 
 最新版本下载： [github](https://github.com/7325156/jjwxcNovelCrawler/releases/latest/)
 | [蓝奏云](https://wwr.lanzoui.com/b02oduqmd#a5jo)
@@ -650,6 +651,10 @@ p, li { white-space: pre-wrap; }
 此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。
 
 **更新记录**：
+
+2022-03-08
+
+- 新增去除一键感谢功能
 
 2022-02-16
 
@@ -681,25 +686,27 @@ p, li { white-space: pre-wrap; }
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Microsoft YaHei UI','思源黑体 CN','黑体','Arial','sans-serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;本软件由7325156制作，若运行软件时有问题，请 &lt;/span&gt;&lt;a href=&quot;https://github.com/7325156/jjwxcNovelCrawler&quot;&gt;&lt;span style=&quot; font-family:'SimSun'; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;联系作者&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;版本：2.4.4&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;最新版本下载： &lt;/span&gt;&lt;a href=&quot;https://github.com/7325156/jjwxcNovelCrawler/releases/latest/&quot;&gt;&lt;span style=&quot; font-family:'SimSun'; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;github&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt; | &lt;/span&gt;&lt;a href=&quot;https://wwr.lanzoui.com/b02oduqmd#a5jo&quot;&gt;&lt;span style=&quot; font-family:'SimSun'; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;蓝奏云&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑'; font-size:10pt;&quot;&gt;此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt; font-weight:600;&quot;&gt;更新记录&lt;/span&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;：&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;2022-02-16&lt;/span&gt;&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;修复转义字符与字符的格式错误。&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;2022-01-01&lt;/span&gt;&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;修改网址不能匹配https的bug。&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;2021-11-09 &lt;/span&gt;&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;添加自定义标题、卷标格式功能。&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;2021-10-26 &lt;/span&gt;&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;为epub2添加网页目录 获取未购买、被锁章节信息&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;2021-10-22 &lt;/span&gt;&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot; style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;使用app接口下载，无需反爬虫。感谢 &lt;span style=&quot; font-weight:600;&quot;&gt;酷安 @关耳010225 @乃星 @viviyaaa&lt;/span&gt; 的方案。 &lt;/li&gt;
-&lt;li style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot; style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;添加编辑css功能。&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot;&gt;2021-9-30&lt;/span&gt;&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif'; font-size:10pt;&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;新增窗口模式，可自由选择反爬虫模式（侵删）、文件下载格式以及其他必备配置。&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'微软雅黑'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;本软件由7325156制作，若运行软件时有问题，请 &lt;/span&gt;&lt;a href=&quot;https://github.com/7325156/jjwxcNovelCrawler&quot;&gt;&lt;span style=&quot; font-family:'SimSun'; text-decoration: underline; color:#0000ff;&quot;&gt;联系作者&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;版本：2.4.5&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;最新版本下载： &lt;/span&gt;&lt;a href=&quot;https://github.com/7325156/jjwxcNovelCrawler/releases/latest/&quot;&gt;&lt;span style=&quot; font-family:'SimSun'; text-decoration: underline; color:#0000ff;&quot;&gt;github&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt; | &lt;/span&gt;&lt;a href=&quot;https://wwr.lanzoui.com/b02oduqmd#a5jo&quot;&gt;&lt;span style=&quot; font-family:'SimSun'; text-decoration: underline; color:#0000ff;&quot;&gt;蓝奏云&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-weight:600;&quot;&gt;更新记录&lt;/span&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;：&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;2022-03-08&lt;/span&gt;&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif';&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;新增去除一键感谢功能&lt;/li&gt;&lt;/ul&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;2022-02-16&lt;/span&gt;&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif';&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;修复转义字符与字符的格式错误。&lt;/li&gt;&lt;/ul&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;2022-01-01&lt;/span&gt;&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif';&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;修改网址不能匹配https的bug。&lt;/li&gt;&lt;/ul&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;2021-11-09 &lt;/span&gt;&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif';&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;添加自定义标题、卷标格式功能。&lt;/li&gt;&lt;/ul&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;2021-10-26 &lt;/span&gt;&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif';&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;为epub2添加网页目录 获取未购买、被锁章节信息&lt;/li&gt;&lt;/ul&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;2021-10-22 &lt;/span&gt;&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif';&quot; style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;使用app接口下载，无需反爬虫。感谢 &lt;span style=&quot; font-weight:600;&quot;&gt;酷安 @关耳010225 @乃星 @viviyaaa&lt;/span&gt; 的方案。 &lt;/li&gt;
+&lt;li style=&quot; font-family:'微软雅黑','sans-serif';&quot; style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;添加编辑css功能。&lt;/li&gt;&lt;/ul&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;2021-9-30&lt;/span&gt;&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif';&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;新增窗口模式，可自由选择反爬虫模式（侵删）、文件下载格式以及其他必备配置。&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </widget>
