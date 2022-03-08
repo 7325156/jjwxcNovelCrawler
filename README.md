@@ -1,4 +1,4 @@
-![jj](https://user-images.githubusercontent.com/57527406/147842885-d7b07e15-a09a-4da7-9384-8fad50ff9c29.png)<br/>
+![jjwxc](https://user-images.githubusercontent.com/57527406/157159863-67c22738-edad-4214-b3ee-6fcd9b3d5ea0.png<br/>
 github下载：[![GitHub release](https://img.shields.io/github/release/7325156/jjwxcNovelCrawler.svg)](https://github.com/7325156/jjwxcNovelCrawler/releases/latest/) <br/>
 蓝奏云下载：https://wwr.lanzoui.com/b02oduqmd#a5jo 密码:a5jo <br/>
 <p>此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。</p>
@@ -38,6 +38,13 @@ github下载：[![GitHub release](https://img.shields.io/github/release/7325156/
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>或者直接下载并打开client.py，按步骤输入用户名密码，将得到的值输入到对应的框里。</p>
 <p>　　(注：cookie若失效，请重新登录晋江并及时更换，还不行就更换浏览器。)</p>
 <h1>main_epub日志记录</h1>
+
+<p>2022-03-08</p>
+
+<ul>
+ <li>新增去除一键感谢功能</li>
+</ul>
+
 <p>2022-01-01</p>
 <ul>
  <li>修改网址不能匹配https的bug。</li>
