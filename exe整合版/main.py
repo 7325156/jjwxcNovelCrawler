@@ -123,6 +123,8 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
                 self.voledit.setText(confdict['volumn'])
             else:
                 self.selfvol.setChecked(False)
+            if confdict['delthk']:
+                self.delthk.setChecked(True)
 
         else:
             f = open('config.yml', 'w', encoding='utf-8')
@@ -197,6 +199,10 @@ body{text-indent:2em;}/*全局格式*/''')
             doc['volumn'] = self.voledit.text()
         else:
             doc['volumn'] = 0
+        if self.delthk.isChecked():
+            doc['delthk'] = 1
+        else:
+            doc['delthk'] = 0
 
         try:
             if 0 < int(self.threadnum.text()) < 1000:
@@ -336,6 +342,8 @@ body{text-indent:2em;}/*全局格式*/''')
                     v = re.sub("&amp;gt;", "&gt;", v)
                     v = re.sub("&amp;lt;", "&lt;", v)
                     v = re.sub('&amp;#', '&#', v)
+                    if self.delthk.isChecked():
+                        v=re.sub(r'(感谢灌溉)[\w\W]+(.).*感谢(灌|投|支持).*|感谢(在|为).*小天使.*|.*(扔|投|砸|灌)了.*时间.*|.*\\d瓶.*|.*(扔|投|砸|灌|谢).*(手榴弹|营养液|地雷|浅水炸弹|深水炸弹|深水鱼雷|火箭炮|投雷|霸王票).*|非常感谢.*努力的.*','',v)
                     if v != "" and self.format.currentText() == "txt":  # 按行写入正文
                         v=html.unescape(v)
                         content += v + "\n"
@@ -393,6 +401,8 @@ body{text-indent:2em;}/*全局格式*/''')
                     v = re.sub("&amp;gt;", "&gt;", v)
                     v = re.sub("&amp;lt;", "&lt;", v)
                     v = re.sub('&amp;#', '&#', v)
+                    if self.delthk.isChecked():
+                        v = re.sub(r'(感谢灌溉)[\w\W]+(.).*感谢(灌|投|支持).*|感谢(在|为).*小天使.*|.*(扔|投|砸|灌)了.*时间.*|.*\\d瓶.*|.*(扔|投|砸|灌|谢).*(手榴弹|营养液|地雷|浅水炸弹|深水炸弹|深水鱼雷|火箭炮|投雷|霸王票).*|非常感谢.*努力的.*','', v)
                     if v != "" and self.format.currentText() == "txt":  # 按行写入正文
                         v=html.unescape(v)
                         content += v + "\n"

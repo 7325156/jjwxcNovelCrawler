@@ -235,6 +235,9 @@ class Ui_MainWindow(object):
         self.line_4.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_4.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_4.setObjectName("line_4")
+        self.delthk = QtWidgets.QCheckBox(self.tab)
+        self.delthk.setGeometry(QtCore.QRect(440, 90, 121, 31))
+        self.delthk.setObjectName("delthk")
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
@@ -296,10 +299,11 @@ class Ui_MainWindow(object):
         self.label_11.setText(_translate("MainWindow", "（$1为序号，$2为章节名称，$3为内容提要）"))
         self.selfvol.setText(_translate("MainWindow", "是否自定义卷标格式"))
         self.label_12.setText(_translate("MainWindow", "（$1为卷标号，$2为卷标内容）"))
+        self.delthk.setText(_translate("MainWindow", "去除一键感谢"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "下载页面"))
         self.textBrowser_2.setMarkdown(_translate("MainWindow", "本软件由7325156制作，若运行软件时有问题，请 [联系作者](https://github.com/7325156/jjwxcNovelCrawler)\n"
 "\n"
-"版本：2.4.3\n"
+"版本：2.4.4\n"
 "\n"
 "最新版本下载： [github](https://github.com/7325156/jjwxcNovelCrawler/releases/latest/)\n"
 "| [蓝奏云](https://wwr.lanzoui.com/b02oduqmd#a5jo)\n"
@@ -307,6 +311,10 @@ class Ui_MainWindow(object):
 "此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。\n"
 "\n"
 "**更新记录**：\n"
+"\n"
+"2022-02-16\n"
+"\n"
+"- 修复转义字符与字符的格式错误。\n"
 "\n"
 "2022-01-01\n"
 "\n"
@@ -334,10 +342,12 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Microsoft YaHei UI\',\'思源黑体 CN\',\'黑体\',\'Arial\',\'sans-serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">本软件由7325156制作，若运行软件时有问题，请 </span><a href=\"https://github.com/7325156/jjwxcNovelCrawler\"><span style=\" font-family:\'SimSun\'; font-size:10pt; text-decoration: underline; color:#0000ff;\">联系作者</span></a></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">版本：2.4.3</span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">版本：2.4.4</span></p>\n"
 "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">最新版本下载： </span><a href=\"https://github.com/7325156/jjwxcNovelCrawler/releases/latest/\"><span style=\" font-family:\'SimSun\'; font-size:10pt; text-decoration: underline; color:#0000ff;\">github</span></a><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\"> | </span><a href=\"https://wwr.lanzoui.com/b02oduqmd#a5jo\"><span style=\" font-family:\'SimSun\'; font-size:10pt; text-decoration: underline; color:#0000ff;\">蓝奏云</span></a></p>\n"
 "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\'; font-size:10pt;\">此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。</span></p>\n"
 "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt; font-weight:600;\">更新记录</span><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">：</span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">2022-02-16</span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">修复转义字符与字符的格式错误。</li></ul>\n"
 "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">2022-01-01</span></p>\n"
 "<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">修改网址不能匹配https的bug。</li></ul>\n"
 "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-size:10pt;\">2021-11-09 </span></p>\n"
