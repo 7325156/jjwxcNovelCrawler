@@ -244,25 +244,34 @@ body{text-indent:2em;}/*全局格式*/''')
         i = self.href_list.index(l)
         self.currentTitle = ''
         # 获取app源
-        chlink = l
-        chcot = requests.get(chlink, headers=self.headerss)
-        try:
-            chcont = json.loads(chcot.text)
-        except:
-            chcont = {'chapterSize': '', 'chapterDate': '', 'sayBody': '', 'upDown': '', 'content': ''}
-        texm = ''
-        if 'content' in chcont.keys():
-            tex = chcont['content']
-            tex = re.sub('&lt;br&gt;', '\n', tex).splitlines()
-            # tex1:作话
-            tex1 = chcont['sayBody'].splitlines()
-            # sign:作话位置
-            sign = chcont['upDown']
-        else:
-            texm = chcont["message"]
-            tex1 = ''
-            sign = ''
-            tex = ''
+        badgateway = True
+        while (badgateway):
+            chlink = l
+            chcot = requests.get(chlink, headers=self.headerss)
+            try:
+                chcont = json.loads(chcot.text)
+            except:
+                chcont = {'chapterSize': '', 'chapterDate': '', 'sayBody': '', 'upDown': '', 'content': ''}
+            texm = ''
+            if 'content' in chcont.keys():
+                tex = chcont['content']
+                tex = re.sub('&lt;br&gt;', '\n', tex).splitlines()
+                # tex1:作话
+                tex1 = chcont['sayBody'].splitlines()
+                # sign:作话位置
+                sign = chcont['upDown']
+                badgateway=False
+            else:
+                texm = chcont["message"]
+                tex1 = ''
+                sign = ''
+                tex = ''
+                bdw = re.findall(r'(存稿|登入)', texm)
+                if not bdw:
+                    badgateway = False
+                else:
+                    time.sleep(1)
+
 
         if str(i) in self.rollSignPlace:
             v = self.rollSign[self.rollSignPlace.index(str(i))]
@@ -305,14 +314,13 @@ body{text-indent:2em;}/*全局格式*/''')
         # 创建章节文件
         content = ''
 
-
         # 写入标题
         if self.format.currentText() == "txt":
             title = html.unescape(title)
             content += "\n\n" + title + "\n"
         else:
-            title=html.escape(title)
-            title=re.sub('&amp;amp;','&amp;',title)
+            title = html.escape(title)
+            title = re.sub('&amp;amp;', '&amp;', title)
             content += '<h2>' + title + "</h2>"
         if len(tex) == 0:
             self.failInfo.append(titleOrigin[2].zfill(self.fillNum))
@@ -343,9 +351,11 @@ body{text-indent:2em;}/*全局格式*/''')
                     v = re.sub("&amp;lt;", "&lt;", v)
                     v = re.sub('&amp;#', '&#', v)
                     if self.delthk.isChecked():
-                        v=re.sub(r'(感谢灌溉)[\w\W]+(.).*感谢(灌|投|支持).*|感谢(在|为).*小天使.*|.*(扔|投|砸|灌)了.*时间.*|.*\\d瓶.*|.*(扔|投|砸|灌|谢).*(手榴弹|营养液|地雷|浅水炸弹|深水炸弹|深水鱼雷|火箭炮|投雷|霸王票).*|非常感谢.*努力的.*','',v)
+                        v = re.sub(
+                            r'(感谢灌溉)[\w\W]+(.).*感谢(灌|投|支持).*|感谢(在|为).*小天使.*|.*(扔|投|砸|灌)了.*时间.*|.*\\d瓶.*|.*(扔|投|砸|灌|谢).*(手榴弹|营养液|地雷|浅水炸弹|深水炸弹|深水鱼雷|火箭炮|投雷|霸王票).*|非常感谢.*努力的.*',
+                            '', v)
                     if v != "" and self.format.currentText() == "txt":  # 按行写入正文
-                        v=html.unescape(v)
+                        v = html.unescape(v)
                         content += v + "\n"
                     elif v != "":
                         content += "<p>" + v + "</p>"
@@ -365,7 +375,7 @@ body{text-indent:2em;}/*全局格式*/''')
                     v = re.sub("&amp;lt;", "&lt;", v)
                     v = re.sub('&amp;#', '&#', v)
                     if v != "" and self.format.currentText() == "txt":  # 按行写入正文
-                        v=html.unescape(v)
+                        v = html.unescape(v)
                         content += v + "\n"
                     elif v != "":
                         content += "<p>" + v + "</p>"
@@ -380,7 +390,7 @@ body{text-indent:2em;}/*全局格式*/''')
                     v = re.sub("&amp;lt;", "&lt;", v)
                     v = re.sub('&amp;#', '&#', v)
                     if v != "" and self.format.currentText() == "txt":  # 按行写入正文
-                        v=html.unescape(v)
+                        v = html.unescape(v)
                         content += v + "\n"
                     elif v != "":
                         content += "<p>" + v + "</p>"
@@ -402,9 +412,11 @@ body{text-indent:2em;}/*全局格式*/''')
                     v = re.sub("&amp;lt;", "&lt;", v)
                     v = re.sub('&amp;#', '&#', v)
                     if self.delthk.isChecked():
-                        v = re.sub(r'(感谢灌溉)[\w\W]+(.).*感谢(灌|投|支持).*|感谢(在|为).*小天使.*|.*(扔|投|砸|灌)了.*时间.*|.*\\d瓶.*|.*(扔|投|砸|灌|谢).*(手榴弹|营养液|地雷|浅水炸弹|深水炸弹|深水鱼雷|火箭炮|投雷|霸王票).*|非常感谢.*努力的.*','', v)
+                        v = re.sub(
+                            r'(感谢灌溉)[\w\W]+(.).*感谢(灌|投|支持).*|感谢(在|为).*小天使.*|.*(扔|投|砸|灌)了.*时间.*|.*\\d瓶.*|.*(扔|投|砸|灌|谢).*(手榴弹|营养液|地雷|浅水炸弹|深水炸弹|深水鱼雷|火箭炮|投雷|霸王票).*|非常感谢.*努力的.*',
+                            '', v)
                     if v != "" and self.format.currentText() == "txt":  # 按行写入正文
-                        v=html.unescape(v)
+                        v = html.unescape(v)
                         content += v + "\n"
                     elif v != "":
                         content += "<p>" + v + "</p>"
@@ -551,15 +563,15 @@ body{text-indent:2em;}/*全局格式*/''')
             vcount = 0
             for i in cdic:
                 if i["chaptertype"] == "1":
-                    vcount+=1
+                    vcount += 1
                     v = i["chaptername"]
                     v = html.escape(v)
                     if self.format.currentText() == "txt":
                         v = re.sub('</?\w+[^>]*>', '', v).strip()
-                    v="§ " + v + " §"
+                    v = "§ " + v + " §"
                     if self.selfvol.isChecked():
-                        v=re.sub('\$1',str(vcount),self.voledit.text())
-                        v=re.sub('\$2',i["chaptername"],v)
+                        v = re.sub('\$1', str(vcount), self.voledit.text())
+                        v = re.sub('\$2', i["chaptername"], v)
                     self.rollSign.append(v)
                     self.rollSignPlace.append(i["chapterid"])
                 else:
@@ -639,7 +651,7 @@ body{text-indent:2em;}/*全局格式*/''')
                     rose = OpenCC('s2t').convert(ros)
                 if self.format.currentText() == "txt":
                     with open(nm, 'w', encoding='utf-8') as f:
-                        f.write('\n\n'+ros+'\n')
+                        f.write('\n\n' + ros + '\n')
                 else:
                     with open(nm, 'w', encoding='utf-8') as f:
                         f.write(('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
@@ -701,7 +713,7 @@ body{text-indent:2em;}/*全局格式*/''')
                 ix = re.sub('\n', '', ix)
                 ix = re.sub(' +', '', ix)
                 if self.format.currentText() == "txt":
-                    ix=html.unescape(ix)
+                    ix = html.unescape(ix)
                     TOC += ix + "\n"
                 else:
                     TOC += "<p>" + ix + "</p>"
@@ -718,7 +730,7 @@ body{text-indent:2em;}/*全局格式*/''')
                     v = re.sub(' +', ' ', str(nx)).strip()
                     v = html.escape(v)
                     if v != "" and self.format.currentText() == "txt":
-                        v=html.unescape(v)
+                        v = html.unescape(v)
                         TOC += v + "\n"
                     elif v:
                         TOC += "<p>" + v + "</p>"
@@ -728,7 +740,7 @@ body{text-indent:2em;}/*全局格式*/''')
                     TOC += '<hr/>'
             if self.format.currentText() == "txt":
                 for v in info:
-                    v=html.unescape(v)
+                    v = html.unescape(v)
                     TOC += re.sub("<.*?>", "", v) + '\n'
                 if self.state == 's':
                     TOC = OpenCC('t2s').convert(TOC)
