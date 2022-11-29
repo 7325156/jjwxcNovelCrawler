@@ -21,7 +21,8 @@ import EPUB3
 import ctypes
 import ico
 import html
-
+from PIL import Image
+from io import BytesIO
 
 class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
     # 小说主地址，后接小说编号
@@ -245,7 +246,9 @@ body{text-indent:2em;}/*全局格式*/''')
         self.currentTitle = ''
         # 获取app源
         badgateway = True
-        while (badgateway):
+        chapcot=2
+        bdwch=badgateway and chapcot > 0
+        while badgateway and chapcot > 0:
             chlink = l
             chcot = requests.get(chlink, headers=self.headerss)
             try:
@@ -266,11 +269,18 @@ body{text-indent:2em;}/*全局格式*/''')
                 tex1 = ''
                 sign = ''
                 tex = ''
+                if re.findall('该章节为VIP章节，请登入继续操作',texm):
+                    QMessageBox.warning(self, '警告', '请更新cookie', QMessageBox.Yes)
                 bdw = re.findall(r'(存稿|登入)', texm)
-                if not bdw:
+                ctst = re.findall('您还未购买该VIP章节',texm)
+                if ctst:
+                    chapcot=chapcot-1
+                stat = bdw or ctst
+                if not stat:
                     badgateway = False
                 else:
                     time.sleep(1)
+            QApplication.processEvents()
 
 
         if str(i) in self.rollSignPlace:
@@ -286,7 +296,7 @@ body{text-indent:2em;}/*全局格式*/''')
         title = ''
         # 序号填充
         if self.number.isChecked():
-            title = str(titleOrigin[2]).zfill(self.fillNum)
+            title = str(titleOrigin[2])
             if self.format.currentText() == "txt":
                 title += " #"
 
@@ -299,7 +309,7 @@ body{text-indent:2em;}/*全局格式*/''')
             title = title + " " + self.Summary[i].strip()
 
         if self.selftitle.isChecked():
-            title = re.sub('\$1', str(titleOrigin[2]).zfill(self.fillNum), self.tfedit.text())
+            title = re.sub('\$1', str(titleOrigin[2]), self.tfedit.text())
             title = re.sub('\$2', self.titleindex[i].strip(), title)
             title = re.sub('\$3', self.Summary[i].strip(), title)
 
@@ -343,8 +353,8 @@ body{text-indent:2em;}/*全局格式*/''')
                     content += "作者有话要说：\n"
                 for m in tex1:  # 删除无用文字及多余空格空行
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(m))
-                    v = re.sub('　', '', vv)
-                    v = re.sub(' +', ' ', v).strip()
+                    v = re.sub('　+', ' ', vv)
+                    v = re.sub(' +', ' ', v)
                     v = html.escape(v)
                     v = re.sub("&amp;amp;", "&amp;", v)
                     v = re.sub("&amp;gt;", "&gt;", v)
@@ -354,10 +364,10 @@ body{text-indent:2em;}/*全局格式*/''')
                         v = re.sub(
                             r'(感谢灌溉)[\w\W]+(.).*感谢(灌|投|支持).*|感谢(在|为).*小天使.*|.*(扔|投|砸|灌)了.*时间.*|.*\\d瓶.*|.*(扔|投|砸|灌|谢).*(手榴弹|营养液|地雷|浅水炸弹|深水炸弹|深水鱼雷|火箭炮|投雷|霸王票).*|非常感谢.*努力的.*',
                             '', v)
-                    if v != "" and self.format.currentText() == "txt":  # 按行写入正文
+                    if self.format.currentText() == "txt":  # 按行写入正文
                         v = html.unescape(v)
                         content += v + "\n"
-                    elif v != "":
+                    else:
                         content += "<p>" + v + "</p>"
                 if not self.format.currentText() == "txt":
                     content += "</blockquote>"
@@ -367,32 +377,32 @@ body{text-indent:2em;}/*全局格式*/''')
                     content += "<hr/>"
                 for tn in tex:
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(tn))
-                    v = re.sub('　', '', vv)
-                    v = re.sub(' +', ' ', v).strip()
+                    v = re.sub('　+', ' ', vv)
+                    v = re.sub(' +', ' ', v)
                     v = html.escape(v)
                     v = re.sub("&amp;amp;", "&amp;", v)
                     v = re.sub("&amp;gt;", "&gt;", v)
                     v = re.sub("&amp;lt;", "&lt;", v)
                     v = re.sub('&amp;#', '&#', v)
-                    if v != "" and self.format.currentText() == "txt":  # 按行写入正文
+                    if self.format.currentText() == "txt":  # 按行写入正文
                         v = html.unescape(v)
                         content += v + "\n"
-                    elif v != "":
+                    else:
                         content += "<p>" + v + "</p>"
             else:  # 作话在文后的情况
                 for tn in tex:
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(tn))
-                    v = re.sub('　', '', vv)
-                    v = re.sub(' +', ' ', v).strip()
+                    v = re.sub('　+', ' ', vv)
+                    v = re.sub(' +', ' ', v)
                     v = html.escape(v)
                     v = re.sub("&amp;amp;", "&amp;", v)
                     v = re.sub("&amp;gt;", "&gt;", v)
                     v = re.sub("&amp;lt;", "&lt;", v)
                     v = re.sub('&amp;#', '&#', v)
-                    if v != "" and self.format.currentText() == "txt":  # 按行写入正文
+                    if self.format.currentText() == "txt":  # 按行写入正文
                         v = html.unescape(v)
                         content += v + "\n"
-                    elif v != "":
+                    else:
                         content += "<p>" + v + "</p>"
                 if len(tex1) and self.format.currentText() == "txt":
                     content += "\n*\n"
@@ -404,8 +414,8 @@ body{text-indent:2em;}/*全局格式*/''')
                     content += "作者有话要说：\n"
                 for m in tex1:
                     vv = re.sub('@无限好文，尽在晋江文学城', '', str(m))
-                    v = re.sub('　', '', vv)
-                    v = re.sub(' +', ' ', v).strip()
+                    v = re.sub('　+', ' ', vv)
+                    v = re.sub(' +', ' ', v)
                     v = html.escape(v)
                     v = re.sub("&amp;amp;", "&amp;", v)
                     v = re.sub("&amp;gt;", "&gt;", v)
@@ -415,15 +425,17 @@ body{text-indent:2em;}/*全局格式*/''')
                         v = re.sub(
                             r'(感谢灌溉)[\w\W]+(.).*感谢(灌|投|支持).*|感谢(在|为).*小天使.*|.*(扔|投|砸|灌)了.*时间.*|.*\\d瓶.*|.*(扔|投|砸|灌|谢).*(手榴弹|营养液|地雷|浅水炸弹|深水炸弹|深水鱼雷|火箭炮|投雷|霸王票).*|非常感谢.*努力的.*',
                             '', v)
-                    if v != "" and self.format.currentText() == "txt":  # 按行写入正文
+                    if self.format.currentText() == "txt":  # 按行写入正文
                         v = html.unescape(v)
                         content += v + "\n"
-                    elif v != "":
+                    else:
                         content += "<p>" + v + "</p>"
                 if len(tex1) != 0 and not self.format.currentText() == "txt":
                     content += "</blockquote>"
         if not self.format.currentText() == "txt":
             content += "</body></html>"
+        content=re.sub("<p> *</p>","<p><br/></p>",content)
+        content=re.sub("(<p><br/></p>)+","<p><br/></p>",content)
 
         if self.state == 's':
             content = OpenCC('t2s').convert(content)
@@ -664,8 +676,8 @@ body{text-indent:2em;}/*全局格式*/''')
             self.index = []
             # 保存封面图片
             if img != "0" and self.cover.isChecked() and not self.format.currentText() == "txt":
-                with open("p.jpg", 'wb') as pic:
-                    pic.write(img)
+                im=Image.open(BytesIO(img))
+                im.save('zp.jpg','JPEG')
 
                 # 写入封面
                 with open("C.xhtml", 'w', encoding='utf-8') as f:
@@ -676,7 +688,7 @@ body{text-indent:2em;}/*全局格式*/''')
 <head><title>Cover</title></head>
 <body><div style="text-align: center; padding: 0pt; margin: 0pt;">
 <svg xmlns="http://www.w3.org/2000/svg" height="100%" preserveAspectRatio="xMidYMid meet" version="1.1" width="100%" xmlns:xlink="http://www.w3.org/1999/xlink">
-<image width="100%" xlink:href="p.jpg"/></svg></div></body></html>''')
+<image width="100%" xlink:href="zp.jpg"/></svg></div></body></html>''')
 
             # 写入文章信息页
             if self.format.currentText() == "txt":
@@ -697,7 +709,7 @@ body{text-indent:2em;}/*全局格式*/''')
 
                 i = self.href_list.index(l)
                 #
-                title += str(titleOrigin[2]).zfill(self.fillNum) + " "
+                title += str(titleOrigin[2]) + " "
                 #
                 title = title + self.titleindex[i].strip() + " "
                 #
@@ -727,17 +739,19 @@ body{text-indent:2em;}/*全局格式*/''')
                 TOC += v
             else:
                 for nx in intro:
-                    v = re.sub(' +', ' ', str(nx)).strip()
+                    v = re.sub(' +', ' ', str(nx))
                     v = html.escape(v)
-                    if v != "" and self.format.currentText() == "txt":
+                    if self.format.currentText() == "txt":
                         v = html.unescape(v)
                         TOC += v + "\n"
-                    elif v:
+                    else:
                         TOC += "<p>" + v + "</p>"
                 if "立意:" in TOC:
                     TOC = re.sub('<p>立意:', '<hr/><p><b>立意</b>：', TOC)
                 else:
                     TOC += '<hr/>'
+            TOC=re.sub("<p> +</p>","<p><br/></p>",TOC)
+            TOC=re.sub("(<p><br/></p>)+","<p><br/></p>",TOC)
             if self.format.currentText() == "txt":
                 for v in info:
                     v = html.unescape(v)
