@@ -44,6 +44,10 @@ github下载：
 <p><span class="Apple-tab-span" style="white-space:pre">	</span>或者直接下载并打开client.py，按步骤输入用户名密码，将得到的值输入到对应的框里。</p>
 <p>　　(注：cookie若失效，请重新登录晋江并及时更换，还不行就更换浏览器。)</p>
 <h1>main_epub日志记录</h1>
+
+<p>2022-11-29</p>
+
+<ul><li>将封面图片的格式转换为jpg</li></ul>
 <p>2022-03-27</p>
 <ul><li>修复部分已购买的章节无法下载问题</li></ul>
 <p>2022-03-08</p>
