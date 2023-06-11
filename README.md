@@ -1,3 +1,5 @@
+**jj更改了模式，我没本事解决，现在要么解app的包，要么解决网页版的js延迟，众筹解决方案**
+
 ![jjwxc](https://user-images.githubusercontent.com/57527406/157160102-811010d2-dca2-422c-853b-99d46bbd02a9.png)
 
 <br/>
