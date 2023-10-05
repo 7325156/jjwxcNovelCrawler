@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 import  requests
 from lxml import etree
+import time
 import sys
 import re
 import os
@@ -10,7 +11,8 @@ from opencc import OpenCC
 from fontTools.ttLib import TTFont
 import concurrent.futures
 import EPUB2
-#如更换epub格式，将所有EPUB2替换为EPUB3即可
+import config
+import json
 
 class noveldl():
     #小说主地址，后接小说编号
@@ -57,6 +59,14 @@ class noveldl():
     def get_sin(self,l):
         titleOrigin=l.split('=')
         i=self.href_list.index(l)
+
+        #dot=etree.HTML(cont.content)
+        fontfamily=''
+        cvlist=[]
+        cvdic=[]
+        cont=''
+        dot=''
+        codetext=''
         badgateway=True
         while(badgateway):
             cont=requests.get(l,headers=self.headerss)
@@ -65,11 +75,9 @@ class noveldl():
             bdw=re.findall('<h1>502 Bad Gateway</h1>',codetext)
             if bdw==[]:
                 badgateway=False
-            
-        #dot=etree.HTML(cont.content)502 Bad Gateway
-        fontfamily=''
-        cvlist=[]
-        cvdic=[]
+            else:
+                time.sleep(1)
+
 
         #字体反爬虫
         fontsrc=re.findall(r'//static.jjwxc.net/tmp/fonts/.*?woff2.h=my.jjwxc.net',codetext)
@@ -78,6 +86,27 @@ class noveldl():
             fontname=re.sub('http://static.jjwxc.net/tmp/fonts/','',fontsrc)
             fontname=re.sub('.h=my.jjwxc.net','',fontname)
             fontfamily=re.sub('.woff2','',fontname)
+            cvdic=[]
+            if not os.path.exists(self.path+"/Fonts/"+fontfamily+'.txt'):                
+                #解析json文件
+                r=requests.get('http://jjwxc.yooooo.us/'+fontfamily+'.json')
+                fonttxt=re.sub('{"status": 0, "data": ','',r.text)
+                fonttxt=re.sub('}}','}',fonttxt)
+                cdic=json.loads(fonttxt)
+                fonttxt=''
+                f=open(self.path+"/Fonts/"+fontfamily+".txt", "w",encoding='utf-8')
+                for s,v in cdic.items():
+                    fonttxt=fonttxt+'&#x'+s+';-'+v+'\n'
+                fonttxt.strip()
+                f.write(fonttxt)
+                f.close()
+                '''
+                #若需要下载ttf文件，可运行下方代码
+                fontwb=requests.get(re.sub('woff2','ttf',fontsrc)).content
+                fontf=open(self.path+"/Fonts/"+fontfamily+'.ttf','wb')
+                fontf.write(fontwb)
+                fontf.close()
+                '''
             try:
                 with open(self.path+"/Fonts/"+fontfamily+".txt", "r",encoding='utf-8') as f:
                     cvlist=f.readlines()
@@ -86,18 +115,6 @@ class noveldl():
                     cvdic=dict(cvdic)
             except:
                 t=1
-            if not os.path.exists(self.path+"/Fonts/"+fontname):
-                fontwb=requests.get(fontsrc).content
-                fontf=open(self.path+"/Fonts/"+fontname,'wb')
-                fontf.write(fontwb)
-                fontf.close()
-                #若需要下载ttf文件，可运行下方代码
-                '''
-                fontwb=requests.get(re.sub('woff2','ttf',fontsrc)).content
-                fontf=open(self.path+"/Fonts/"+fontfamily+'.ttf','wb')
-                fontf.write(fontwb)
-                fontf.close()
-                '''
             if cvlist!=[]:
                 fontfamily+='_c'
             elif fontfamily not in self.fontlist:
@@ -129,6 +146,8 @@ url("../font/%s.ttf") format("truetype");}
         #内容提要
         if self.titleInfo[2]=='1':
             title=title+" "+self.Summary[i].strip()
+            
+        title=title.strip()
         
         if self.state=='s':
             title=OpenCC('t2s').convert(title)
@@ -145,10 +164,12 @@ url("../font/%s.ttf") format("truetype");}
             #创建章节文件
         fo=open("z"+str(titleOrigin[2].zfill(4))+".xhtml",'w',encoding='utf-8')
             
-        fo.write('''<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
-<head><title>'''+title+'''</title>
+        fo.write('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>'''+title+'''</title>
 <meta charset="utf-8"/>
 <link href="sgc-nav.css" rel="stylesheet" type="text/css"/>
 </head><body class="'''+fontfamily+'''">''')
@@ -163,7 +184,6 @@ url("../font/%s.ttf") format("truetype");}
         if len(tex)==0:
             self.failInfo.append(titleOrigin[2].zfill(self.fillNum))
             #print("第"+titleOrigin[2]+"章未购买或加载失败")
-            print(codetext)
         else:
             #反爬虫处理，必须把对照表TXT文件下载至Fonts文件夹
             if cvdic!=[]:
@@ -173,13 +193,14 @@ url("../font/%s.ttf") format("truetype");}
                             s=re.sub(r'&#x',r'\\u',s)
                             s=re.sub(';','',s).encode('utf-8').decode('unicode_escape')
                             tex[y]=re.sub(s,v.strip(),tex[y])
-            cvdic=cvlist=0
+            cvdic=cvlist=[]
             #作话在文前的情况
             if str(sign) == "['readsmall']":
                 fo.write('''<blockquote>''')
                 for m in tex1:#删除无用文字及多余空格空行
                     vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
-                    v=re.sub(' +', ' ', vv).strip()
+                    v=re.sub('　','',vv)
+                    v=re.sub(' +', ' ', v).strip()
                     v=re.sub('&','&amp;',v)
                     v=re.sub('>','&gt;',v)
                     v=re.sub('<','&lt;',v)
@@ -195,11 +216,11 @@ url("../font/%s.ttf") format("truetype");}
                     fo.write("<hr/>")
                 for tn in tex:
                     vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
-                    v=re.sub(' +', ' ', vv).strip()
+                    v=re.sub('　','',vv)
+                    v=re.sub(' +', ' ', v).strip()
                     v=re.sub('&','&amp;',v)
                     v=re.sub('>','&gt;',v)
                     v=re.sub('<','&lt;',v)
-                    v=re.sub('　','',v)
                     if self.state=='s':
                         v=OpenCC('t2s').convert(v)
                     elif self.state=='t':
@@ -209,11 +230,11 @@ url("../font/%s.ttf") format("truetype");}
             else:#作话在文后的情况
                 for tn in tex:
                     vv=re.sub('@无限好文，尽在晋江文学城','',str(tn))
-                    v=re.sub(' +', ' ', vv).strip()
+                    v=re.sub('　','',vv)
+                    v=re.sub(' +', ' ', v).strip()
                     v=re.sub('&','&amp;',v)
                     v=re.sub('>','&gt;',v)
                     v=re.sub('<','&lt;',v)
-                    v=re.sub('　','',v)
                     if self.state=='s':
                         v=OpenCC('t2s').convert(v)
                     elif self.state=='t':
@@ -225,7 +246,8 @@ url("../font/%s.ttf") format("truetype");}
                     fo.write('''<blockquote>''')
                 for m in tex1:
                     vv=re.sub('@无限好文，尽在晋江文学城','',str(m))
-                    v=re.sub(' +', ' ', vv).strip()
+                    v=re.sub('　','',vv)
+                    v=re.sub(' +', ' ', v).strip()
                     v=re.sub('&','&amp;',v)
                     v=re.sub('>','&gt;',v)
                     v=re.sub('<','&lt;',v)
@@ -290,6 +312,9 @@ url("../font/%s.ttf") format("truetype");}
         else:
             img="0"
 
+        fpi=re.findall(r'static.jjwxc.net/novelimage.php.novelid',cover)
+        if fpi!=[]:
+            img='0'
         #获取标题和作者
         xtitle=ress.xpath('string(//*[@itemprop="articleSection"])').strip()
         xaut=ress.xpath('string(//*[@itemprop="author"])').strip()
@@ -340,8 +365,12 @@ url("../font/%s.ttf") format("truetype");}
         #获取卷标名称
         self.rollSign=ress.xpath("//*[@id='oneboolt']//tr/td/b[@class='volumnfont']")
         #获取卷标位置
-        self.rollSignPlace=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@href")
-        self.rollSignPlace+=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@rel")
+        self.rollSignPlace=[]
+        #self.rollSignPlace+=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@href")
+        #self.rollSignPlace+=ress.xpath("//*[@id='oneboolt']//tr/td/b/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@rel")
+        self.rollSignPlace+=ress.xpath("//*[@class='volumnfont']/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@href")
+        self.rollSignPlace+=ress.xpath("//*[@class='volumnfont']/ancestor-or-self::tr/following-sibling::tr[1]/td[2]/span/div[1]/a[1]/@rel")
+
 
         #修改卷标格式
         for rs in range(len(self.rollSign)):
@@ -351,6 +380,7 @@ url("../font/%s.ttf") format("truetype");}
             self.rollSign[rs]="§ "+self.rollSign[rs]+" §"
             
         section_ct=len(self.href_list)
+        lockinfo=''
         
         print("可下载章节数："+str(section_ct)+"\r\n")
         if loc!=[]:
@@ -358,6 +388,8 @@ url("../font/%s.ttf") format("truetype");}
             for x in loc:
                 i=i+x+" "
             print("被锁章节："+i+"\r\n")
+            lockinfo="<p><em>被锁章节："+i+"</em></p>"
+            
         
         #fillNum：填充序号的长度，例如：若全文有1437章，则每章序号有四位，依次为0001、0002……
         self.fillNum=len(str(len(self.td)-4))
@@ -388,6 +420,9 @@ url("../font/%s.ttf") format("truetype");}
             os.mkdir(ti)
             os.chdir(ti)
 
+        #不下载封面请取消注释下行代码
+        #img='0'
+
         self.index=[]
         #保存封面图片
         if img!="0":
@@ -397,17 +432,28 @@ url("../font/%s.ttf") format("truetype");}
         
             #写入封面
             f=open("C.xhtml",'w',encoding='utf-8')
-            f.write('''<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
-<head><title></title><link href="sgc-nav.css" type="text/css" rel="stylesheet"/>
-</head><body><p class='title'><img src="p.jpg"/></p></body></html>''')
+            f.write('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Cover</title>
+</head>
+<body>
+  <div style="text-align: center; padding: 0pt; margin: 0pt;">
+    <svg xmlns="http://www.w3.org/2000/svg" height="100%" preserveAspectRatio="xMidYMid meet" version="1.1" width="100%" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <image width="100%" xlink:href="p.jpg"/>
+    </svg>
+  </div>
+</body>
+</html>''')
             f.close()
 
         #写入文章信息页 
         TOC="<h1 class='title' title='"+xtitle+"-"+xaut+"'><a href='"+req_url+"'>"+xtitle+"</a></h1>"
         TOC+="<h2 class='sigil_not_in_toc title'>作者：<a href='"+xauthref+"'>"+xaut+"</a></h2>"
         TOC+='''<blockquote>'''
-        #self.index.append(titlem[0])
+        #self.index.append(xtitle+"-"+xaut)
         #生成目录文字
         for l in self.href_list:
             titleOrigin=l.split('=')
@@ -441,7 +487,7 @@ url("../font/%s.ttf") format("truetype");}
             TOC+="<p>"+ix+"</p>"
 
         TOC+="</blockquote>"
-        TOC+="<p><b>文案：</b></p>"
+        TOC+="<hr/><p><b>文案：</b></p>"
         for nx in intro:
             v=re.sub(' +', ' ', str(nx)).rstrip()
             v=re.sub('&','&amp;',v).rstrip()
@@ -461,16 +507,22 @@ url("../font/%s.ttf") format("truetype");}
             info=OpenCC('t2s').convert(info)
         elif self.state=='t':
             info=OpenCC('s2t').convert(info)
-        info=re.sub('搜索关键字','</p><p>搜索关键字',info)
-        info=re.sub('一句话简介：','</p><p>一句话简介：',info)
-        info=re.sub('立意：','</p><p>立意：',info)
-        TOC+="<p>"+info+"</p>"
-        fo=open("TOC.xhtml",'w',encoding='utf-8')
-        fo.write('''<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
-<head><title></title><meta charset="utf-8"/>
-<link href="sgc-nav.css" rel="stylesheet" type="text/css"/></head>
-<body>'''+TOC+'''</body></html>''')
+        info=re.sub('内容标签','<b>内容标签</b>',info)
+        info=re.sub('搜索关键字','</p><p><b>搜索关键字</b>',info)
+        info=re.sub('一句话简介：','</p><p><b>一句话简介</b>：',info)
+        info=re.sub('立意：','</p><p><b>立意</b>：',info)
+        TOC+="<hr/><p>"+info+"</p>"
+        fo=open("info.xhtml",'w',encoding='utf-8')
+        fo.write('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <meta charset="utf-8"/>
+<link href="sgc-nav.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>'''+TOC+lockinfo+'''</body></html>''')
         fo.close()
         tlist=[]
         #获取每一章内容
@@ -503,24 +555,27 @@ url("../font/%s.ttf") format("truetype");}
         print("\r\nepub打包完成")
 
 if __name__ == '__main__':
-    #print('请输入cookie：')
-    #cookie=input()
-    #此处为需要下载小说的编号，编号获取方法在上文中已经讲过，
+    print('*以下是输入设置，若按回车，则按照config文件中的数据进行配置*')
+    conf=config.configinfo()
+    cookie=conf.cookie
+    print('【默认cookie：\''+cookie+'\'】')
     while 1:
         num =input('\r\n请输入小说主页网址：')
         c=noveldl()
         
-        #c.headerss={'cookie':cookie,
-        #          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
+        c.headerss={'cookie':cookie,
+                  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
 
-        state=input('\r\n文章内容：\r\n1、繁转简（输入s）\r\n2、简转繁（输入t）\r\n3、不变（直接按回车）\r\n')
+        state=input('\r\n文章内容：\r\n1、繁转简（输入s）\r\n2、简转繁（输入t）\r\n3、不变（直接按回车）\r\n【默认为\''+conf.state+'\'】')
+        if state!='s' and state!='t':
+            state=conf.state
         
-        titleInfo=input('\r\n请输入标题保存状态(序号 章节名称 内容提要)\r\n显示则输入1，不显示则输入0，数字之间用空格隔开\r\n例如：若只显示序号和内容提要，则输入[1 0 1](方括号不输入)\r\n若全部显示，可以直接按回车，若不显示标题，可以直接输入0\r\n若输入的数字个数小于3，则空缺的数字与最后输入的数字相同\r\n')
+        titleInfo=input('\r\n请输入标题保存状态(序号 章节名称 内容提要)\r\n显示则输入1，不显示则输入0，数字之间用空格隔开\r\n例如：若只显示序号和内容提要，则输入[1 0 1](方括号不输入)\r\n若全部显示，可以直接按回车，若不显示标题，可以直接输入0\r\n若输入的数字个数小于3，则空缺的数字与最后输入的数字相同\r\n【默认为\''+conf.titleInfo+'\'】')
         if titleInfo=='':
-            titleInfo='1 1 1'
+            titleInfo=conf.titleInfo
         titleInfo=titleInfo.split(' ')
         while len(titleInfo)<3:
             titleInfo.append(titleInfo[len(titleInfo)-1])
         c.titleInfo=titleInfo
-        
-        c.get_txt(num,state,50)#最后一个变量为线程池最大容量
+        print('线程池最大数量为【'+str(conf.ThreadPoolMaxNum)+'】')
+        c.get_txt(num,state,conf.ThreadPoolMaxNum)

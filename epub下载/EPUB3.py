@@ -41,7 +41,7 @@ class epubfile():
 %(manifest)s
 </manifest><spine toc="ncx">
 <itemref idref="C.xhtml" />
-<itemref idref="TOC.xhtml" />
+<itemref idref="info.xhtml" />
 <itemref idref="nav.xhtml" />
 %(spine)s
 </spine></package>'''
@@ -51,8 +51,11 @@ class epubfile():
             basename = os.path.basename(html)
             if basename.endswith('html'):
                 manifest += '<item id="%s" href="Fonts/%s" media-type="application/xhtml+xml"/>' % (basename, basename)
-                if basename != 'C.xhtml' and basename != 'TOC.xhtml':
+                if basename != 'C.xhtml' and basename != 'info.xhtml':
                     spine += '<itemref idref="%s"/>' % (basename)
+        spine+='''<guide>
+    <reference type="cover" title="封面" href="C.xhtml"/>
+  </guide>'''
         epub.writestr('OEBPS/content.opf',content_info % {'manifest': manifest,'spine': spine,},compress_type=zipfile.ZIP_STORED)
 
     def create_info(self,epub,path,index,rollSign):
@@ -69,27 +72,28 @@ class epubfile():
     <ol>
     '''
         sig=0
-        nav_info+='''<li><a href="TOC.xhtml">'''+self.title+'-'+self.author+'''</a>
+        nav_info+='''<li><a href="info.xhtml">'''+self.title+'-'+self.author+'''</a>
 <ol>'''
         for html in os.listdir(path):
             basename = os.path.basename(html)
             if basename.endswith('html'):
-                if basename!='C.xhtml' and basename!='TOC.xhtml':
+                if basename!='C.xhtml' and basename!='info.xhtml':
                     iii=0
-                    while index[sig] in rollSign:
+                    if sig<len(index):
+                        while index[sig] in rollSign:
+                            index[sig]=re.sub('</?\w+[^>]*>','',index[sig])
+                            nav_info+='''</ol></li>
+    <li><a href="'''+basename+'''">
+    '''+index[sig]+'''</a>
+    <ol>'''
+                            sig+=1
+                            iii=1
+                        if iii==1:
+                            basename+='#v'
                         index[sig]=re.sub('</?\w+[^>]*>','',index[sig])
-                        nav_info+='''</ol></li>
-<li><a href="'''+basename+'''">
-'''+index[sig]+'''</a>
-<ol>'''
+                        nav_info+='''<li><a href="'''+basename+'''">'''+index[sig]+'''</a></li>
+    '''
                         sig+=1
-                        iii=1
-                    if iii==1:
-                        basename+='#v'
-                    index[sig]=re.sub('</?\w+[^>]*>','',index[sig])
-                    nav_info+='''<li><a href="'''+basename+'''">'''+index[sig]+'''</a></li>
-'''
-                    sig+=1
         nav_info+='''</ol></li></ol></nav></body></html>'''
         epub.writestr('OEBPS/nav.xhtml',nav_info,compress_type=zipfile.ZIP_STORED)
     def create_toc(self,epub,path,index,rollSign):
@@ -104,24 +108,25 @@ class epubfile():
 </head><docTitle><text>'''+self.title+'''</text></docTitle><navMap>'''
         sig=0
         tox_info+='''<navPoint id="0" playOrder="0">
-<navLabel><text>'''+self.title+'''</text></navLabel><content src="TOC.xhtml"/>'''
+<navLabel><text>'''+self.title+'''</text></navLabel><content src="info.xhtml"/>'''
         for html in os.listdir(path):
             basename = os.path.basename(html)
             if basename.endswith('html'):
-                if basename!='C.xhtml' and basename!='TOC.xhtml':
+                if basename!='C.xhtml' and basename!='info.xhtml':
                     iii=0
-                    while index[sig] in rollSign:
+                    if sig<len(index):
+                        while index[sig] in rollSign:
+                            index[sig]=re.sub('</?\w+[^>]*>','',index[sig])
+                            tox_info+='''</navPoint><navPoint id="'''+str(sig)+'''" playOrder="'''+str(sig)+'''">
+    <navLabel><text>'''+index[sig]+'''</text></navLabel><content src="'''+basename+'''"/>'''
+                            sig+=1
+                            iii=1
+                        if iii==1:
+                            basename+='#v'
                         index[sig]=re.sub('</?\w+[^>]*>','',index[sig])
-                        tox_info+='''</navPoint><navPoint id="'''+str(sig)+'''" playOrder="'''+str(sig)+'''">
-<navLabel><text>'''+index[sig]+'''</text></navLabel><content src="'''+basename+'''"/>'''
+                        tox_info+='''<navPoint id="'''+str(sig)+'''" playOrder="'''+str(sig)+'''">
+    <navLabel><text>'''+index[sig]+'''</text></navLabel><content src="'''+basename+'''"/></navPoint>'''
                         sig+=1
-                        iii=1
-                    if iii==1:
-                        basename+='#v'
-                    index[sig]=re.sub('</?\w+[^>]*>','',index[sig])
-                    tox_info+='''<navPoint id="'''+str(sig)+'''" playOrder="'''+str(sig)+'''">
-<navLabel><text>'''+index[sig]+'''</text></navLabel><content src="'''+basename+'''"/></navPoint>'''
-                    sig+=1
         tox_info+='''</navPoint></navMap></ncx>'''
         epub.writestr('OEBPS/toc.ncx',tox_info,compress_type=zipfile.ZIP_STORED)
         
@@ -163,4 +168,3 @@ text-align:center;
         epub.close()
         os.chdir(path)
         shutil.rmtree(ppp)
-

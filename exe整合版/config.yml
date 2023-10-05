@@ -1,0 +1,15 @@
+ThreadPoolMaxNum: 100
+chinfo: 1
+cookie: 
+cover: e
+css: "h1{font-size:1.4em;text-align:center;}/*\u4E00\u7EA7\u6807\u9898*/\nh2{font-size:1.24em;text-align:center;}/*\u4E8C\
+  \u7EA7\u6807\u9898*/\n.title{text-align:center;}/*\u6587\u7AE0\u540D*/\n.note{font-size:0.8em;text-align:right;}/*\u7AE0\
+  \u8282\u4FE1\u606F*/\nbody{}/*\u5168\u5C40\u683C\u5F0F*/"
+delthk: 1
+format: epub2
+htmlvol: 1
+selftitle: $1 $2 $3
+special: 0
+state: ''
+titleInfo: 1 1 1
+volumn: "\u7B2C$1\u5377 $2"

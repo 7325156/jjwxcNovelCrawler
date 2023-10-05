@@ -1,0 +1,6 @@
+lxml
+opencc_python_reimplemented
+requests
+PyQt5
+PyQt5-tools
+PyYAML

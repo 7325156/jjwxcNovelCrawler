@@ -1,0 +1,7 @@
+lxml
+opencc_python_reimplemented
+requests
+selenium
+PyQt5
+PyQt5-tools
+PyYAML
