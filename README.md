@@ -1,4 +1,4 @@
-**jj更改了模式，已找到js版章节内容解码方案，但看不懂，求具体解码方案和密钥，具体在Issues里面**
+**用[这个app](https://legado.cn/thread-9082-1-1.html)搭配这个[书源](https://legado.cn/forum.php?mod=viewthread&tid=7411吧，我这儿暂时解决不了**
 
 ![jjwxc](https://user-images.githubusercontent.com/57527406/157160102-811010d2-dca2-422c-853b-99d46bbd02a9.png)
 
