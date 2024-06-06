@@ -59,3 +59,12 @@ def decrypt_content(res):
     iv = md5_encrypt(v38)[0:8]
     content = decrypt_str1(dest,key,iv).decode()
     return content
+l='https://app.jjwxc.org/androidapi/chapterContent?novelId=4954385&chapterId=52&versionCode=359&token=20070890_c1498e5498bb59811aefe5449cb5a95b'
+res=requests.get(l, headers=headers)
+try:
+    chcont = json.loads(res.text)
+except:
+    chcont = json.loads(decrypt_content(res))
+
+#print(chcont['message'])
+print(chcont)

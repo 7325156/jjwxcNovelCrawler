@@ -19,7 +19,7 @@ class Ui_MainWindow(object):
         font.setFamily("微软雅黑")
         MainWindow.setFont(font)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("C:/Users/dell/Downloads/jjlogo.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../../Downloads/jjlogo.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setInputMethodHints(QtCore.Qt.ImhPreferNumbers)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -46,13 +46,6 @@ class Ui_MainWindow(object):
         self.configsave = QtWidgets.QPushButton(self.tab)
         self.configsave.setGeometry(QtCore.QRect(480, 50, 93, 31))
         self.configsave.setObjectName("configsave")
-        self.label_4 = QtWidgets.QLabel(self.tab)
-        self.label_4.setGeometry(QtCore.QRect(10, 50, 72, 21))
-        self.label_4.setObjectName("label_4")
-        self.jjcookie = QtWidgets.QLineEdit(self.tab)
-        self.jjcookie.setGeometry(QtCore.QRect(80, 50, 381, 31))
-        self.jjcookie.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.jjcookie.setObjectName("jjcookie")
         self.formLayoutWidget_2 = QtWidgets.QWidget(self.tab)
         self.formLayoutWidget_2.setGeometry(QtCore.QRect(10, 90, 181, 51))
         self.formLayoutWidget_2.setObjectName("formLayoutWidget_2")
@@ -238,6 +231,13 @@ class Ui_MainWindow(object):
         self.delthk = QtWidgets.QCheckBox(self.tab)
         self.delthk.setGeometry(QtCore.QRect(440, 90, 121, 31))
         self.delthk.setObjectName("delthk")
+        self.jjtoken = QtWidgets.QLineEdit(self.tab)
+        self.jjtoken.setGeometry(QtCore.QRect(80, 50, 381, 31))
+        self.jjtoken.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.jjtoken.setObjectName("jjtoken")
+        self.label_13 = QtWidgets.QLabel(self.tab)
+        self.label_13.setGeometry(QtCore.QRect(20, 50, 51, 21))
+        self.label_13.setObjectName("label_13")
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
@@ -264,8 +264,6 @@ class Ui_MainWindow(object):
         self.jjurl.setText(_translate("MainWindow", "http://www.jjwxc.net/onebook.php?novelid=1"))
         self.start.setText(_translate("MainWindow", "开始下载"))
         self.configsave.setText(_translate("MainWindow", "保存配置"))
-        self.label_4.setText(_translate("MainWindow", "cookie："))
-        self.jjcookie.setText(_translate("MainWindow", "请输入cookie"))
         self.label_2.setText(_translate("MainWindow", "下载格式："))
         self.format.setItemText(0, _translate("MainWindow", "txt"))
         self.format.setItemText(1, _translate("MainWindow", "epub2"))
@@ -301,10 +299,23 @@ class Ui_MainWindow(object):
         self.selfvol.setText(_translate("MainWindow", "是否自定义卷标格式"))
         self.label_12.setText(_translate("MainWindow", "（$1为卷标号，$2为卷标内容）"))
         self.delthk.setText(_translate("MainWindow", "去除一键感谢"))
+        self.jjtoken.setText(_translate("MainWindow", "请输入token（用抓包软件获取，详见帮助）"))
+        self.label_13.setText(_translate("MainWindow", "token："))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "下载页面"))
-        self.textBrowser_2.setMarkdown(_translate("MainWindow", "本软件由7325156制作，若运行软件时有问题，请 [联系作者](https://github.com/7325156/jjwxcNovelCrawler)\n"
+        self.textBrowser_2.setMarkdown(_translate("MainWindow", "**token获取方式：**\n"
 "\n"
-"版本：2.4.6\n"
+"1、在手机上下载一个抓包软件（如“抓包精灵”），并设置好过滤晋江app后开始抓包。\n"
+"\n"
+"2、在晋江app上随便打开一个VIP章节。\n"
+"\n"
+"3、在抓包软件中筛选出含有“chapterContent”的网址。\n"
+"\n"
+"4、在此网址中找出“token=……”的部分，复制token\n"
+"\n"
+"- - -\n"
+"本软件由7325156制作，若运行软件时有问题，请 [联系作者](https://github.com/7325156/jjwxcNovelCrawler)\n"
+"\n"
+"版本：2.5\n"
 "\n"
 "最新版本下载： [github](https://github.com/7325156/jjwxcNovelCrawler/releases/latest/)\n"
 "| [蓝奏云](https://wwr.lanzoui.com/b02oduqmd#a5jo)\n"
@@ -312,6 +323,18 @@ class Ui_MainWindow(object):
 "此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。\n"
 "\n"
 "**更新记录**：\n"
+"\n"
+"2024-06-06\n"
+"\n"
+"- 晋江更改API模式，针对此更新反爬虫规则，程序比较慢。\n"
+"\n"
+"2022-11-29\n"
+"\n"
+"- 将封面图片的格式转换为jpg\n"
+"\n"
+"2023-10-04\n"
+"\n"
+"- 针对新的反爬虫机制调整\n"
 "\n"
 "2022-03-27\n"
 "\n"
@@ -350,26 +373,38 @@ class Ui_MainWindow(object):
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'微软雅黑\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">本软件由7325156制作，若运行软件时有问题，请 </span><a href=\"https://github.com/7325156/jjwxcNovelCrawler\"><span style=\" font-family:\'SimSun\'; text-decoration: underline; color:#0000ff;\">联系作者</span></a></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">版本：2.4.6</span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">最新版本下载： </span><a href=\"https://github.com/7325156/jjwxcNovelCrawler/releases/latest/\"><span style=\" font-family:\'SimSun\'; text-decoration: underline; color:#0000ff;\">github</span></a><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\"> | </span><a href=\"https://wwr.lanzoui.com/b02oduqmd#a5jo\"><span style=\" font-family:\'SimSun\'; text-decoration: underline; color:#0000ff;\">蓝奏云</span></a></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。</p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-weight:600;\">更新记录</span><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">：</span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2022-03-27</span></p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">修复部分已购买的章节无法下载问题</li></ul>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2022-03-08</span></p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">新增去除一键感谢功能</li></ul>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2022-02-16</span></p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">修复转义字符与字符的格式错误。</li></ul>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2022-01-01</span></p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">修改网址不能匹配https的bug。</li></ul>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2021-11-09 </span></p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">添加自定义标题、卷标格式功能。</li></ul>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2021-10-26 </span></p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">为epub2添加网页目录 获取未购买、被锁章节信息</li></ul>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2021-10-22 </span></p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">使用app接口下载，无需反爬虫。感谢 <span style=\" font-weight:600;\">酷安 @关耳010225 @乃星 @viviyaaa</span> 的方案。 </li>\n"
-"<li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">添加编辑css功能。</li></ul>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2021-9-30</span></p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">新增窗口模式，可自由选择反爬虫模式（侵删）、文件下载格式以及其他必备配置。</li></ul></body></html>"))
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-weight:600;\">token获取方式：</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">1、在手机上下载一个抓包软件（如“抓包精灵”），并设置好过滤晋江app后开始抓包。</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2、在晋江app上随便打开一个VIP章节。</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">3、在抓包软件中筛选出含有“chapterContent”的网址。</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">4、在此网址中找出“token=……”的部分，复制token</span></p>\n"
+"<hr />\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">本软件由7325156制作，若运行软件时有问题，请 </span><a href=\"https://github.com/7325156/jjwxcNovelCrawler\"><span style=\" font-family:\'SimSun\'; text-decoration: underline; color:#0000ff;\">联系作者</span></a></p>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">版本：2.5</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">最新版本下载： </span><a href=\"https://github.com/7325156/jjwxcNovelCrawler/releases/latest/\"><span style=\" font-family:\'SimSun\'; text-decoration: underline; color:#0000ff;\">github</span></a><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\"> | </span><a href=\"https://wwr.lanzoui.com/b02oduqmd#a5jo\"><span style=\" font-family:\'SimSun\'; text-decoration: underline; color:#0000ff;\">蓝奏云</span></a></p>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。</p>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\'; font-weight:600;\">更新记录</span><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">：</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2024-06-06</span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">晋江更改API模式，针对此更新反爬虫规则，程序比较慢。</li></ul>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2022-11-29</span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">将封面图片的格式转换为jpg</li></ul>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2023-10-04</span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">针对新的反爬虫机制调整</li></ul>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2022-03-27</span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">修复部分已购买的章节无法下载问题</li></ul>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2022-03-08</span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">新增去除一键感谢功能</li></ul>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2022-02-16</span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">修复转义字符与字符的格式错误。</li></ul>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2022-01-01</span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">修改网址不能匹配https的bug。</li></ul>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2021-11-09 </span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">添加自定义标题、卷标格式功能。</li></ul>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2021-10-26 </span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">为epub2添加网页目录 获取未购买、被锁章节信息</li></ul>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2021-10-22 </span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" align=\"justify\" style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">使用app接口下载，无需反爬虫。感谢 <span style=\" font-weight:600;\">酷安 @关耳010225 @乃星 @viviyaaa</span> 的方案。 </li>\n"
+"<li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" align=\"justify\" style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">添加编辑css功能。</li></ul>\n"
+"<p align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'微软雅黑\',\'sans-serif\';\">2021-9-30</span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-family:\'微软雅黑\',\'sans-serif\';\" align=\"justify\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">新增窗口模式，可自由选择反爬虫模式（侵删）、文件下载格式以及其他必备配置。</li></ul></body></html>"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "帮助"))

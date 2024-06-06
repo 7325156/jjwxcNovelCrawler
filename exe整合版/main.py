@@ -25,13 +25,7 @@ from PIL import Image
 from io import BytesIO
 import base64
 import pyDes
-
-def decrypt_str(data):
-    Key = "KW8Dvm2N"  # 加密的key
-    Iv = "1ae2c94b"  # 偏移量
-    method = pyDes.des(Key, pyDes.CBC, Iv, pad=None, padmode=pyDes.PAD_PKCS5)
-    k = base64.b64decode(data)
-    return method.decrypt(k)
+import DESCBC
 
 
 class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
@@ -39,7 +33,7 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
     req_url_base = 'http://www.jjwxc.net/onebook.php?novelid='
 
     # 头文件，可用来登陆，cookie可在浏览器或者client.py中获取
-    hheaders={"User-Agent": "Dalvik/2.1.0"}
+    hheaders = {"User-Agent": "Dalvik/2.1.0"}
 
     percent = 0
     index = []  # 目录
@@ -232,7 +226,6 @@ body{text-indent:2em;}/*全局格式*/''')
         self.textEdit.moveCursor(self.textEdit.textCursor().End)
         time.sleep(0.1)
 
-
         num = self.jjurl.text()
         self.headerss = {"User-Agent": "Dalvik/2.1.0"}
 
@@ -250,11 +243,11 @@ body{text-indent:2em;}/*全局格式*/''')
     def get_sin(self, l):
         titleOrigin = l.split('=')
         i = self.href_list.index(l)
-        l=l + '&versionCode=349&token=' + self.jjtoken.text()
+        l = l + '&versionCode=349&token=' + self.jjtoken.text()
         self.currentTitle = ''
         # 获取app源
         badgateway = True
-        chapcot = 10
+        chapcot = 100
         while badgateway and chapcot > 0:
             chlink = l
             chcont = {'chapterSize': '', 'chapterDate': '', 'sayBody': '', 'upDown': '', 'content': ''}
@@ -262,14 +255,14 @@ body{text-indent:2em;}/*全局格式*/''')
             try:
                 chcont = json.loads(chcot.text)
             except:
-                chcont = decrypt_content(chcot)
+                chcont = json.loads(DESCBC.decrypt_content(chcot))
             texm = ''
-            if 'content' in chcont.keys():
+            if 'message' not in chcont.keys():
                 tex = chcont['content']
-                tex = decrypt_str(tex).decode('utf-8')
-                tex = re.sub('&lt;br&gt;', '\n', tex).splitlines()
+                tex = DESCBC.decrypt_str(tex).decode('utf-8')
+                tex = re.sub('&lt;br&gt;', '\n', tex)
                 # tex1:作话
-                tex1 = chcont['sayBody'].splitlines()
+                tex1 = chcont['sayBody']
                 # sign:作话位置
                 sign = chcont['upDown']
                 badgateway = False
@@ -282,7 +275,7 @@ body{text-indent:2em;}/*全局格式*/''')
                 if ctst:
                     badgateway = False
                 else:
-                    chapcot=chapcot-1
+                    chapcot = chapcot - 1
             QApplication.processEvents()
 
         if str(i) in self.rollSignPlace:
@@ -347,93 +340,64 @@ body{text-indent:2em;}/*全局格式*/''')
             elif self.chInfo.isChecked():
                 content += "<p class='note'>字数：" + chcont['chapterSize'] + '<br/>日期：' + chcont['chapterDate'] + '</p>'
 
-            # 作话在文前的情况
-            if not sign:
-                if not self.format.currentText() == "txt" and len(tex1):
-                    content += "<p><b>作者有话要说</b>：</p><blockquote>"
-                elif len(tex1):
-                    content += "作者有话要说：\n"
-                for m in tex1:  # 删除无用文字及多余空格空行
-                    vv = re.sub('@无限好文，尽在晋江文学城', '', str(m))
-                    v = re.sub('　+', ' ', vv)
-                    v = re.sub(' +', ' ', v)
-                    v = html.escape(v)
-                    v = re.sub("&amp;amp;", "&amp;", v)
-                    v = re.sub("&amp;gt;", "&gt;", v)
-                    v = re.sub("&amp;lt;", "&lt;", v)
-                    v = re.sub('&amp;#', '&#', v)
-                    if self.delthk.isChecked():
-                        v = re.sub(
-                            r'(感谢灌溉)[\w\W]+(.).*感谢(灌|投|支持).*|感谢(在|为).*小天使.*|.*(扔|投|砸|灌)了.*时间.*|.*\\d瓶.*|.*(扔|投|砸|灌|谢).*(手榴弹|营养液|地雷|浅水炸弹|深水炸弹|深水鱼雷|火箭炮|投雷|霸王票).*|非常感谢.*努力的.*',
-                            '', v)
-                    if self.format.currentText() == "txt":  # 按行写入正文
-                        v = html.unescape(v)
-                        content += v + "\n"
-                    else:
-                        content += "<p>" + v + "</p>"
+            if self.delthk.isChecked():
+                tex1 = re.sub(
+                    r'(感谢灌溉)[\w\W]+(.).*感谢(灌|投|支持).*|感谢(在|为).*小天使.*|.*(扔|投|砸|灌)了.*时间.*|.*\\d瓶.*|.*(扔|投|砸|灌|谢).*(手榴弹|营养液|地雷|浅水炸弹|深水炸弹|深水鱼雷|火箭炮|投雷|霸王票).*|非常感谢.*努力的.*',
+                    '', tex1)
+            # 删除无用文字及多余空格空行
+            tex1 = re.sub('@无限好文，尽在晋江文学城', '', tex1)
+            tex1 = re.sub('　+', ' ', tex1)
+            tex1 = re.sub(' +', ' ', tex1)
+            tex1 = html.escape(tex1)
+            tex1 = re.sub("&amp;amp;", "&amp;", tex1)
+            tex1 = re.sub("&amp;gt;", "&gt;", tex1)
+            tex1 = re.sub("&amp;lt;", "&lt;", tex1)
+            tex1 = re.sub('&amp;#', '&#', tex1)
+            tex = re.sub('@无限好文，尽在晋江文学城', '', tex)
+            tex = re.sub('　+', ' ', tex)
+            tex = re.sub(' +', ' ', tex)
+            tex = html.escape(tex)
+            tex = re.sub("&amp;amp;", "&amp;", tex)
+            tex = re.sub("&amp;gt;", "&gt;", tex)
+            tex = re.sub("&amp;lt;", "&lt;", tex)
+            tex = re.sub('&amp;#', '&#', tex)
+            contenta = ''
+            contentb  = "<p>"
+            if len(tex1.strip()):
                 if not self.format.currentText() == "txt":
-                    content += "</blockquote>"
-                if len(tex1) and self.format.currentText() == "txt":
+                    contenta += "<p><b>作者有话要说</b>：</p><blockquote>"
+                else:
+                    contenta += "作者有话要说：\n"
+                for v in tex1.splitlines():
+                    if self.format.currentText() == "txt":  # 按行写入正文
+                        v = html.unescape(v)
+                        contenta += v + "\n"
+                    else:
+                        contenta += "<p>" + v + "</p>"
+                if not self.format.currentText() == "txt":
+                    contenta += "</blockquote>"
+            for v in tex.splitlines():
+                if self.format.currentText() == "txt":  # 按行写入正文
+                    v = html.unescape(v)
+                    contentb  += v + "\n"
+                else:
+                    contentb  += v + "<br/>"
+            contentb  += "</p>"
+            contentb = re.sub(r' ?<br/> ?<br/> ?', '</p><p>',contentb )
+            if sign:  # 作话在文后的情况
+                content += contentb 
+                if self.format.currentText() == "txt":
                     content += "\n*\n"
-                elif len(tex1):
+                else:
                     content += "<hr/>"
-                for tn in tex:
-                    vv = re.sub('@无限好文，尽在晋江文学城', '', str(tn))
-                    v = re.sub('　+', ' ', vv)
-                    v = re.sub(' +', ' ', v)
-                    v = html.escape(v)
-                    v = re.sub("&amp;amp;", "&amp;", v)
-                    v = re.sub("&amp;gt;", "&gt;", v)
-                    v = re.sub("&amp;lt;", "&lt;", v)
-                    v = re.sub('&amp;#', '&#', v)
-                    if self.format.currentText() == "txt":  # 按行写入正文
-                        v = html.unescape(v)
-                        content += v + "\n"
-                    else:
-                        content += "<p>" + v + "</p>"
-            else:  # 作话在文后的情况
-                for tn in tex:
-                    vv = re.sub('@无限好文，尽在晋江文学城', '', str(tn))
-                    v = re.sub('　+', ' ', vv)
-                    v = re.sub(' +', ' ', v)
-                    v = html.escape(v)
-                    v = re.sub("&amp;amp;", "&amp;", v)
-                    v = re.sub("&amp;gt;", "&gt;", v)
-                    v = re.sub("&amp;lt;", "&lt;", v)
-                    v = re.sub('&amp;#', '&#', v)
-                    if self.format.currentText() == "txt":  # 按行写入正文
-                        v = html.unescape(v)
-                        content += v + "\n"
-                    else:
-                        content += "<p>" + v + "</p>"
-                if len(tex1) and self.format.currentText() == "txt":
+                content += contenta
+            else:  # 作话在文前的情况
+                content += contenta
+                if self.format.currentText() == "txt":
                     content += "\n*\n"
-                elif len(tex1):
+                else:
                     content += "<hr/>"
-                if not self.format.currentText() == "txt" and len(tex1):
-                    content += "<p><b>作者有话要说</b>：</p><blockquote>"
-                elif len(tex1):
-                    content += "作者有话要说：\n"
-                for m in tex1:
-                    vv = re.sub('@无限好文，尽在晋江文学城', '', str(m))
-                    v = re.sub('　+', ' ', vv)
-                    v = re.sub(' +', ' ', v)
-                    v = html.escape(v)
-                    v = re.sub("&amp;amp;", "&amp;", v)
-                    v = re.sub("&amp;gt;", "&gt;", v)
-                    v = re.sub("&amp;lt;", "&lt;", v)
-                    v = re.sub('&amp;#', '&#', v)
-                    if self.delthk.isChecked():
-                        v = re.sub(
-                            r'(感谢灌溉)[\w\W]+(.).*感谢(灌|投|支持).*|感谢(在|为).*小天使.*|.*(扔|投|砸|灌)了.*时间.*|.*\\d瓶.*|.*(扔|投|砸|灌|谢).*(手榴弹|营养液|地雷|浅水炸弹|深水炸弹|深水鱼雷|火箭炮|投雷|霸王票).*|非常感谢.*努力的.*',
-                            '', v)
-                    if self.format.currentText() == "txt":  # 按行写入正文
-                        v = html.unescape(v)
-                        content += v + "\n"
-                    else:
-                        content += "<p>" + v + "</p>"
-                if len(tex1) != 0 and not self.format.currentText() == "txt":
-                    content += "</blockquote>"
+                content += contentb 
         if not self.format.currentText() == "txt":
             content += "</body></html>"
         content = re.sub("<p> *</p>", "<p><br/></p>", content)
