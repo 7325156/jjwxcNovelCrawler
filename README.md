@@ -1,6 +1,7 @@
-**用[这个app](https://legado.cn/thread-9082-1-1.html)搭配这个书源[1717650765.json](https://github.com/user-attachments/files/15604067/1717650765.json)吧，我这儿暂时解决不了**
+**虽然新的写出来了，但它速度比较慢，而且还可能有许许多多小bug，出问题的时候用[这个app](https://legado.cn/thread-9082-1-1.html)搭配这个书源[1717650765.json](https://github.com/user-attachments/files/15604067/1717650765.json)吧。**
 
-![jjwxc](https://user-images.githubusercontent.com/57527406/157160102-811010d2-dca2-422c-853b-99d46bbd02a9.png)
+![jjwxc](https://github.com/7325156/jjwxcNovelCrawler/assets/57527406/1d282372-60e1-4563-8804-09cff2926a87)
+
 
 <br/>
 github下载：
