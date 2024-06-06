@@ -20,7 +20,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>C:/Users/dell/Downloads/jjlogo.jpg</normaloff>C:/Users/dell/Downloads/jjlogo.jpg</iconset>
+    <normaloff>../../Downloads/jjlogo.jpg</normaloff>../../Downloads/jjlogo.jpg</iconset>
   </property>
   <property name="inputMethodHints">
    <set>Qt::ImhPreferNumbers</set>
@@ -105,35 +105,6 @@ font: 9pt &quot;Microsoft YaHei UI&quot;,&quot;思源黑体 CN&quot;,&quot;黑�
       </property>
       <property name="text">
        <string>保存配置</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_4">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>50</y>
-        <width>72</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>cookie：</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="jjcookie">
-      <property name="geometry">
-       <rect>
-        <x>80</x>
-        <y>50</y>
-        <width>381</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
-      </property>
-      <property name="text">
-       <string>请输入cookie</string>
       </property>
      </widget>
      <widget class="QWidget" name="formLayoutWidget_2">
@@ -619,6 +590,35 @@ p, li { white-space: pre-wrap; }
        <string>去除一键感谢</string>
       </property>
      </widget>
+     <widget class="QLineEdit" name="jjtoken">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>50</y>
+        <width>381</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>请输入token</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_13">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>50</y>
+        <width>51</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>token：</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -643,7 +643,7 @@ font: 10pt &quot;微软雅黑&quot;;</string>
       <property name="markdown">
        <string>本软件由7325156制作，若运行软件时有问题，请 [联系作者](https://github.com/7325156/jjwxcNovelCrawler)
 
-版本：2.4.6
+版本：2.5
 
 最新版本下载： [github](https://github.com/7325156/jjwxcNovelCrawler/releases/latest/)
 | [蓝奏云](https://wwr.lanzoui.com/b02oduqmd#a5jo)
@@ -651,6 +651,10 @@ font: 10pt &quot;微软雅黑&quot;;</string>
 此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。
 
 **更新记录**：
+
+2023-10-04
+
+- 针对新的反爬虫机制调整
 
 2022-03-27
 
@@ -692,10 +696,12 @@ font: 10pt &quot;微软雅黑&quot;;</string>
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'微软雅黑'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;本软件由7325156制作，若运行软件时有问题，请 &lt;/span&gt;&lt;a href=&quot;https://github.com/7325156/jjwxcNovelCrawler&quot;&gt;&lt;span style=&quot; font-family:'SimSun'; text-decoration: underline; color:#0000ff;&quot;&gt;联系作者&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;版本：2.4.6&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;版本：2.5&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;最新版本下载： &lt;/span&gt;&lt;a href=&quot;https://github.com/7325156/jjwxcNovelCrawler/releases/latest/&quot;&gt;&lt;span style=&quot; font-family:'SimSun'; text-decoration: underline; color:#0000ff;&quot;&gt;github&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt; | &lt;/span&gt;&lt;a href=&quot;https://wwr.lanzoui.com/b02oduqmd#a5jo&quot;&gt;&lt;span style=&quot; font-family:'SimSun'; text-decoration: underline; color:#0000ff;&quot;&gt;蓝奏云&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;此项目仅供学习交流使用，严禁用于商业用途，请在24小时之内删除。&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif'; font-weight:600;&quot;&gt;更新记录&lt;/span&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;：&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;2023-10-04&lt;/span&gt;&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif';&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;针对新的反爬虫机制调整&lt;/li&gt;&lt;/ul&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;2022-03-27&lt;/span&gt;&lt;/p&gt;
 &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'微软雅黑','sans-serif';&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;修复部分已购买的章节无法下载问题&lt;/li&gt;&lt;/ul&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'微软雅黑','sans-serif';&quot;&gt;2022-03-08&lt;/span&gt;&lt;/p&gt;

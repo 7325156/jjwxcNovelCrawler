@@ -23,14 +23,23 @@ import ico
 import html
 from PIL import Image
 from io import BytesIO
+import base64
+import pyDes
+
+def decrypt_str(data):
+    Key = "KW8Dvm2N"  # 加密的key
+    Iv = "1ae2c94b"  # 偏移量
+    method = pyDes.des(Key, pyDes.CBC, Iv, pad=None, padmode=pyDes.PAD_PKCS5)
+    k = base64.b64decode(data)
+    return method.decrypt(k)
+
 
 class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
     # 小说主地址，后接小说编号
     req_url_base = 'http://www.jjwxc.net/onebook.php?novelid='
 
     # 头文件，可用来登陆，cookie可在浏览器或者client.py中获取
-    headerss = {'cookie': '',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36'}
+    hheaders={"User-Agent": "Dalvik/2.1.0"}
 
     percent = 0
     index = []  # 目录
@@ -79,7 +88,7 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
                 self.stch.setCurrentIndex(1)
             else:
                 self.stch.setCurrentIndex(0)
-            self.jjcookie.setText(confdict['cookie'])
+            self.jjtoken.setText(confdict['token'])
             self.threadnum.setText(str(confdict['ThreadPoolMaxNum']))
 
             while len(titleInfo) < 3:
@@ -145,8 +154,7 @@ body{text-indent:2em;}/*全局格式*/''')
     def saveconfig(self):
         with open('config.yml', encoding='utf-8') as f:
             doc = yaml.load(f.read(), Loader=yaml.FullLoader)
-        cookies = self.jjcookie.text().replace("\n", " ")
-        doc['cookie'] = str(cookies)
+        doc['token'] = str(self.jjtoken.text())
         if self.stch.currentIndex() == 0:
             doc['state'] = ""
         elif self.stch.currentIndex() == 2:
@@ -224,10 +232,9 @@ body{text-indent:2em;}/*全局格式*/''')
         self.textEdit.moveCursor(self.textEdit.textCursor().End)
         time.sleep(0.1)
 
-        cookie = self.jjcookie.text()
+
         num = self.jjurl.text()
-        self.headerss = {'cookie': cookie,
-                         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
+        self.headerss = {"User-Agent": "Dalvik/2.1.0"}
 
         if self.stch.currentIndex() == 0:
             self.state = ""
@@ -243,45 +250,40 @@ body{text-indent:2em;}/*全局格式*/''')
     def get_sin(self, l):
         titleOrigin = l.split('=')
         i = self.href_list.index(l)
+        l=l + '&versionCode=349&token=' + self.jjtoken.text()
         self.currentTitle = ''
         # 获取app源
         badgateway = True
-        chapcot=2
-        bdwch=badgateway and chapcot > 0
+        chapcot = 10
         while badgateway and chapcot > 0:
             chlink = l
+            chcont = {'chapterSize': '', 'chapterDate': '', 'sayBody': '', 'upDown': '', 'content': ''}
             chcot = requests.get(chlink, headers=self.headerss)
             try:
                 chcont = json.loads(chcot.text)
             except:
-                chcont = {'chapterSize': '', 'chapterDate': '', 'sayBody': '', 'upDown': '', 'content': ''}
+                chcont = decrypt_content(chcot)
             texm = ''
             if 'content' in chcont.keys():
                 tex = chcont['content']
+                tex = decrypt_str(tex).decode('utf-8')
                 tex = re.sub('&lt;br&gt;', '\n', tex).splitlines()
                 # tex1:作话
                 tex1 = chcont['sayBody'].splitlines()
                 # sign:作话位置
                 sign = chcont['upDown']
-                badgateway=False
+                badgateway = False
             else:
                 texm = chcont["message"]
                 tex1 = ''
                 sign = ''
                 tex = ''
-                if re.findall('该章节为VIP章节，请登入继续操作',texm):
-                    QMessageBox.warning(self, '警告', '请更新cookie', QMessageBox.Yes)
-                bdw = re.findall(r'(存稿|登入)', texm)
-                ctst = re.findall('您还未购买该VIP章节',texm)
+                ctst = re.findall('用晋江币购买章节后即可阅读', texm)
                 if ctst:
-                    chapcot=chapcot-1
-                stat = bdw or ctst
-                if not stat:
                     badgateway = False
                 else:
-                    time.sleep(1)
+                    chapcot=chapcot-1
             QApplication.processEvents()
-
 
         if str(i) in self.rollSignPlace:
             v = self.rollSign[self.rollSignPlace.index(str(i))]
@@ -434,8 +436,8 @@ body{text-indent:2em;}/*全局格式*/''')
                     content += "</blockquote>"
         if not self.format.currentText() == "txt":
             content += "</body></html>"
-        content=re.sub("<p> *</p>","<p><br/></p>",content)
-        content=re.sub("(<p><br/></p>)+","<p><br/></p>",content)
+        content = re.sub("<p> *</p>", "<p><br/></p>", content)
+        content = re.sub("(<p><br/></p>)+", "<p><br/></p>", content)
 
         if self.state == 's':
             content = OpenCC('t2s').convert(content)
@@ -554,7 +556,7 @@ body{text-indent:2em;}/*全局格式*/''')
             else:
                 img = "0"
 
-            fpi = re.findall(r'static.jjwxc.net/novelimage.php.novelid', cover)
+            fpi = re.findall(r'i9-static.jjwxc.net', cover)
             if fpi:
                 img = '0'
             # 获取标题和作者
@@ -676,8 +678,8 @@ body{text-indent:2em;}/*全局格式*/''')
             self.index = []
             # 保存封面图片
             if img != "0" and self.cover.isChecked() and not self.format.currentText() == "txt":
-                im=Image.open(BytesIO(img))
-                im.save('zp.jpg','JPEG')
+                im = Image.open(BytesIO(img))
+                im.save('zp.jpg', 'JPEG')
 
                 # 写入封面
                 with open("C.xhtml", 'w', encoding='utf-8') as f:
@@ -750,8 +752,8 @@ body{text-indent:2em;}/*全局格式*/''')
                     TOC = re.sub('<p>立意:', '<hr/><p><b>立意</b>：', TOC)
                 else:
                     TOC += '<hr/>'
-            TOC=re.sub("<p> +</p>","<p><br/></p>",TOC)
-            TOC=re.sub("(<p><br/></p>)+","<p><br/></p>",TOC)
+            TOC = re.sub("<p> +</p>", "<p><br/></p>", TOC)
+            TOC = re.sub("(<p><br/></p>)+", "<p><br/></p>", TOC)
             if self.format.currentText() == "txt":
                 for v in info:
                     v = html.unescape(v)
