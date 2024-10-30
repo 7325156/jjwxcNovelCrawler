@@ -33,7 +33,7 @@ class MyWindow(QMainWindow, jjurl.Ui_MainWindow):
     req_url_base = 'http://www.jjwxc.net/onebook.php?novelid='
 
     # 头文件，可用来登陆，cookie可在浏览器或者client.py中获取
-    hheaders = {"User-Agent": "Dalvik/2.1.0"}
+    headerss = {"User-Agent": "Dalvik/2.1.0"}
 
     percent = 0
     index = []  # 目录
@@ -250,6 +250,7 @@ body{text-indent:2em;}/*全局格式*/''')
         chapcot = 100
         while badgateway and chapcot > 0:
             chlink = l
+            self.headerss={"User-Agent":"Mobile "+time.asctime()}
             chcont = {'chapterSize': '', 'chapterDate': '', 'sayBody': '', 'upDown': '', 'content': ''}
             chcot = requests.get(chlink, headers=self.headerss)
             try:
@@ -451,7 +452,9 @@ body{text-indent:2em;}/*全局格式*/''')
         apivol = 'https://app.jjwxc.net/androidapi/chapterList?novelId=' + nid + '&more=0&whole=1'
 
         # 通过cookie获取文章信息
+        self.headerss={"User-Agent":"Mobile "+time.asctime()}
         res = requests.get(req_url, headers=self.headerss)
+        self.headerss={"User-Agent":"Mobile "+time.asctime()}
         apires = requests.get(apireq, headers=self.headerss)
         apicont = json.loads(apires.text)
         if "message" in apicont and not "novelIntro" in apicont:
@@ -470,6 +473,7 @@ body{text-indent:2em;}/*全局格式*/''')
 
         else:
             # 获取目录
+            self.headerss={"User-Agent":"Mobile "+time.asctime()}
             rc = requests.get(apivol, headers=self.headerss)
             cdic = json.loads(rc.text)
             cdic = cdic["chapterlist"]
